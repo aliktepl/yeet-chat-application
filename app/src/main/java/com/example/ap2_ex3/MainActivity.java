@@ -10,18 +10,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // Delay transition to the home screen
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // Start the home screen activity
-                Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
-                startActivity(intent);
-                finish(); // Optional: Remove this activity from the back stack
-            }
-        }, 2000); // 2-second delay
     }
 }
