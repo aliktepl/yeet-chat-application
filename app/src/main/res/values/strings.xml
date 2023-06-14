@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">AP2-EX3</string>
+    <string name="login_here">Login Here</string>
+    <string name="sign_up_headline">Sign Up</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="display_name">Display Name</string>
+    <string name="choose_picture">Choose Picture</string>
+    <string name="sign_up_btn">Sign Up</string>
+    <string name="has_account">Already have an account?</string>
+    <string name="new_account">Don\'t have an account?</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Sign Up</string>
 </resources>
