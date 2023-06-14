@@ -10,7 +10,7 @@
     android:paddingTop="120dp"
     android:paddingBottom="120dp"
     android:gravity="center_horizontal"
-    tools:context=".LoginScreenActivity">
+    tools:context=".LoginActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

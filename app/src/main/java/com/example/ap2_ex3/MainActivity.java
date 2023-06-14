@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 // Start the home screen activity
-                Intent intent = new Intent(MainActivity.this, SignUpScreenActivity.class);
+                Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
                 startActivity(intent);
                 finish(); // Optional: Remove this activity from the back stack
             }
