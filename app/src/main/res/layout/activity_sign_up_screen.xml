@@ -15,9 +15,8 @@
         android:layout_margin="30dp"
         android:layout_marginTop="50dp"
         android:paddingTop="50dp"
-        app:cardCornerRadius="30dp"
+        app:cardCornerRadius="10dp"
         app:cardElevation="30dp">
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -32,87 +31,108 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="30dp"
+                android:textStyle="bold"
                 android:paddingTop="25dp"
                 android:text="@string/sign_up_headline"
                 android:textColor="@color/black"
-                android:textSize="42sp" />
+                android:textSize="35sp" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/black" />
 
-            <EditText
-                android:id="@+id/username"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/usernameTextInputLayout"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/custom_edittext"
-                android:drawableStart="@drawable/ic_user"
-                android:drawablePadding="8dp"
-                android:hint="@string/username"
-                android:padding="8dp"
-                android:textColor="@color/black"
-                android:autofillHints="username"
-                android:inputType="text"
-                tools:ignore="RtlSymmetry" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="@string/username">
 
-            <EditText
-                android:id="@+id/password"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/usernameEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:drawableStart="@drawable/ic_user"
+                    android:drawablePadding="8dp"
+                    android:textColor="@color/black"
+                    android:autofillHints="username"
+                    android:inputType="textPersonName"
+                    tools:ignore="RtlSymmetry" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/passwordTextInputLayout"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/custom_edittext"
-                android:drawableStart="@drawable/ic_password"
-                android:drawablePadding="8dp"
-                android:hint="@string/password"
-                android:padding="8dp"
-                android:textColor="@color/black"
-                android:autofillHints="password"
-                android:inputType="textPassword"
-                tools:ignore="RtlSymmetry" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:hint="@string/password">
 
-            <EditText
-                android:id="@+id/confirmPassword"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/passwordEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:drawableStart="@drawable/ic_password"
+                    android:drawablePadding="8dp"
+                    android:textColor="@color/black"
+                    android:autofillHints="password"
+                    android:inputType="textPassword"
+                    tools:ignore="RtlSymmetry" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/confirmPasswordTextInputLayout"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/custom_edittext"
-                android:hint="@string/confirm_password"
-                android:paddingStart="16dp"
-                android:textColor="@color/black"
-                android:autofillHints="confirm-password"
-                android:inputType="textPassword"
-                tools:ignore="RtlSymmetry" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:hint="@string/confirm_password">
 
-            <EditText
-                android:id="@+id/displayName"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/confirmPasswordEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:paddingStart="16dp"
+                    android:textColor="@color/black"
+                    android:autofillHints="confirm-password"
+                    android:inputType="textPassword"
+                    tools:ignore="RtlSymmetry" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/displayNameTextInputLayout"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/custom_edittext"
-                android:hint="@string/display_name"
-                android:paddingStart="16dp"
-                android:textColor="@color/black"
-                android:autofillHints="display-name"
-                android:inputType="text"
-                tools:ignore="RtlSymmetry" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:hint="@string/display_name">
 
-            <Button
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/displayNameEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:paddingStart="16dp"
+                    android:textColor="@color/black"
+                    android:autofillHints="display-name"
+                    android:inputType="textPersonName"
+                    tools:ignore="RtlSymmetry" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/pictureBtn"
                 android:layout_width="match_parent"
-                android:layout_height="57dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="6dp"
                 android:text="@string/choose_picture"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                style="@style/Button.MyStyle"/>
 
-            <Button
-                android:id="@+id/loginBtn"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/signupBtn"
                 android:layout_width="match_parent"
-                android:layout_height="57dp"
-                android:layout_marginTop="5dp"
+                android:layout_height="60dp"
                 android:text="@string/sign_up_btn"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:onClick="registerUser"
+                style="@style/Button.MyStyle"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -122,9 +142,9 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="19dp"
+                    android:layout_marginTop="5dp"
                     android:padding="8dp"
-                    android:text="@string/new_account"
+                    android:text="@string/has_account"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
@@ -133,9 +153,10 @@
                     android:id="@+id/signupLink"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="19dp"
+                    android:layout_marginTop="5dp"
                     android:padding="8dp"
                     android:text="@string/login_here"
+                    android:textStyle="bold"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
