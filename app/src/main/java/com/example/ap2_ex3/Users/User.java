@@ -1,25 +1,26 @@
 package com.example.ap2_ex3.Users;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
 public class User {
-    @PrimaryKey(autoGenerate=true)
+
+    @PrimaryKey(autoGenerate=false)
+    @NonNull
     private String username;
     private String password;
     private String displayName;
-    private double profPic;
 
-    public User(String u, String p, String d, double pic){
+    public User(String u, String p, String d){
         this.username = u;
         this.password = p;
         this.displayName = d;
-        this.profPic = pic;
     }
 
-    public double getProfPic() {
-        return profPic;
+    public User(){
+
     }
 
     public String getDisplayName() {
@@ -33,4 +34,17 @@ public class User {
     public String getUsername() {
         return username;
     }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
 }
