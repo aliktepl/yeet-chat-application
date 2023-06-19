@@ -1,23 +1,25 @@
 package com.example.ap2_ex3;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
-
     TextInputLayout usernameTextInputLayout;
     TextInputLayout passwordTextInputLayout;
     Button loginBtn;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,29 @@ public class LoginActivity extends AppCompatActivity {
         usernameTextInputLayout = findViewById(R.id.usernameTextInputLayout);
         passwordTextInputLayout = findViewById(R.id.passwordTextInputLayout);
         loginBtn = findViewById(R.id.loginBtn);
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                if (!validateUsername() || !validatePassword()) {
+                // Inside your onClick() method
+                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                builder.setTitle("Invalid username")
+                        .setMessage("The username you entered is not valid.")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                    return;
+//                }
+//                Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
+//                startActivity(intent);
+            }
+        });
 
         TextView loginLinkTextView = findViewById(R.id.loginLink);
         loginLinkTextView.setOnClickListener(new View.OnClickListener() {
@@ -36,6 +61,10 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(loginIntent);
             }
         });
+    }
+
+    private void showInvalidUsernameMessage() {
+        Toast.makeText(this, "Invalid username", Toast.LENGTH_SHORT).show();
     }
 
     private Boolean validateUsername() {
@@ -80,12 +109,6 @@ public class LoginActivity extends AppCompatActivity {
             passwordTextInputLayout.setError(null);
             passwordTextInputLayout.setErrorEnabled(false);
             return true;
-        }
-    }
-
-    public void loginUser(View view) {
-        if (!validateUsername() || !validatePassword()) {
-            return;
         }
     }
 }

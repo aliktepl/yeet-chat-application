@@ -116,7 +116,7 @@
                     tools:ignore="RtlSymmetry" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.button.MaterialButton
+            <Button
                 android:id="@+id/pictureBtn"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"

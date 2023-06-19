@@ -1,34 +1,36 @@
 package com.example.ap2_ex3;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Objects;
 
 public class SignUpActivity extends AppCompatActivity {
+    private static final int GALLERY_REQUEST_CODE = 1000;
 
+    private boolean isImageUploaded = false;
     TextInputLayout usernameTextInputLayout;
     TextInputLayout passwordTextInputLayout;
     TextInputLayout confirmPasswordTextInputLayout;
     TextInputLayout displayNameTextInputLayout;
-
     Button pictureBtn;
     Button signupBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_screen);
 
@@ -38,7 +40,19 @@ public class SignUpActivity extends AppCompatActivity {
         displayNameTextInputLayout = findViewById(R.id.displayNameTextInputLayout);
 
         pictureBtn = findViewById(R.id.pictureBtn);
+        pictureBtn.setOnClickListener(v -> handleImage());
+
         signupBtn = findViewById(R.id.signupBtn);
+        signupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!validateUsername() || !validatePassword() || !validateDisplayName()) {
+                    return;
+                }
+                Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
 
         TextView signupLinkTextView = findViewById(R.id.signupLink);
         signupLinkTextView.setOnClickListener(new View.OnClickListener() {
@@ -48,7 +62,54 @@ public class SignUpActivity extends AppCompatActivity {
                 startActivity(loginIntent);
             }
         });
+    }
 
+    private final ActivityResultLauncher<Intent> galleryLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    Uri imageUri = result.getData().getData();
+                    if (imageUri != null) {
+                        String fileName = getImageFileName(imageUri);
+                        pictureBtn.setText(fileName);
+                        isImageUploaded = true;
+                    }
+                }
+            }
+    );
+
+    private void handleImage() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        galleryLauncher.launch(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == GALLERY_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            Uri imageUri = data.getData();
+            if (imageUri != null) {
+                pictureBtn.setText(getImageFileName(imageUri));
+            }
+        }
+    }
+
+    private String getImageFileName(Uri uri) {
+        String fileName = null;
+        String[] projection = {MediaStore.Images.Media.DISPLAY_NAME};
+        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            int columnIndex = cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME);
+            if (columnIndex != -1) {
+                fileName = cursor.getString(columnIndex);
+            }
+            cursor.close();
+        }
+        if (fileName == null) {
+            fileName = uri.getLastPathSegment();
+        }
+        return fileName;
     }
 
     private Boolean validateUsername() {
@@ -106,18 +167,12 @@ public class SignUpActivity extends AppCompatActivity {
         String displayName = Objects.requireNonNull(displayNameTextInputLayout.getEditText()).getText().toString();
 
         if (displayName.isEmpty()) {
-            passwordTextInputLayout.setError("Field cannot be empty");
+            displayNameTextInputLayout.setError("Field cannot be empty");
             return false;
         } else {
+            displayNameTextInputLayout.setError(null);
+            displayNameTextInputLayout.setErrorEnabled(false);
             return true;
         }
-    }
-
-    public void registerUser(View view) {
-        if (!validateUsername() || !validatePassword() || !validateDisplayName()) {
-            return;
-        }
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
     }
 }
