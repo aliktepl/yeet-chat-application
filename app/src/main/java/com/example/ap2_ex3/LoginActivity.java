@@ -34,22 +34,22 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
 //                if (!validateUsername() || !validatePassword()) {
                 // Inside your onClick() method
-                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                builder.setTitle("Invalid username")
-                        .setMessage("The username you entered is not valid.")
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-
-                AlertDialog dialog = builder.create();
-                dialog.show();
-                    return;
+//                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+//                builder.setTitle("Invalid username")
+//                        .setMessage("The username you entered is not valid.")
+//                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                dialog.dismiss();
+//                            }
+//                        });
+//
+//                AlertDialog dialog = builder.create();
+//                dialog.show();
+//                return;
 //                }
-//                Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(LoginActivity.this, ChatActivity.class);
+                startActivity(intent);
             }
         });
 

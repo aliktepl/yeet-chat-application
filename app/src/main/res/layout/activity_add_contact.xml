@@ -4,12 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
     android:paddingLeft="32dp"
-    android:paddingRight="32dp"
     android:paddingTop="120dp"
+    android:paddingRight="32dp"
     android:paddingBottom="120dp"
-    android:gravity="center_horizontal"
     tools:context=".LoginActivity">
 
     <androidx.cardview.widget.CardView
@@ -52,21 +52,21 @@
                     android:id="@+id/usernameEditText"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:drawablePadding="8dp"
-                    android:textColor="@color/black"
                     android:autofillHints="username"
+                    android:drawablePadding="8dp"
                     android:inputType="textPersonName"
+                    android:textColor="@color/black"
                     tools:ignore="RtlSymmetry" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/loginBtn"
+                style="@style/Button.MyStyle"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:text="@string/add"
                 android:layout_marginTop="6dp"
-                android:textSize="18sp"
-                style="@style/Button.MyStyle"/>
+                android:text="@string/add"
+                android:textSize="18sp" />
 
 
         </LinearLayout>
