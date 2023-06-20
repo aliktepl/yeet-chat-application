@@ -4,7 +4,6 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -12,15 +11,15 @@ public interface WebServiceAPI {
 
     // TOKEN services
     @POST("Tokens")
-    Call<Token> createToken(@Body User user);
+    Call<String> createToken(@Body LoginRequest userLogin);
 
     // USER services
     @POST("Users")
-    Call<Void> createUser(@Body User user);
+    Call<Void> createUser(@Body CreateUserRequest createRequest);
 
-    @GET("Users/{id}")
-    Call<User> getUser(@Path("id") String id);
+    @GET("Users/{username}")
+    Call<User> getUser(@Path("username") String id, @Header("Authorization") String token);
 
-    // CHAT services
+    //TODO: CHAT services
 
 }
