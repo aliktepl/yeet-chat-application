@@ -10,7 +10,7 @@
     android:paddingTop="120dp"
     android:paddingRight="32dp"
     android:paddingBottom="120dp"
-    tools:context=".LoginActivity">
+    tools:context=".activities.MainActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -86,7 +86,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="6dp"
-                android:onClick="loginUser"
                 android:text="@string/login_btn"
                 android:textSize="18sp" />
 

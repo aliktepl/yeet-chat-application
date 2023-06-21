@@ -7,7 +7,7 @@
     android:background="@drawable/backgroundDrawable"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".SignUpActivity">
+    tools:context=".activities.SignUpActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -131,7 +131,6 @@
                 android:layout_height="60dp"
                 android:text="@string/sign_up_btn"
                 android:textSize="18sp"
-                android:onClick="registerUser"
                 style="@style/btnStyle"/>
 
             <LinearLayout

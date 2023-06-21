@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:layout_margin="1dp"
+    style="?attr/materialCardViewElevatedStyle">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivPic"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:contentDescription="@string/contact_picture"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tvDisplayName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/tvLastMsg"
+            app:layout_constraintStart_toEndOf="@+id/ivPic"
+            app:layout_constraintTop_toTopOf="@id/ivPic" />
+
+        <TextView
+            android:id="@+id/tvLastMsg"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="end"
+            app:layout_constraintBottom_toBottomOf="@+id/ivPic"
+            app:layout_constraintStart_toEndOf="@+id/ivPic"
+            app:layout_constraintTop_toBottomOf="@+id/tvDisplayName" />
+
+        <TextView
+            android:id="@+id/tvLastMsgTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintTop_toBottomOf="@id/tvLastMsg"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

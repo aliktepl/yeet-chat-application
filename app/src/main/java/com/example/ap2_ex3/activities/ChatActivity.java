@@ -1,17 +1,16 @@
-package com.example.ap2_ex3;
+package com.example.ap2_ex3.activities;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.PopupMenu;
+
+import com.example.ap2_ex3.R;
 
 public class ChatActivity extends AppCompatActivity {
     private static final int MENU_SETTINGS = R.id.menu_settings;
@@ -23,35 +22,24 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
         ImageButton backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish(); // Go back to the previous screen (ChatsActivity)
-            }
+        backButton.setOnClickListener(v -> {
+            finish(); // Go back to the previous screen (ChatsActivity)
         });
 
         ImageButton settingsButton = findViewById(R.id.moreBtn);
-        settingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPopupMenu(v);
-            }
-        });
+        settingsButton.setOnClickListener(this::showPopupMenu);
     }
 
     private void showPopupMenu(View view) {
         PopupMenu popupMenu = new PopupMenu(this, view);
         MenuInflater inflater = popupMenu.getMenuInflater();
         inflater.inflate(R.menu.more_menu, popupMenu.getMenu());
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == MENU_SETTINGS) {
-                    openSettings();
-                    return true;
-                }
-                return false;
+        popupMenu.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == MENU_SETTINGS) {
+                openSettings();
+                return true;
             }
+            return false;
         });
         popupMenu.show();
     }
