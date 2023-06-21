@@ -1,9 +1,23 @@
 package com.example.ap2_ex3;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.Objects;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -18,8 +32,16 @@ import com.example.ap2_ex3.ViewModel.ViewModel;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 
-
 public class SignUpActivity extends AppCompatActivity {
+    private static final int GALLERY_REQUEST_CODE = 1000;
+
+    private boolean isImageUploaded = false;
+    TextInputLayout usernameTextInputLayout;
+    TextInputLayout passwordTextInputLayout;
+    TextInputLayout confirmPasswordTextInputLayout;
+    TextInputLayout displayNameTextInputLayout;
+    Button pictureBtn;
+    Button signupBtn;
 
     private ViewModel userModel;
     @Override
@@ -41,27 +63,163 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+        usernameTextInputLayout = findViewById(R.id.usernameTextInputLayout);
+        passwordTextInputLayout = findViewById(R.id.passwordTextInputLayout);
+        confirmPasswordTextInputLayout = findViewById(R.id.confirmPasswordTextInputLayout);
+        displayNameTextInputLayout = findViewById(R.id.displayNameTextInputLayout);
 
-        Button btnSignUp = findViewById(R.id.signUpBtn);
-        btnSignUp.setOnClickListener(v -> {
-            EditText usernameEditText = findViewById(R.id.username);
-            EditText passwordEditText = findViewById(R.id.password);
-            EditText displayNameEditText = findViewById(R.id.displayName);
-            File fname = new File("C:\\Users\\royva\\AndroidStudioProjects\\AP2-EX3\\app\\src\\main\\res\\drawable\\bowser.png");
-            Bitmap bitmap = BitmapFactory.decodeFile(fname.getAbsolutePath()); // Replace imagePath with the actual path to your image file
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-            byte[] byteArray = byteArrayOutputStream.toByteArray();
-            String base64Image = Base64.encodeToString(byteArray, Base64.DEFAULT);
+        pictureBtn = findViewById(R.id.pictureBtn);
+        pictureBtn.setOnClickListener(v -> handleImage());
 
-            CreateUserRequest newUser = new CreateUserRequest(usernameEditText.getText().toString(),
-                    passwordEditText.getText().toString(),
-                    displayNameEditText.getText().toString(),
-                    base64Image);
-            userModel.createUser(newUser);
-            Intent loginActivity = new Intent(this, MainActivity.class);
-            startActivity(loginActivity);
+        signupBtn = findViewById(R.id.signupBtn);
+        signupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (!validateUsername() || !validatePassword() || !validateDisplayName()) {
+                    return;
+                }
+                EditText usernameEditText = findViewById(R.id.username);
+                EditText passwordEditText = findViewById(R.id.password);
+                EditText displayNameEditText = findViewById(R.id.displayName);
+                File fname = new File("C:\\Users\\royva\\AndroidStudioProjects\\AP2-EX3\\app\\src\\main\\res\\drawable\\bowser.png");
+                Bitmap bitmap = BitmapFactory.decodeFile(fname.getAbsolutePath()); // Replace imagePath with the actual path to your image file
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                byte[] byteArray = byteArrayOutputStream.toByteArray();
+                String base64Image = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+                CreateUserRequest newUser = new CreateUserRequest(usernameEditText.getText().toString(),
+                        passwordEditText.getText().toString(),
+                        displayNameEditText.getText().toString(),
+                        base64Image);
+                userModel.createUser(newUser);
+                Intent loginActivity = new Intent(this, MainActivity.class);
+                startActivity(loginActivity);
+                Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
         });
 
+        TextView signupLinkTextView = findViewById(R.id.signupLink);
+        signupLinkTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent loginIntent = new Intent(SignUpActivity.this, LoginActivity.class);
+                startActivity(loginIntent);
+            }
+        });
+    }
+
+    private final ActivityResultLauncher<Intent> galleryLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    Uri imageUri = result.getData().getData();
+                    if (imageUri != null) {
+                        String fileName = getImageFileName(imageUri);
+                        pictureBtn.setText(fileName);
+                        isImageUploaded = true;
+                    }
+                }
+            }
+    );
+
+    private void handleImage() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        galleryLauncher.launch(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == GALLERY_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            Uri imageUri = data.getData();
+            if (imageUri != null) {
+                pictureBtn.setText(getImageFileName(imageUri));
+            }
+        }
+    }
+
+    private String getImageFileName(Uri uri) {
+        String fileName = null;
+        String[] projection = {MediaStore.Images.Media.DISPLAY_NAME};
+        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            int columnIndex = cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME);
+            if (columnIndex != -1) {
+                fileName = cursor.getString(columnIndex);
+            }
+            cursor.close();
+        }
+        if (fileName == null) {
+            fileName = uri.getLastPathSegment();
+        }
+        return fileName;
+    }
+
+    private Boolean validateUsername() {
+        String username = Objects.requireNonNull(usernameTextInputLayout.getEditText()).getText().toString();
+        if (username.isEmpty()) {
+            usernameTextInputLayout.setError("Field cannot be empty");
+            return false;
+        } else if (username.contains(" ")) {
+            usernameTextInputLayout.setError("White Spaces are not allowed");
+            return false;
+        } else if (username.length() < 4) {
+            usernameTextInputLayout.setError("Username must have at least 4 characters");
+            return false;
+        } else if (username.length() >= 15) {
+            usernameTextInputLayout.setError("Username too long");
+            return false;
+        } else {
+            usernameTextInputLayout.setError(null);
+            usernameTextInputLayout.setErrorEnabled(false);
+            return true;
+        }
+    }
+
+    private Boolean validatePassword() {
+        String password = Objects.requireNonNull(passwordTextInputLayout.getEditText()).getText().toString();
+        String confirmPassword = Objects.requireNonNull(confirmPasswordTextInputLayout.getEditText()).getText().toString();
+        String passwordVal = "^" +
+                "(?=.*[0-9])" +         //at least 1 digit
+                "(?=.*[a-z])" +         //at least 1 lower case letter
+                "(?=.*[A-Z])" +         //at least 1 upper case letter
+                "(?=.*[a-zA-Z])" +      //any letter
+                "(?=.*[!@#$%^&+=])" +   //at least 1 special character
+                "(?=\\S+$)" +           //no white spaces
+                ".{4,}" +               //at least 4 characters
+                "$";
+        if (password.isEmpty()) {
+            passwordTextInputLayout.setError("Field cannot be empty");
+            return false;
+        } else if (!password.matches(passwordVal)) {
+            passwordTextInputLayout.setError("Password is too weak");
+            return false;
+        } else if (!password.equals(confirmPassword)) {
+            confirmPasswordTextInputLayout.setError("Passwords do not match");
+            return false;
+        } else {
+            passwordTextInputLayout.setError(null);
+            passwordTextInputLayout.setErrorEnabled(false);
+            confirmPasswordTextInputLayout.setError(null);
+            confirmPasswordTextInputLayout.setErrorEnabled(false);
+            return true;
+        }
+    }
+
+    private Boolean validateDisplayName() {
+        String displayName = Objects.requireNonNull(displayNameTextInputLayout.getEditText()).getText().toString();
+
+        if (displayName.isEmpty()) {
+            displayNameTextInputLayout.setError("Field cannot be empty");
+            return false;
+        } else {
+            displayNameTextInputLayout.setError(null);
+            displayNameTextInputLayout.setErrorEnabled(false);
+            return true;
+        }
     }
 }

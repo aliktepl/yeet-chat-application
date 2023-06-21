@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Button.MyStyle" parent="Widget.MaterialComponents.Button">
+        <item name="cornerRadius">@dimen/button_corner_radius</item>
+    </style>
+</resources>
