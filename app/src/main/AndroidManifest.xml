@@ -21,7 +21,11 @@
             android:name=".ChatActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".AddChatActivity"
+            android:parentActivityName=".ChatsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChatsActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
