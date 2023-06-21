@@ -10,7 +10,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -18,32 +17,35 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Objects;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.EditText;
 
 import com.example.ap2_ex3.api.CreateUserRequest;
 import com.example.ap2_ex3.ViewModel.ViewModel;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
+
+import android.content.ContentResolver;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 public class SignUpActivity extends AppCompatActivity {
     private static final int GALLERY_REQUEST_CODE = 1000;
+    private TextInputLayout usernameTextInputLayout;
+    private TextInputLayout passwordTextInputLayout;
+    private TextInputLayout confirmPasswordTextInputLayout;
+    private TextInputLayout displayNameTextInputLayout;
+    private Button pictureBtn;
+    private Button signupBtn;
 
-    private boolean isImageUploaded = false;
-    TextInputLayout usernameTextInputLayout;
-    TextInputLayout passwordTextInputLayout;
-    TextInputLayout confirmPasswordTextInputLayout;
-    TextInputLayout displayNameTextInputLayout;
-    Button pictureBtn;
-    Button signupBtn;
+    private Uri imageUri;
+
+    private String base64Img;
+
 
     private ViewModel userModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,14 +54,16 @@ public class SignUpActivity extends AppCompatActivity {
         this.userModel = new ViewModelProvider(this).get(ViewModel.class);
         Log.d("UserList", "onCreate called"); // Add this line to check if onCreate is called
 
-        userModel.observeCreated().observe(this, status -> {
-            if(status == 409){
+        userModel.observeStatus().observe(this, status -> {
+            if (status == 409) {
                 // user wasn't created!
-                Log.d("Sign Up", "Duplicate user");
-            } else if(status == 200){
+                MainActivity.showAlert("User already exists", this);
+            } else if (status == 200) {
                 Log.d("Sign Up", "Sign up successful");
+                Intent loginActivity = new Intent(SignUpActivity.this, MainActivity.class);
+                startActivity(loginActivity);
             } else {
-                Log.d("Sign up", "Sign up Unsuccessful");
+                MainActivity.showAlert("Sign up failed", this);
             }
         });
 
@@ -72,42 +76,29 @@ public class SignUpActivity extends AppCompatActivity {
         pictureBtn.setOnClickListener(v -> handleImage());
 
         signupBtn = findViewById(R.id.signupBtn);
-        signupBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        signupBtn.setOnClickListener(v -> {
 
-                if (!validateUsername() || !validatePassword() || !validateDisplayName()) {
-                    return;
-                }
-                EditText usernameEditText = findViewById(R.id.username);
-                EditText passwordEditText = findViewById(R.id.password);
-                EditText displayNameEditText = findViewById(R.id.displayName);
-                File fname = new File("C:\\Users\\royva\\AndroidStudioProjects\\AP2-EX3\\app\\src\\main\\res\\drawable\\bowser.png");
-                Bitmap bitmap = BitmapFactory.decodeFile(fname.getAbsolutePath()); // Replace imagePath with the actual path to your image file
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-                byte[] byteArray = byteArrayOutputStream.toByteArray();
-                String base64Image = Base64.encodeToString(byteArray, Base64.DEFAULT);
-
-                CreateUserRequest newUser = new CreateUserRequest(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString(),
-                        displayNameEditText.getText().toString(),
-                        base64Image);
-                userModel.createUser(newUser);
-                Intent loginActivity = new Intent(this, MainActivity.class);
-                startActivity(loginActivity);
-                Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
-                startActivity(intent);
+            if (!validateUsername() || !validatePassword() || !validateDisplayName()) {
+                return;
             }
+            try {
+                base64Img = imageToBase64(imageUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+            CreateUserRequest newUser = new CreateUserRequest(Objects.requireNonNull(usernameTextInputLayout.getEditText()).getText().toString(),
+                    Objects.requireNonNull(passwordTextInputLayout.getEditText()).getText().toString(),
+                    Objects.requireNonNull(displayNameTextInputLayout.getEditText()).getText().toString(),
+                    base64Img);
+
+            userModel.createUser(newUser);
         });
 
         TextView signupLinkTextView = findViewById(R.id.signupLink);
-        signupLinkTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent loginIntent = new Intent(SignUpActivity.this, LoginActivity.class);
-                startActivity(loginIntent);
-            }
+        signupLinkTextView.setOnClickListener(v -> {
+            Intent loginIntent = new Intent(SignUpActivity.this, MainActivity.class);
+            startActivity(loginIntent);
         });
     }
 
@@ -115,11 +106,10 @@ public class SignUpActivity extends AppCompatActivity {
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                    Uri imageUri = result.getData().getData();
+                    imageUri = result.getData().getData();
                     if (imageUri != null) {
                         String fileName = getImageFileName(imageUri);
                         pictureBtn.setText(fileName);
-                        isImageUploaded = true;
                     }
                 }
             }
@@ -221,5 +211,27 @@ public class SignUpActivity extends AppCompatActivity {
             displayNameTextInputLayout.setErrorEnabled(false);
             return true;
         }
+    }
+
+    public String imageToBase64(Uri imageUri) throws IOException {
+        ContentResolver contentResolver = getContentResolver();
+        InputStream inputStream = contentResolver.openInputStream(imageUri);
+
+        // Read the input stream into a byte array
+        byte[] imageBytes = getBytes(inputStream);
+
+        // Encode the byte array to Base64
+        return Base64.encodeToString(imageBytes, Base64.DEFAULT);
+    }
+
+    private byte[] getBytes(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
+        int len;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+        return byteBuffer.toByteArray();
     }
 }

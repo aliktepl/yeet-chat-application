@@ -1,5 +1,6 @@
 package com.example.ap2_ex3.api;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -11,7 +12,7 @@ public interface WebServiceAPI {
 
     // TOKEN services
     @POST("Tokens")
-    Call<String> createToken(@Body LoginRequest userLogin);
+    Call<ResponseBody> createToken(@Body LoginRequest userLogin);
 
     // USER services
     @POST("Users")

@@ -21,15 +21,15 @@ public class Repository {
         status = new MutableLiveData<>();
     }
 
-    public void createUserRequest(CreateUserRequest createUserRequest){
-         userAPI.createUser(createUserRequest, status);
+    public void createUserRequest(CreateUserRequest createUserRequest) {
+        userAPI.createUser(createUserRequest, status);
     }
 
-    public void tokenRequest(LoginRequest loginRequest){
-        userAPI.getToken(loginRequest, token);
+    public void tokenRequest(LoginRequest loginRequest) {
+        userAPI.getToken(loginRequest, token, status);
     }
 
-    public void getUserRequest(String username, String token){
+    public void getUserRequest(String username, String token) {
         userAPI.getUser(username, token, currUser);
     }
 

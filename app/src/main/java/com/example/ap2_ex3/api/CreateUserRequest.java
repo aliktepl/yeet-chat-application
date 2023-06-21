@@ -4,25 +4,25 @@ public class CreateUserRequest {
     private String username;
     private String password;
     private String displayName;
-    private String profPic;
+    private String profilePic;
 
     public CreateUserRequest(String username, String password, String displayName, String profPic){
         this.username = username;
         this.password = password;
         this.displayName = displayName;
-        this.profPic = profPic;
+        this.profilePic = profPic;
     }
 
-    public String getDisplayName() {
-        return displayName;
+    public String getUsername() {
+        return username;
     }
     public String getPassword() {
         return password;
     }
-    public String getUsername() {
-        return username;
+    public String getDisplayName() {
+        return displayName;
     }
     public String getProfPic() {
-        return profPic;
+        return profilePic;
     }
 }

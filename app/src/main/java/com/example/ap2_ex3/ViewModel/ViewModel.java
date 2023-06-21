@@ -26,7 +26,7 @@ public class ViewModel extends androidx.lifecycle.ViewModel {
         mRepository.createUserRequest(createUserRequest);
     }
 
-    public LiveData<Integer> observeCreated() {
+    public LiveData<Integer> observeStatus() {
         return status;
     }
 
