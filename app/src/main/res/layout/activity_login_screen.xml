@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="@drawable/backgroundDrawable"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:paddingLeft="32dp"
@@ -22,6 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
+            android:background="@color/backgroundColor"
             android:orientation="vertical"
             android:padding="18dp">
 
@@ -32,14 +33,14 @@
                 android:paddingTop="30dp"
                 android:paddingBottom="30dp"
                 android:text="@string/welcome_back"
-                android:textColor="@color/black"
+                android:textColor="@color/textColor"
                 android:textSize="35sp"
                 android:textStyle="bold" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/black" />
+                android:background="@color/textColor" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/usernameTextInputLayout"
@@ -56,7 +57,7 @@
                     android:drawableStart="@drawable/ic_user"
                     android:drawablePadding="8dp"
                     android:inputType="textPersonName"
-                    android:textColor="@color/black"
+                    android:textColor="@color/textColor"
                     tools:ignore="RtlSymmetry" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -75,13 +76,13 @@
                     android:drawableStart="@drawable/ic_password"
                     android:drawablePadding="8dp"
                     android:inputType="textPassword"
-                    android:textColor="@color/black"
+                    android:textColor="@color/textColor"
                     tools:ignore="RtlSymmetry" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/loginBtn"
-                style="@style/Button.MyStyle"
+                style="@style/btnStyle"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="6dp"
@@ -100,7 +101,7 @@
                     android:padding="8dp"
                     android:text="@string/new_account"
                     android:textAlignment="center"
-                    android:textColor="@color/black"
+                    android:textColor="@color/textColor"
                     android:textSize="16sp" />
 
                 <TextView
@@ -111,7 +112,7 @@
                     android:padding="8dp"
                     android:text="@string/sign_up"
                     android:textAlignment="center"
-                    android:textColor="@color/black"
+                    android:textColor="@color/textColor"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 

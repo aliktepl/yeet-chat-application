@@ -2,6 +2,7 @@ package com.example.ap2_ex3.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -10,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.PopupMenu;
 
 import com.example.ap2_ex3.R;
+import com.example.ap2_ex3.SettingsActivity;
 
 public class ChatActivity extends AppCompatActivity {
     private static final int MENU_SETTINGS = R.id.menu_settings;
@@ -44,10 +46,9 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void openSettings() {
-        // Implement your logic to open the settings screen here
+        Intent intent = new Intent(ChatActivity.this, SettingsActivity.class);
+        startActivity(intent);
     }
-
-
 
 
 }
