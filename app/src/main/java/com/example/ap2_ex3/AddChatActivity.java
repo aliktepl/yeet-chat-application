@@ -18,8 +18,8 @@ public class AddChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_chat);
 
-        etAddContact = findViewById(R.id.etAddContact);
-        Button btn = findViewById(R.id.btnAddContact);
+        etAddContact = findViewById(R.id.usernameEditText);
+        Button btn = findViewById(R.id.loginBtn);
         btn.setOnClickListener(v -> addContact());
     }
 
