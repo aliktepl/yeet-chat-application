@@ -1,4 +1,4 @@
-package com.example.ap2_ex3;
+package com.example.ap2_ex3.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.ap2_ex3.R;
 
 public class AddChatActivity extends AppCompatActivity {
     public static final String EXTRA_CONTACT = "" +

@@ -1,4 +1,4 @@
-package com.example.ap2_ex3;
+package com.example.ap2_ex3.activities;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.ap2_ex3.R;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Objects;
@@ -21,7 +22,7 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.example.ap2_ex3.api.CreateUserRequest;
-import com.example.ap2_ex3.ViewModel.ViewModel;
+import com.example.ap2_ex3.viewmodel.ViewModel;
 
 import java.io.ByteArrayOutputStream;
 

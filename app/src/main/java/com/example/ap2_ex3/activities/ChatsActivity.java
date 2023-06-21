@@ -1,4 +1,4 @@
-package com.example.ap2_ex3;
+package com.example.ap2_ex3.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,14 +10,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.adapters.ChatsListAdapter;
 import com.example.ap2_ex3.entities.Chat;
-import com.example.ap2_ex3.viewmodels.ChatsViewModel;
+import com.example.ap2_ex3.viewmodel.ViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.Date;
 
 public class ChatsActivity extends AppCompatActivity {
-    private ChatsViewModel chatsViewModel;
+    private ViewModel chatsViewModel;
     public static final int ADD_CONTACT_REQUEST = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +36,7 @@ public class ChatsActivity extends AppCompatActivity {
         lstChats.setAdapter(adapter);
         lstChats.setLayoutManager(new LinearLayoutManager(this));
 
-        chatsViewModel = new ViewModelProvider(this).get(ChatsViewModel.class);
+        chatsViewModel = new ViewModelProvider(this).get(ViewModel.class);
         chatsViewModel.getChats().observe(this, adapter::setChats);
 
     }

@@ -1,5 +1,7 @@
 package com.example.ap2_ex3.api;
 
+import com.example.ap2_ex3.entities.User;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
