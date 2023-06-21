@@ -1,4 +1,4 @@
-package com.example.ap2_ex3.Users;
+package com.example.ap2_ex3.ViewModel;
 
 import android.app.Application;
 
@@ -17,7 +17,7 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
     @Override
     public <T extends androidx.lifecycle.ViewModel> T create(@NonNull Class<T> modelClass) {
         if (modelClass.isAssignableFrom(ViewModel.class)) {
-            return (T) new ViewModel(application);
+            return (T) new ViewModel();
         }
         throw new IllegalArgumentException("Unknown ViewModel class: " + modelClass.getName());
     }

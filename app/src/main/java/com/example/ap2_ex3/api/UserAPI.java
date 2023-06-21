@@ -20,41 +20,35 @@ public class UserAPI {
     private Retrofit retrofit;
     private WebServiceAPI wsAPI;
 
-    public UserAPI(Application application){
+    public UserAPI(){
         retrofit = new Retrofit.Builder()
-                .baseUrl(application.getBaseContext().getString(R.string.BaseUrl))
+                .baseUrl(AppContext.context.getString(R.string.BaseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         wsAPI = retrofit.create(WebServiceAPI.class);
     }
 
     // create a new user with the api and store live data variable to check request status
-    public LiveData<Boolean> createUser(CreateUserRequest createUserRequest) {
-        MutableLiveData<Boolean> createUserLiveData = new MutableLiveData<>();
+    public void createUser(CreateUserRequest createUserRequest, MutableLiveData<Integer> status) {
 
         Call<Void> call = wsAPI.createUser(createUserRequest);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call<Void> call,@NonNull Response<Void> response) {
-                if (response.isSuccessful()) {
-                    createUserLiveData.setValue(true); // User created successfully
-                } else {
-                    createUserLiveData.setValue(false); // User creation failed
-                }
+                status.setValue(response.code());
             }
 
             @Override
             public void onFailure(@NonNull Call<Void> call,@NonNull Throwable t) {
-                createUserLiveData.setValue(false); // User creation failed
+                status.setValue(400);; // User creation failed
             }
         });
 
-        return createUserLiveData;
+        ;
     }
 
     // Request to get token from the API
-    public LiveData<String> getToken(LoginRequest loginRequest) {
-        MutableLiveData<String> token = new MutableLiveData<>();
+    public void getToken(LoginRequest loginRequest, MutableLiveData<String> token) {
         Call<String> getTokenCall = wsAPI.createToken(loginRequest);
         getTokenCall.enqueue(new Callback<String>() {
             @Override
@@ -68,28 +62,25 @@ public class UserAPI {
                 token.setValue(null); // User login failed
             }
         });
-        return token;
     }
     // Request to get a user from the API
-    public LiveData<User> getUser(String username, String token){
-        MutableLiveData<User> userLiveData = new MutableLiveData<>();
+    public void getUser(String username, String token, MutableLiveData<User> user){
         Call<User> getUserCall = wsAPI.getUser(username, "Bearer " + token);
         getUserCall.enqueue(new Callback<User>() {
             @Override
             public void onResponse(@NonNull Call<User> call,@NonNull Response<User> response) {
                 if(response.isSuccessful()){
-                    userLiveData.setValue(response.body());
+                    user.setValue(response.body());
                 } else {
-                    userLiveData.setValue(null);
+                    user.setValue(null);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<User> call,@NonNull Throwable t) {
-                userLiveData.setValue(null);
+                user.setValue(null);
             }
         });
-        return userLiveData;
     }
 
 

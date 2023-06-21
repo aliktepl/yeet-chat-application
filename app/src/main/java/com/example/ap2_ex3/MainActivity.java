@@ -11,16 +11,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.ap2_ex3.api.LoginRequest;
-import com.example.ap2_ex3.api.User;
-import com.example.ap2_ex3.Users.ViewModel;
-import com.example.ap2_ex3.Users.ViewModelFactory;
-
-import java.util.Objects;
+import com.example.ap2_ex3.ViewModel.ViewModel;
 
 public class MainActivity extends AppCompatActivity {
     private ViewModel userModel;
-    private String token;
-    private User user;
 
     private LoginRequest loginRequest;
     @Override
@@ -28,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
-        this.userModel = new ViewModelProvider(this, new ViewModelFactory(getApplication())).get(ViewModel.class);
+        this.userModel = new ViewModelProvider(this).get(ViewModel.class);
 
         TextView signUpLink = findViewById(R.id.signupLink);
         signUpLink.setOnClickListener(v -> {
@@ -41,12 +35,12 @@ public class MainActivity extends AppCompatActivity {
             EditText usernameView = findViewById(R.id.username);
             EditText passwordView = findViewById(R.id.password);
             loginRequest = new LoginRequest(usernameView.getText().toString(), passwordView.getText().toString());
-            token = userModel.getToken(loginRequest).getValue();
+            userModel.getToken(loginRequest);
         });
 
-        userModel.observeToken().observe( this, liveToken -> {
-            if(liveToken != null){
-                user = userModel.getUser(loginRequest.getUsername(), token).getValue();
+        userModel.observeToken().observe(this, liveToken -> {
+            if (liveToken != null) {
+                userModel.getUser(loginRequest.getUsername(), liveToken);
             } else {
                 // invalid login
                 Log.d("Login", "Invalid login");

@@ -4,7 +4,6 @@ public class User {
 
     private String username;
     private String displayName;
-
     private String profPic;
 
     public User(String username, String displayName, String profPic){
