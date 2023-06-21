@@ -23,5 +23,6 @@
     <string name="messages_scroll">messages scroll</string>
     <string name="settings">Settings</string>
     <string name="night_mode">Night Mode</string>
+    <string name="BaseUrl">http://10.0.2.2:5000/api/</string>
 
 </resources>
