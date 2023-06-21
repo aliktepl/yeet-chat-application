@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.PopupMenu;
 
 import com.example.ap2_ex3.R;
+import com.example.ap2_ex3.SettingsActivity;
 
 public class ChatActivity extends AppCompatActivity {
     private static final int MENU_SETTINGS = R.id.menu_settings;
