@@ -3,6 +3,7 @@ package com.example.ap2_ex3;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -56,10 +57,9 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void openSettings() {
-        // Implement your logic to open the settings screen here
+        Intent intent = new Intent(ChatActivity.this, SettingsActivity.class);
+        startActivity(intent);
     }
-
-
 
 
 }

@@ -32,14 +32,14 @@
                 android:paddingTop="30dp"
                 android:paddingBottom="30dp"
                 android:text="@string/add_contact"
-                android:textColor="@color/black"
+                android:textColor="@color/textColor"
                 android:textSize="35sp"
                 android:textStyle="bold" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/black" />
+                android:background="@color/textColor" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/usernameTextInputLayout"
@@ -55,13 +55,13 @@
                     android:autofillHints="username"
                     android:drawablePadding="8dp"
                     android:inputType="textPersonName"
-                    android:textColor="@color/black"
+                    android:textColor="@color/textColor"
                     tools:ignore="RtlSymmetry" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/loginBtn"
-                style="@style/Button.MyStyle"
+                style="@style/btnStyle"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="6dp"
