@@ -1,4 +1,4 @@
-package com.example.ap2_ex3;
+package com.example.ap2_ex3.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.ap2_ex3.R;
 
 public class AddChatActivity extends AppCompatActivity {
     public static final String EXTRA_CONTACT = "" +
@@ -18,8 +20,8 @@ public class AddChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_chat);
 
-        etAddContact = findViewById(R.id.etAddContact);
-        Button btn = findViewById(R.id.btnAddContact);
+        etAddContact = findViewById(R.id.usernameEditText);
+        Button btn = findViewById(R.id.loginBtn);
         btn.setOnClickListener(v -> addContact());
     }
 

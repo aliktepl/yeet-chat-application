@@ -1,33 +1,77 @@
-package com.example.ap2_ex3.repositories;
+package com.example.ap2_ex3.viewmodel;
 
 import android.app.Application;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
+import com.example.ap2_ex3.api.CreateUserRequest;
+import com.example.ap2_ex3.api.LoginRequest;
+import com.example.ap2_ex3.entities.User;
+import com.example.ap2_ex3.api.UserAPI;
 import com.example.ap2_ex3.database.ChatDB;
 import com.example.ap2_ex3.database.ChatDao;
 import com.example.ap2_ex3.entities.Chat;
-import java.util.List;
-public class ChatRepository {
-    private ChatDao dao;
-    private LiveData<List<Chat>> allChats;
 
-    public ChatRepository(Application application) {
+import java.util.List;
+
+
+public class Repository {
+    private ChatDao dao;
+
+    private LiveData<List<Chat>> allChats;
+    private UserAPI userAPI;
+    private MutableLiveData<String> token;
+    private MutableLiveData<User> currUser;
+    private MutableLiveData<Integer> status;
+
+    public Repository(Application application) {
+        userAPI = new UserAPI();
         ChatDB db = ChatDB.getInstance(application);
         dao = db.chatDao();
         allChats = dao.getAllChats();
+        token = new MutableLiveData<>();
+        currUser = new MutableLiveData<>();
+        status = new MutableLiveData<>();
     }
 
+    // User operations
+    public void createUserRequest(CreateUserRequest createUserRequest) {
+        userAPI.createUser(createUserRequest, status);
+    }
+
+    public void tokenRequest(LoginRequest loginRequest) {
+        userAPI.getToken(loginRequest, token, status);
+    }
+
+    public void getUserRequest(String username, String token) {
+        userAPI.getUser(username, token, currUser);
+    }
+
+    public MutableLiveData<Integer> getStatus() {
+        return status;
+    }
+
+    public MutableLiveData<String> getToken() {
+        return token;
+    }
+
+    public MutableLiveData<User> getUser() {
+        return currUser;
+    }
+
+    //
     public void insert(Chat chat) {
-        new InsertChatAsyncTask(dao).execute(chat);
+        new Repository.InsertChatAsyncTask(dao).execute(chat);
     }
 
     public void update(Chat chat) {
-        new UpdateChatAsyncTask(dao).execute(chat);
+        new Repository.UpdateChatAsyncTask(dao).execute(chat);
     }
 
     public void delete(Chat chat) {
-        new DeleteChatAsyncTask(dao).execute(chat);
+        new Repository.DeleteChatAsyncTask(dao).execute(chat);
     }
 
     public LiveData<List<Chat>> getAllChats() {
@@ -69,4 +113,5 @@ public class ChatRepository {
             return null;
         }
     }
+
 }

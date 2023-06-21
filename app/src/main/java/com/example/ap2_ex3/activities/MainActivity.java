@@ -1,4 +1,4 @@
-package com.example.ap2_ex3;
+package com.example.ap2_ex3.activities;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,8 +11,9 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.api.LoginRequest;
-import com.example.ap2_ex3.ViewModel.ViewModel;
+import com.example.ap2_ex3.viewmodel.ViewModel;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Objects;
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         });
         userModel.observeUser().observe(this, liveUser -> {
             Log.d("Login", "Logged in:" + liveUser.getUsername());
-            Intent intent = new Intent(MainActivity.this, ChatActivity.class);
+            Intent intent = new Intent(MainActivity.this, ChatsActivity.class);
             startActivity(intent);
         });
     }

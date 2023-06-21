@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.ap2_ex3.R;
+import com.example.ap2_ex3.entities.User;
 
 
 import java.io.IOException;
