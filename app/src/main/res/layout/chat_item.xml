@@ -6,13 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
-    android:layout_margin="5dp"
+    android:layout_margin="1dp"
     style="?attr/materialCardViewElevatedStyle">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp" >
+        android:padding="16dp">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivPic"
@@ -33,9 +33,10 @@
 
         <TextView
             android:id="@+id/tvLastMsg"
-            android:layout_width="wrap_content"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:maxLines="1"
+            android:ellipsize="end"
             app:layout_constraintBottom_toBottomOf="@+id/ivPic"
             app:layout_constraintStart_toEndOf="@+id/ivPic"
             app:layout_constraintTop_toBottomOf="@+id/tvDisplayName" />

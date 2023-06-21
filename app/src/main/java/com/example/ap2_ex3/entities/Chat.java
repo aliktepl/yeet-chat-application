@@ -15,32 +15,34 @@ import java.util.Locale;
 @Entity
 public class Chat {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id; // Unique identifier for the chat
     private int picture; // Picture associated with the chat
     private String username; // Username of the chat participant
     private String displayName; // Display name of the chat participant
     private String lastMsg; // Last message in the chat
+
     private String lastMsgTime; // Time when the last message was sent
 
     /**
      * Constructs a Chat object.
      *
-     * @param id           the unique identifier for the chat
      * @param picture      the picture associated with the chat
      * @param username     the username of the chat participant
      * @param displayName  the display name of the chat participant
      * @param lastMsg      the last message in the chat
      * @param lastMsgTime  the time when the last message was sent
      */
-    public Chat(int id, int picture, String username, String displayName, String lastMsg, Date lastMsgTime) {
-        this.id = id;
+    public Chat(int picture, String username, String displayName, String lastMsg, Date lastMsgTime) {
         this.picture = picture;
         this.username = username;
         this.displayName = displayName;
         this.lastMsg = lastMsg;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("kk:mm", new Locale("he", "IL"));
-        this.lastMsgTime = dateFormat.format(lastMsgTime);
+        this.lastMsgTime = new SimpleDateFormat("kk:mm", new Locale("he", "IL")).format(lastMsgTime);
+    }
+
+    public Chat() {
+
     }
 
     /**
@@ -150,6 +152,10 @@ public class Chat {
      */
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public void setLastMsgTime(String lastMsgTime) {
+        this.lastMsgTime = lastMsgTime;
     }
 
     /**
