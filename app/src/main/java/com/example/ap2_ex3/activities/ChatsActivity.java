@@ -2,6 +2,10 @@ package com.example.ap2_ex3.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuInflater;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -18,6 +22,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.Date;
 
 public class ChatsActivity extends AppCompatActivity {
+    private static final int MENU_SETTINGS = R.id.menu_settings;
+    private static final int LOGOUT = R.id.menu_logout;
     private ViewModel chatsViewModel;
     public static final int ADD_CONTACT_REQUEST = 1;
     @Override
@@ -39,6 +45,36 @@ public class ChatsActivity extends AppCompatActivity {
         chatsViewModel = new ViewModelProvider(this).get(ViewModel.class);
         chatsViewModel.getChats().observe(this, adapter::setChats);
 
+        ImageButton settingsButton = findViewById(R.id.moreBtn);
+        settingsButton.setOnClickListener(this::showPopupMenu);
+
+    }
+
+    private void showPopupMenu(View view) {
+        PopupMenu popupMenu = new PopupMenu(this, view);
+        MenuInflater inflater = popupMenu.getMenuInflater();
+        inflater.inflate(R.menu.more_menu, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == MENU_SETTINGS) {
+                openSettings();
+                return true;
+            } else if (item.getItemId() == LOGOUT) {
+                logout();
+                return true;
+            }
+            return super.onOptionsItemSelected(item);
+        });
+        popupMenu.show();
+    }
+
+    private void logout() {
+        Intent intent = new Intent(ChatsActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    private void openSettings() {
+        Intent intent = new Intent(ChatsActivity.this, SettingsActivity.class);
+        startActivity(intent);
     }
 
     @Override
