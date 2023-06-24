@@ -1,17 +1,22 @@
 package com.example.ap2_ex3;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.DialogInterface;
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.snackbar.Snackbar;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import com.example.ap2_ex3.activities.ChatActivity;
+import com.example.ap2_ex3.activities.SignUpActivity;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Objects;
@@ -21,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     TextInputLayout passwordTextInputLayout;
     Button loginBtn;
 
+    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +67,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(loginIntent);
             }
         });
+
     }
 
     private void showInvalidUsernameMessage() {

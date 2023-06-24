@@ -2,19 +2,24 @@ package com.example.ap2_ex3.activities;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.api.LoginRequest;
 import com.example.ap2_ex3.viewmodel.ViewModel;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Objects;
 
@@ -31,6 +36,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login_screen);
         this.userModel = new ViewModelProvider(this).get(ViewModel.class);
 
+        checkPermissions();
+
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                System.out.println("Fetching FCM registration token failed");
+                return;
+            }
+            String token = task.getResult();
+            Toast.makeText(MainActivity.this, "the token is: " + token, Toast.LENGTH_SHORT).show();
+        });
         TextView signUpLink = findViewById(R.id.loginLink);
         signUpLink.setOnClickListener(v -> {
             Intent i = new Intent(this, SignUpActivity.class);
@@ -74,5 +89,11 @@ public class MainActivity extends AppCompatActivity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    private void checkPermissions() {
+        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
+        }
     }
 }

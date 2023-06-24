@@ -54,9 +54,10 @@ public class ChatsListAdapter extends RecyclerView.Adapter<ChatsListAdapter.Chat
             holder.tvDisplayName.setText(current.getDisplayName());
             holder.ivPic.setImageResource(current.getPicture());
             holder.tvLastMsg.setText(current.getLastMsg());
-            holder.tvLastMsgTime.setText(current.getLastMsgTime().toString());
+            holder.tvLastMsgTime.setText(current.getLastMsgTime());
         }
     }
+
 
     public void setChats(List<Chat> c) {
         chats = c;

@@ -21,7 +21,6 @@ public class Chat {
     private String username; // Username of the chat participant
     private String displayName; // Display name of the chat participant
     private String lastMsg; // Last message in the chat
-
     private String lastMsgTime; // Time when the last message was sent
 
     /**
