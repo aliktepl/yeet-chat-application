@@ -6,19 +6,17 @@ import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.ap2_ex3.api.ChatAPI;
 import com.example.ap2_ex3.api_requests.CreateUserRequest;
 import com.example.ap2_ex3.api_requests.LoginRequest;
 import com.example.ap2_ex3.database.AppDB;
-import com.example.ap2_ex3.database.MessageDao;
 import com.example.ap2_ex3.database.UserDao;
-import com.example.ap2_ex3.entities.Message;
 import com.example.ap2_ex3.entities.User;
 import com.example.ap2_ex3.api.UserAPI;
-import com.example.ap2_ex3.database.ChatDao;
-import com.example.ap2_ex3.entities.Chat;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class UserRepo {
@@ -31,7 +29,7 @@ public class UserRepo {
 
     // Live Data fields
     private LiveData<List<User>> users;
-    private LiveData<User> myUser;
+    private MutableLiveData<User> myUser;
     private MutableLiveData<String> token;
     private MutableLiveData<Integer> status;
 
@@ -44,7 +42,7 @@ public class UserRepo {
         userAPI = new UserAPI(userDao);
         // live data init
         users = userDao.getAllUsers();
-        myUser = userDao.getMyUser();
+        myUser = new MutableLiveData<>();
         token = new MutableLiveData<>();
         status = new MutableLiveData<>();
     }
@@ -59,10 +57,12 @@ public class UserRepo {
     }
 
     public void getUserRequest(String username, String token) {
-        userAPI.getUser(username, token);
+        userAPI.getUser(username, token, myUser);
     }
 
-    public void userDelete(User user){ userDao.delete(user); }
+    public void userDelete(User user) {
+        userDao.delete(user);
+    }
 
     public MutableLiveData<Integer> getStatus() {
         return status;
@@ -73,10 +73,19 @@ public class UserRepo {
     }
 
     // User dao operations
-    public LiveData<List<User>> getUsers() { return users; }
+    public LiveData<List<User>> getUsers() {
+        return users;
+    }
 
-    public LiveData<User> getUser(String username) { return userDao.getUser(username); }
+    public LiveData<User> getUser(String username) {
+        return userDao.getUser(username);
+    }
 
-    public LiveData<User> getMyUser() { return myUser; }
+    public LiveData<User> observeMyUser() {
+        return myUser;
+    }
 
+    public List<User> getMyUser() {
+        return userDao.getMyUser();
+    }
 }

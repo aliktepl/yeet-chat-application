@@ -20,7 +20,7 @@ public interface UserDao {
     LiveData<User> getUser(String username);
 
     @Query("SELECT * FROM user_table WHERE myUser = 1")
-    LiveData<User> getMyUser();
+    List<User> getMyUser();
 
     @Insert
     void insert(User... users);

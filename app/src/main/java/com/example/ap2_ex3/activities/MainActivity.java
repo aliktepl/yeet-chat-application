@@ -17,7 +17,6 @@ import com.example.ap2_ex3.view_models.UserModel;
 import com.example.ap2_ex3.entities.User;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -64,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            userModel.getMyUser().observe(this, myUser -> {
+            userModel.observeMyUser().observe(this, myUser -> {
                 if(myUser != null) {
                     Log.d("Login", "Logged in:" + myUser.getUsername());
                     Log.d("Login", "token: :" + myUser.getToken());
@@ -80,8 +79,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (userModel != null && userModel.getMyUser().getValue() != null) {
-            User myUser = userModel.getMyUser().getValue();
+        if (userModel != null && userModel.observeMyUser().getValue() != null) {
+            User myUser = userModel.observeMyUser().getValue();
             deleteMyUserFromDatabase(myUser);
         }
     }

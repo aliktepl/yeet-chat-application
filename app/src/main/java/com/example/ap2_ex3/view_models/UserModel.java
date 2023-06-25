@@ -27,7 +27,7 @@ public class UserModel extends AndroidViewModel {
         status = mRepository.getStatus();
         token = mRepository.getToken();
         users = mRepository.getUsers();
-        myUser = mRepository.getMyUser();
+        myUser = mRepository.observeMyUser();
     }
 
     // User API Operations
@@ -56,7 +56,9 @@ public class UserModel extends AndroidViewModel {
 
     public LiveData<User> getUser(String username) { return mRepository.getUser(username);}
 
-    public LiveData<User> getMyUser() { return myUser; }
+    public LiveData<User> observeMyUser() { return myUser; }
+
+    public List<User> getMyUser() { return mRepository.getMyUser(); }
 
     public void userDelete(User user) { mRepository.userDelete(user); }
 

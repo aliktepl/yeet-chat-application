@@ -87,7 +87,7 @@ public class UserAPI {
     }
 
     // Request to get a user from the API
-    public void getUser(String username, String token) {
+    public void getUser(String username, String token, MutableLiveData<User> myUser) {
         Call<UserRequest> getUserCall = wsAPI.getUser(username, "Bearer " + token);
         getUserCall.enqueue(new Callback<UserRequest>() {
             @Override
@@ -97,6 +97,7 @@ public class UserAPI {
                     assert userRequest != null;
                     User user = new User(userRequest.getUsername(), userRequest.getDisplayName(),
                             userRequest.getProfPic(), token, 1);
+                    myUser.setValue(user);
                     new Thread(() -> userDao.insert(user)).start();
                 }
             }

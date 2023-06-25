@@ -26,7 +26,7 @@ public class AddChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_chat);
         userModel = new ViewModelProvider(this).get(UserModel.class);
 
-        userModel.getMyUser().observe(this, myUser -> {
+        userModel.observeMyUser().observe(this, myUser -> {
             if(myUser != null){
                 chatModel = new ViewModelProvider(this).get(ChatModel.class);
                 etAddContact = findViewById(R.id.usernameEditText);
