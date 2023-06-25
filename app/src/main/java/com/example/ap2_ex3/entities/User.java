@@ -1,7 +1,6 @@
 package com.example.ap2_ex3.entities;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -14,31 +13,44 @@ public class User {
     private String displayName;
     private String profPic;
     private String token;
-    private int myUser;
 
-    public User(@NonNull String username, String displayName, String profPic, String token, int myUser){
+    public User(@NonNull String username, String displayName, String profPic, String token) {
         this.username = username;
         this.displayName = displayName;
         this.profPic = profPic;
         this.token = token;
-        this.myUser = myUser;
+    }
+
+    @NonNull
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(@NonNull String username) {
+        this.username = username;
     }
 
     public String getDisplayName() {
         return displayName;
     }
-    @NonNull
-    public String getUsername() {
-        return username;
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
-    @Nullable
+
     public String getProfPic() {
         return profPic;
     }
+
+    public void setProfPic(String profPic) {
+        this.profPic = profPic;
+    }
+
     public String getToken() {
         return token;
     }
-    public int getMyUser() {
-        return myUser;
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

@@ -63,10 +63,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            userModel.observeMyUser().observe(this, myUser -> {
-                if(myUser != null) {
-                    Log.d("Login", "Logged in:" + myUser.getUsername());
-                    Log.d("Login", "token: :" + myUser.getToken());
+            userModel.observeStatus().observe(this, status -> {
+                if(status == 1) {
+                    Log.d("Login", "User inserted to db and login was successful");
                     Intent intent = new Intent(MainActivity.this, ChatsActivity.class);
                     startActivity(intent);
                 }
@@ -76,24 +75,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (userModel != null && userModel.observeMyUser().getValue() != null) {
-            User myUser = userModel.observeMyUser().getValue();
-            deleteMyUserFromDatabase(myUser);
-        }
-    }
-
-    private void deleteMyUserFromDatabase(User user) {
-        Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                userModel.userDelete(user);
-            }
-        });
-    }
 
     public static void showAlert(String msg, Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);

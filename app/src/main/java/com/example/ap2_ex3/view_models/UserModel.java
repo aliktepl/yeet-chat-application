@@ -18,49 +18,39 @@ public class UserModel extends AndroidViewModel {
     private final UserRepo mRepository;
     private LiveData<Integer> status;
     private LiveData<String> token;
-    private LiveData<List<User>> users;
-    private LiveData<User> myUser;
+    private LiveData<User> user;
 
     public UserModel(Application application){
         super(application);
         mRepository = new UserRepo(application);
         status = mRepository.getStatus();
         token = mRepository.getToken();
-        users = mRepository.getUsers();
-        myUser = mRepository.observeMyUser();
+        user = mRepository.getUser();
     }
 
     // User API Operations
     public void createUser(CreateUserRequest createUserRequest) {
         mRepository.createUserRequest(createUserRequest);
     }
-
-    public LiveData<Integer> observeStatus() {
-        return status;
-    }
-
     public void getToken(LoginRequest loginRequest) {
         mRepository.tokenRequest(loginRequest);
-    }
-
-    public LiveData<String> observeToken() {
-        return token;
     }
 
     public void getCurrUser(String username, String token) {
         mRepository.getUserRequest(username, token);
     }
 
+    // Live data listeners
+    public LiveData<Integer> observeStatus() {
+        return status;
+    }
+
+    public LiveData<String> observeToken() {
+        return token;
+    }
+
     // User Dao operations
-    public LiveData<List<User>> getUsers(){ return users; }
-
-    public LiveData<User> getUser(String username) { return mRepository.getUser(username);}
-
-    public LiveData<User> observeMyUser() { return myUser; }
-
-    public List<User> getMyUser() { return mRepository.getMyUser(); }
-
-    public void userDelete(User user) { mRepository.userDelete(user); }
+    public LiveData<User> getUser(){ return user; }
 
 }
 

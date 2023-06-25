@@ -29,7 +29,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class UserAPI {
     private Retrofit retrofit;
     private WebServiceAPI wsAPI;
-
     private UserDao userDao;
 
     public UserAPI(UserDao userDao) {
@@ -87,7 +86,7 @@ public class UserAPI {
     }
 
     // Request to get a user from the API
-    public void getUser(String username, String token, MutableLiveData<User> myUser) {
+    public void getUser(String username, String token, MutableLiveData<Integer> status) {
         Call<UserRequest> getUserCall = wsAPI.getUser(username, "Bearer " + token);
         getUserCall.enqueue(new Callback<UserRequest>() {
             @Override
@@ -96,9 +95,9 @@ public class UserAPI {
                     UserRequest userRequest = response.body();
                     assert userRequest != null;
                     User user = new User(userRequest.getUsername(), userRequest.getDisplayName(),
-                            userRequest.getProfPic(), token, 1);
-                    myUser.setValue(user);
+                            userRequest.getProfPic(), token);
                     new Thread(() -> userDao.insert(user)).start();
+                    status.setValue(1);
                 }
             }
 

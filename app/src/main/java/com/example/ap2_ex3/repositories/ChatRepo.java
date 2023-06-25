@@ -52,10 +52,6 @@ public class ChatRepo {
         status = new MutableLiveData<>();
     }
 
-    public MutableLiveData<Integer> getStatus() {
-        return status;
-    }
-
     // Chat API operations
     public void getChatsRequest(User myUser){
         chatAPI.getChats(myUser);
@@ -67,55 +63,21 @@ public class ChatRepo {
 
     // Chat dao operations
     public void insert(Chat chat) {
-        chatDao.Insert(chat);
+        new Thread(() -> { chatDao.Insert(chat);}).start();
+    }
+    public void update(Chat chat) {
+        new Thread(() -> { chatDao.Update(chat);}).start();
+    }
+    public void delete(Chat chat) {
+        new Thread(() -> { chatDao.Delete(chat);}).start();
     }
 
-//    public void update(Chat chat) {
-//        new ChatRepo.UpdateChatAsyncTask(chatDao).execute(chat);
-//    }
-//
-//    public void delete(Chat chat) {
-//        new ChatRepo.DeleteChatAsyncTask(chatDao).execute(chat);
-//    }
-
+    // Live Data listeners
+    public MutableLiveData<Integer> getStatus() {
+        return status;
+    }
     public LiveData<List<Chat>> getAllChats() {
         return allChats;
     }
-
-//    private static class InsertChatAsyncTask extends AsyncTask<Chat, Void, Void> {
-//        private ChatDao dao;
-//        private InsertChatAsyncTask(ChatDao dao) {
-//            this.dao = dao;
-//        }
-//        @Override
-//        protected Void doInBackground(Chat... chats) {
-//            dao.Insert(chats[0]);
-//            return null;
-//        }
-//    }
-//
-//    private static class UpdateChatAsyncTask extends AsyncTask<Chat, Void, Void> {
-//        private ChatDao dao;
-//        private UpdateChatAsyncTask(ChatDao dao) {
-//            this.dao = dao;
-//        }
-//        @Override
-//        protected Void doInBackground(Chat... chats) {
-//            dao.Update(chats[0]);
-//            return null;
-//        }
-//    }
-//
-//    private static class DeleteChatAsyncTask extends AsyncTask<Chat, Void, Void> {
-//        private ChatDao dao;
-//        private DeleteChatAsyncTask(ChatDao dao) {
-//            this.dao = dao;
-//        }
-//        @Override
-//        protected Void doInBackground(Chat... chats) {
-//            dao.Delete(chats[0]);
-//            return null;
-//        }
-//    }
 
 }

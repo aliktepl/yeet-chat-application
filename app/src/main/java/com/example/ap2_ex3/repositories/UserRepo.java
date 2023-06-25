@@ -1,7 +1,6 @@
 package com.example.ap2_ex3.repositories;
 
 import android.app.Application;
-import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -14,9 +13,6 @@ import com.example.ap2_ex3.entities.User;
 import com.example.ap2_ex3.api.UserAPI;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 
 public class UserRepo {
@@ -28,8 +24,7 @@ public class UserRepo {
     private UserAPI userAPI;
 
     // Live Data fields
-    private LiveData<List<User>> users;
-    private MutableLiveData<User> myUser;
+    private LiveData<User> user;
     private MutableLiveData<String> token;
     private MutableLiveData<Integer> status;
 
@@ -41,10 +36,9 @@ public class UserRepo {
         // api init
         userAPI = new UserAPI(userDao);
         // live data init
-        users = userDao.getAllUsers();
-        myUser = new MutableLiveData<>();
-        token = new MutableLiveData<>();
+        user = userDao.getUser();
         status = new MutableLiveData<>();
+        token = new MutableLiveData<>();
     }
 
     // User API operations
@@ -57,35 +51,19 @@ public class UserRepo {
     }
 
     public void getUserRequest(String username, String token) {
-        userAPI.getUser(username, token, myUser);
+        userAPI.getUser(username, token, status);
     }
 
-    public void userDelete(User user) {
-        userDao.delete(user);
-    }
-
+    // Live data listeners
     public MutableLiveData<Integer> getStatus() {
         return status;
     }
 
-    public MutableLiveData<String> getToken() {
-        return token;
-    }
+    public MutableLiveData<String> getToken(){ return token; }
 
     // User dao operations
-    public LiveData<List<User>> getUsers() {
-        return users;
+    public LiveData<User> getUser() {
+        return user;
     }
 
-    public LiveData<User> getUser(String username) {
-        return userDao.getUser(username);
-    }
-
-    public LiveData<User> observeMyUser() {
-        return myUser;
-    }
-
-    public List<User> getMyUser() {
-        return userDao.getMyUser();
-    }
 }
