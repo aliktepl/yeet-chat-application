@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.adapters.ChatsListAdapter;
 import com.example.ap2_ex3.entities.Chat;
+import com.example.ap2_ex3.services.MyFirebaseMessagingService;
 import com.example.ap2_ex3.viewmodel.ViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -33,6 +34,7 @@ public class ChatsActivity extends AppCompatActivity {
             startActivityForResult(intent, ADD_CONTACT_REQUEST);
         });
 
+        MyFirebaseMessagingService firebaseMessagingService = new MyFirebaseMessagingService(chatsViewModel);
         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {
                 System.out.println("Fetching FCM registration token failed");
@@ -40,6 +42,7 @@ public class ChatsActivity extends AppCompatActivity {
             }
             String token = task.getResult();
             //Toast.makeText(MainActivity.this, "the token is: " + token, Toast.LENGTH_SHORT).show();
+            //TODO: Send Token to server
         });
 
         RecyclerView lstChats = findViewById(R.id.lstChats);
