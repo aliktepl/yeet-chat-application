@@ -49,19 +49,22 @@ public class ChatsListAdapter extends RecyclerView.Adapter<ChatsListAdapter.Chat
 
     @Override
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
-        if (chats != null) {
-            final Chat current = chats.get(position);
-            holder.tvDisplayName.setText(current.getDisplayName());
-            holder.ivPic.setImageResource(current.getPicture());
-            holder.tvLastMsg.setText(current.getLastMsg());
-            holder.tvLastMsgTime.setText(current.getLastMsgTime().toString());
-        }
+//        if (chats != null) {
+//            final Chat currChat = chats.get(position);
+//            final User currUser = viewModel.getUser(currChat.getRecipient()).getValue();
+//            final Message lstMsg = viewModel.getMessage(currChat.getLst_msg_id()).getValue();
+//            holder.tvDisplayName.setText(currUser.getDisplayName());
+//            holder.ivPic.setImageResource(Integer.parseInt(currUser.getProfPic()));
+//            holder.tvLastMsg.setText(lstMsg.getContent());
+//            holder.tvLastMsgTime.setText(lstMsg.getCreated());
+//        }
     }
 
-    public void setChats(List<Chat> c) {
-        chats = c;
+    public void setChats(List<Chat> chats) {
+        this.chats = chats;
         notifyDataSetChanged();
     }
+
 
     @Override
     public int getItemCount() {

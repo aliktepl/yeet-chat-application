@@ -12,14 +12,18 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.ap2_ex3.R;
-import com.example.ap2_ex3.api.LoginRequest;
-import com.example.ap2_ex3.viewmodel.ViewModel;
+import com.example.ap2_ex3.api_requests.LoginRequest;
+import com.example.ap2_ex3.view_models.UserModel;
+import com.example.ap2_ex3.entities.User;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
-    private ViewModel userModel;
+    private UserModel userModel;
     private TextInputLayout usernameView;
     private TextInputLayout passwordView;
     private LoginRequest loginRequest;
@@ -29,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
-        this.userModel = new ViewModelProvider(this).get(ViewModel.class);
+        this.userModel = new ViewModelProvider(this).get(UserModel.class);
 
         TextView signUpLink = findViewById(R.id.loginLink);
         signUpLink.setOnClickListener(v -> {
@@ -45,24 +49,50 @@ public class MainActivity extends AppCompatActivity {
                     Objects.requireNonNull(passwordView.getEditText()).getText().toString());
             userModel.getToken(loginRequest);
 
+            userModel.observeToken().observe(this, liveToken -> {
+                if (liveToken != null) {
+                    userModel.getCurrUser(loginRequest.getUsername(), liveToken);
+                } else {
+                    // invalid login
+                    Log.d("Login", "Request failed");
+                }
+            });
+
+            userModel.observeStatus().observe(this, status -> {
+                if (status == 404) {
+                    MainActivity.showAlert("Invalid username or password", this);
+                }
+            });
+
+            userModel.getMyUser().observe(this, myUser -> {
+                if(myUser != null) {
+                    Log.d("Login", "Logged in:" + myUser.getUsername());
+                    Log.d("Login", "token: :" + myUser.getToken());
+                    Intent intent = new Intent(MainActivity.this, ChatsActivity.class);
+                    startActivity(intent);
+                }
+            });
+
         });
-        userModel.observeStatus().observe(this, status -> {
-            if (status == 404) {
-                MainActivity.showAlert("Invalid username or password", this);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (userModel != null && userModel.getMyUser().getValue() != null) {
+            User myUser = userModel.getMyUser().getValue();
+            deleteMyUserFromDatabase(myUser);
+        }
+    }
+
+    private void deleteMyUserFromDatabase(User user) {
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                userModel.userDelete(user);
             }
-        });
-        userModel.observeToken().observe(this, liveToken -> {
-            if (liveToken != null) {
-                userModel.getUser(loginRequest.getUsername(), liveToken);
-            } else {
-                // invalid login
-                Log.d("Login", "Request failed");
-            }
-        });
-        userModel.observeUser().observe(this, liveUser -> {
-            Log.d("Login", "Logged in:" + liveUser.getUsername());
-            Intent intent = new Intent(MainActivity.this, ChatsActivity.class);
-            startActivity(intent);
         });
     }
 
@@ -76,3 +106,5 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 }
+
+

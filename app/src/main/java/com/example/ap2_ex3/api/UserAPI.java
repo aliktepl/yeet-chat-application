@@ -5,10 +5,18 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.ap2_ex3.R;
+import com.example.ap2_ex3.activities.Username;
+import com.example.ap2_ex3.api_requests.CreateUserRequest;
+import com.example.ap2_ex3.api_requests.LoginRequest;
+import com.example.ap2_ex3.api_requests.UserRequest;
+import com.example.ap2_ex3.database.UserDao;
 import com.example.ap2_ex3.entities.User;
 
 
 import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -22,7 +30,11 @@ public class UserAPI {
     private Retrofit retrofit;
     private WebServiceAPI wsAPI;
 
-    public UserAPI() {
+    private UserDao userDao;
+
+    public UserAPI(UserDao userDao) {
+        // init dao
+        this.userDao = userDao;
         retrofit = new Retrofit.Builder()
                 .baseUrl(AppContext.context.getString(R.string.BaseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
@@ -48,7 +60,7 @@ public class UserAPI {
     }
 
     // Request to get token from the API
-    public void getToken(LoginRequest loginRequest, MutableLiveData<String> token,
+    public void getToken(LoginRequest loginRequest,MutableLiveData<String> token,
                          MutableLiveData<Integer> status) {
         Call<ResponseBody> getTokenCall = wsAPI.createToken(loginRequest);
         getTokenCall.enqueue(new Callback<ResponseBody>() {
@@ -75,24 +87,24 @@ public class UserAPI {
     }
 
     // Request to get a user from the API
-    public void getUser(String username, String token, MutableLiveData<User> user) {
-        Call<User> getUserCall = wsAPI.getUser(username, "Bearer " + token);
-        getUserCall.enqueue(new Callback<User>() {
+    public void getUser(String username, String token) {
+        Call<UserRequest> getUserCall = wsAPI.getUser(username, "Bearer " + token);
+        getUserCall.enqueue(new Callback<UserRequest>() {
             @Override
-            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+            public void onResponse(@NonNull Call<UserRequest> call, @NonNull Response<UserRequest> response) {
                 if (response.isSuccessful()) {
-                    user.setValue(response.body());
-                } else {
-                    user.setValue(null);
+                    UserRequest userRequest = response.body();
+                    assert userRequest != null;
+                    User user = new User(userRequest.getUsername(), userRequest.getDisplayName(),
+                            userRequest.getProfPic(), token, 1);
+                    new Thread(() -> userDao.insert(user)).start();
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
-                user.setValue(null);
+            public void onFailure(@NonNull Call<UserRequest> call,@NonNull Throwable t) {
+
             }
         });
     }
-
-
 }
