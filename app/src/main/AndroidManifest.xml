@@ -23,6 +23,9 @@
             android:name=".activities.ChatActivity"
             android:exported="false" />
         <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.AddChatActivity"
             android:parentActivityName=".activities.ChatsActivity"
             android:exported="false" />
