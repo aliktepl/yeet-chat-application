@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.ChatsActivity"
-    android:background="@drawable/backgroundDrawable">
+    style="@style/SCREEN">
 
     <RelativeLayout
         android:id="@+id/userLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        style="@style/USER_BACKGROUND"
         android:padding="8dp"
         android:layout_alignParentTop="true">
 
@@ -32,6 +32,7 @@
             android:layout_toEndOf="@id/ivUserProfile"
             android:text="User Name"
             android:textSize="16sp"
+            style="@style/TEXT"
             android:textStyle="bold" />
 
         <ImageButton
@@ -46,7 +47,7 @@
             android:paddingTop="11dp"
             android:paddingRight="10dp"
             android:paddingBottom="11dp"
-            android:src="@drawable/ic_more"
+            style="@style/MORE_BTN"
             tools:ignore="RtlSymmetry" />
 
     </RelativeLayout>
@@ -61,7 +62,7 @@
             android:id="@+id/lstChats"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/backgroundDrawable" />
+            style="@style/SCREEN" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

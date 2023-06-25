@@ -5,6 +5,10 @@
     <color name="textColor">#FFFFFFFF</color>
     <color name="userMessage">#240D61</color>
     <color name="contactMessage">#FFFFFFFF</color>
+
     <drawable name="backgroundDrawable">@drawable/backgroundnight</drawable>
+
+
+
 
 </resources>

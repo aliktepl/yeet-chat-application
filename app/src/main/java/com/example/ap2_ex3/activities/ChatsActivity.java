@@ -67,13 +67,13 @@ public class ChatsActivity extends AppCompatActivity {
         popupMenu.show();
     }
 
-    private void logout() {
-        Intent intent = new Intent(ChatsActivity.this, MainActivity.class);
+    private void openSettings() {
+        Intent intent = new Intent(ChatsActivity.this, SettingsActivity.class);
         startActivity(intent);
     }
 
-    private void openSettings() {
-        Intent intent = new Intent(ChatsActivity.this, SettingsActivity.class);
+    private void logout() {
+        Intent intent = new Intent(ChatsActivity.this, MainActivity.class);
         startActivity(intent);
     }
 

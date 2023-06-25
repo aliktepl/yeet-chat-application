@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
+    private boolean isLoggedIn = false;
     private ViewModel userModel;
     private TextInputLayout usernameView;
     private TextInputLayout passwordView;
@@ -60,9 +62,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         userModel.observeUser().observe(this, liveUser -> {
-            Log.d("Login", "Logged in:" + liveUser.getUsername());
-            Intent intent = new Intent(MainActivity.this, ChatsActivity.class);
-            startActivity(intent);
+            Log.d("Login", "Logged in: " + liveUser.getUsername());
+            isLoggedIn = true; // Set the login status to true
+            if (isCurrentActivity(MainActivity.this)) {
+                navigateToChatsActivity();
+            }
         });
     }
 
@@ -75,4 +79,31 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
+    private void navigateToChatsActivity() {
+        Intent intent = new Intent(MainActivity.this, ChatsActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish(); // Optional: finish the current activity to prevent going back to it
+    }
+
+    private boolean isCurrentActivity(Activity activity) {
+        return activity.getClass().equals(MainActivity.class);
+    }
+
+    private void navigateToSettingsActivity() {
+        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Check if the user is logged in and navigate accordingly
+        if (isLoggedIn) {
+            navigateToChatsActivity();
+        }
+    }
+
+
 }

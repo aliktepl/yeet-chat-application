@@ -12,5 +12,28 @@
         <item name="cornerSize">50%</item>
     </style>
 
+    <style name="SCREEN">
+        <item name="android:background">@drawable/background</item>
+    </style>
+
+    <style name="TEXT">
+        <item name="android:textColor">@color/textColor</item>
+    </style>
+
+    <style name="USER_BACKGROUND">
+        <item name="android:background">#E8FFFFFF</item>
+    </style>
+
+    <style name="CONTACT_BACKGROUND">
+        <item name="android:background">#AEFFFFFF</item>
+    </style>
+
+    <style name="MORE_BTN">
+        <item name="android:src">@drawable/ic_more_black</item>
+    </style>
+
+    <style name="ARROW_BTN">
+        <item name="android:src">@drawable/ic_arrow_back_black</item>
+    </style>
 
 </resources>

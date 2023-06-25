@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundColor"
+    style="@style/SCREEN"
     android:padding="16dp">
 
     <TextView
@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:text="@string/settings"
         android:textSize="24sp"
+        style="@style/TEXT"
         android:textStyle="bold" />
 
     <Switch
@@ -20,6 +21,7 @@
         android:layout_height="48dp"
         android:layout_below="@id/titleTextView"
         android:layout_marginTop="16dp"
+        style="@style/TEXT"
         android:text="@string/night_mode"
         android:textSize="18sp"
         tools:ignore="UseSwitchCompatOrMaterialXml" />

@@ -5,9 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="8dp"
-    android:layout_margin="0.5dp"
     android:clickable="true"
-    android:background="#EDE9E9"
+    style="@style/CONTACT_BACKGROUND"
     android:foreground="?android:attr/selectableItemBackground">
 
     <com.google.android.material.imageview.ShapeableImageView
@@ -26,6 +25,7 @@
         android:layout_height="wrap_content"
         android:text="Contact Name"
         android:textSize="18sp"
+        style="@style/TEXT"
         android:textStyle="bold"
         android:layout_toEndOf="@id/ivPic"
         android:layout_marginStart="16dp"
