@@ -38,14 +38,6 @@ public class MainActivity extends AppCompatActivity {
 
         checkPermissions();
 
-        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
-            if (!task.isSuccessful()) {
-                System.out.println("Fetching FCM registration token failed");
-                return;
-            }
-            String token = task.getResult();
-            Toast.makeText(MainActivity.this, "the token is: " + token, Toast.LENGTH_SHORT).show();
-        });
         TextView signUpLink = findViewById(R.id.loginLink);
         signUpLink.setOnClickListener(v -> {
             Intent i = new Intent(this, SignUpActivity.class);

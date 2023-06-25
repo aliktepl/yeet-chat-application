@@ -15,6 +15,8 @@ import com.example.ap2_ex3.adapters.ChatsListAdapter;
 import com.example.ap2_ex3.entities.Chat;
 import com.example.ap2_ex3.viewmodel.ViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.messaging.FirebaseMessaging;
+
 import java.util.Date;
 
 public class ChatsActivity extends AppCompatActivity {
@@ -29,6 +31,15 @@ public class ChatsActivity extends AppCompatActivity {
         btnAdd.setOnClickListener(v -> {
             Intent intent = new Intent(ChatsActivity.this, AddChatActivity.class);
             startActivityForResult(intent, ADD_CONTACT_REQUEST);
+        });
+
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                System.out.println("Fetching FCM registration token failed");
+                return;
+            }
+            String token = task.getResult();
+            //Toast.makeText(MainActivity.this, "the token is: " + token, Toast.LENGTH_SHORT).show();
         });
 
         RecyclerView lstChats = findViewById(R.id.lstChats);
