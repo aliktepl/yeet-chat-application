@@ -1,6 +1,8 @@
 package com.example.ap2_ex3.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,7 +24,7 @@ import java.util.List;
 
 public class ChatsActivity extends AppCompatActivity {
     private ChatModel chatModel;
-    private UserModel userModel;
+    private String token;
 
     private MessageModel messageModel;
 
@@ -42,13 +44,10 @@ public class ChatsActivity extends AppCompatActivity {
         lstChats.setAdapter(adapter);
         lstChats.setLayoutManager(new LinearLayoutManager(this));
 
-        userModel = new ViewModelProvider(this).get(UserModel.class);
-        userModel.getUser().observe(this, user -> {
-            if(user != null){
-                chatModel = new ViewModelProvider(this).get(ChatModel.class);
-                chatModel.getChats(user);
-                chatModel.observeChats().observe(this, chats -> adapter.setChats(chats));
-            }
-        });
-        }
+        chatModel = new ViewModelProvider(this).get(ChatModel.class);
+        SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        token = sharedPref.getString("token", "null");
+        chatModel.setToken(token);
+        chatModel.getChats();
+        chatModel.observeChats().observe(this, chats -> adapter.setChats(chats));}
 }
