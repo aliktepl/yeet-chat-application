@@ -39,12 +39,8 @@ public class SignUpActivity extends AppCompatActivity {
     private TextInputLayout displayNameTextInputLayout;
     private Button pictureBtn;
     private Button signupBtn;
-
     private Uri imageUri;
-
     private String base64Img;
-
-
     private UserModel userModel;
 
     @Override

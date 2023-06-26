@@ -2,8 +2,10 @@ package com.example.ap2_ex3.activities;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,6 +26,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
+    private boolean isLoggedIn = false;
     private UserModel userModel;
     private TextInputLayout usernameView;
     private TextInputLayout passwordView;
@@ -35,6 +38,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
         userModel = new ViewModelProvider(this).get(UserModel.class);
+
+        SharedPreferences sharedPref = getApplication().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        boolean nightMode = sharedPref.getBoolean("night", false);
+        if (!nightMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        setContentView(R.layout.activity_login_screen);
 
         TextView signUpLink = findViewById(R.id.loginLink);
         signUpLink.setOnClickListener(v -> {
@@ -79,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
             });
 
         });
-
     }
 
 
@@ -92,6 +103,31 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
+    private void navigateToChatsActivity() {
+        Intent intent = new Intent(MainActivity.this, ChatsActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish(); // Optional: finish the current activity to prevent going back to it
+    }
+
+    private boolean isCurrentActivity(Activity activity) {
+        return activity.getClass().equals(MainActivity.class);
+    }
+
+    private void navigateToSettingsActivity() {
+        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Check if the user is logged in and navigate accordingly
+        if (isLoggedIn) {
+            navigateToChatsActivity();
+        }
+    }
+
+
 }
-
-
