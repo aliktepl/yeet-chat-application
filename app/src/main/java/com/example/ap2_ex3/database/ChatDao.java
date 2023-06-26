@@ -1,5 +1,6 @@
 package com.example.ap2_ex3.database;
 
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.room.Dao;
@@ -15,7 +16,7 @@ import java.util.List;
 
 @Dao
 public interface ChatDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void Insert(Chat... chat);
 
     @Update
