@@ -69,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
         userModel.observeUser().observe(this, liveUser -> {
             Log.d("Login", "Logged in:" + liveUser.getUsername());
             Intent intent = new Intent(MainActivity.this, ChatsActivity.class);
+            intent.putExtra("username", liveUser.getUsername());
+            intent.putExtra("picture", liveUser.getProfPic());
             startActivity(intent);
         });
     }

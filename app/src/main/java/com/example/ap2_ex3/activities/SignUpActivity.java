@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.ap2_ex3.R;
+import com.example.ap2_ex3.services.MyFirebaseMessagingService;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Objects;
@@ -23,6 +24,7 @@ import android.util.Log;
 
 import com.example.ap2_ex3.api.CreateUserRequest;
 import com.example.ap2_ex3.viewmodel.ViewModel;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.ByteArrayOutputStream;
 
@@ -66,6 +68,16 @@ public class SignUpActivity extends AppCompatActivity {
             } else {
                 MainActivity.showAlert("Sign up failed", this);
             }
+        });
+
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                System.out.println("Fetching FCM registration token failed");
+                return;
+            }
+            String token = task.getResult();
+            //Toast.makeText(MainActivity.this, "the token is: " + token, Toast.LENGTH_SHORT).show();
+            //TODO: Send Token to server
         });
 
         usernameTextInputLayout = findViewById(R.id.usernameTextInputLayout);

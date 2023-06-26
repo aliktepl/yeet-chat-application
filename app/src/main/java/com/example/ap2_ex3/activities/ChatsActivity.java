@@ -35,15 +35,6 @@ public class ChatsActivity extends AppCompatActivity {
         });
 
         MyFirebaseMessagingService firebaseMessagingService = new MyFirebaseMessagingService(chatsViewModel);
-        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
-            if (!task.isSuccessful()) {
-                System.out.println("Fetching FCM registration token failed");
-                return;
-            }
-            String token = task.getResult();
-            //Toast.makeText(MainActivity.this, "the token is: " + token, Toast.LENGTH_SHORT).show();
-            //TODO: Send Token to server
-        });
 
         RecyclerView lstChats = findViewById(R.id.lstChats);
         final ChatsListAdapter adapter = new ChatsListAdapter(this);
