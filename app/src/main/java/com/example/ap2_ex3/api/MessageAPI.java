@@ -53,8 +53,8 @@ public class MessageAPI {
         });
     }
 
-    public void createMessage(Integer chatId, MessageRequest messageRequest, String token, MutableLiveData<Integer> status){
-        Call<MessageRequest> createMsgCall = wsAPI.createMessage(chatId, messageRequest, token);
+    public void createMessage(Integer chatId, String msgContent, String token, MutableLiveData<Integer> status){
+        Call<MessageRequest> createMsgCall = wsAPI.createMessage(chatId, msgContent, token);
         createMsgCall.enqueue(new Callback<MessageRequest>() {
             @Override
             public void onResponse(@NonNull Call<MessageRequest> call,@NonNull Response<MessageRequest> response) {

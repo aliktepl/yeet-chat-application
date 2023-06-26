@@ -46,5 +46,5 @@ public interface WebServiceAPI {
 
     @POST("Chats/{id}/Messages")
     Call<MessageRequest> createMessage(@Path("id") Integer msgId
-            , @Body MessageRequest messageRequest, @Header("Authorization") String token);
+            , @Body String msgContent, @Header("Authorization") String token);
 }
