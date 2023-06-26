@@ -2,12 +2,15 @@ package com.example.ap2_ex3.activities;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +21,7 @@ import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.api_requests.LoginRequest;
 import com.example.ap2_ex3.view_models.UserModel;
 import com.google.android.material.textfield.TextInputLayout;
+
 
 import java.util.Objects;
 
@@ -43,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
         setContentView(R.layout.activity_login_screen);
+
+        checkPermissions();
 
         TextView signUpLink = findViewById(R.id.loginLink);
         signUpLink.setOnClickListener(v -> {
@@ -79,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             });
 
             userModel.observeStatus().observe(this, status -> {
-                if(status == 1) {
+                if (status == 1) {
                     Log.d("Login", "User inserted to db and login was successful");
                     isLoggedIn = true; // Set the login status to true
                     if (isCurrentActivity(MainActivity.this)) {
@@ -89,8 +95,8 @@ public class MainActivity extends AppCompatActivity {
 //                    startActivity(intent);
                 }
             });
-
         });
+
     }
 
 
@@ -102,6 +108,12 @@ public class MainActivity extends AppCompatActivity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    private void checkPermissions() {
+        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
+        }
     }
 
     private void navigateToChatsActivity() {
@@ -128,5 +140,4 @@ public class MainActivity extends AppCompatActivity {
             navigateToChatsActivity();
         }
     }
-
 }
