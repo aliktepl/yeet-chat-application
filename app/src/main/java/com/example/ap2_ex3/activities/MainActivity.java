@@ -15,15 +15,19 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.ap2_ex3.R;
-import com.example.ap2_ex3.api.LoginRequest;
-import com.example.ap2_ex3.viewmodel.ViewModel;
+import com.example.ap2_ex3.api_requests.LoginRequest;
+import com.example.ap2_ex3.view_models.ChatModel;
+import com.example.ap2_ex3.view_models.UserModel;
+import com.example.ap2_ex3.entities.User;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Objects;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
     private boolean isLoggedIn = false;
-    private ViewModel userModel;
+    private UserModel userModel;
     private TextInputLayout usernameView;
     private TextInputLayout passwordView;
     private LoginRequest loginRequest;
@@ -32,7 +36,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        this.userModel = new ViewModelProvider(this).get(ViewModel.class);
+        setContentView(R.layout.activity_login_screen);
+        userModel = new ViewModelProvider(this).get(UserModel.class);
 
         SharedPreferences sharedPref = getApplication().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         boolean nightMode = sharedPref.getBoolean("night", false);
@@ -57,31 +62,37 @@ public class MainActivity extends AppCompatActivity {
                     Objects.requireNonNull(passwordView.getEditText()).getText().toString());
             userModel.getToken(loginRequest);
 
-        });
-        userModel.observeStatus().observe(this, status -> {
-            if (status == 404) {
-                MainActivity.showAlert("Invalid username or password", this);
-            }
-        });
-        userModel.observeToken().observe(this, liveToken -> {
-            if (liveToken != null) {
-                userModel.getUser(loginRequest.getUsername(), liveToken);
-            } else {
-                // invalid login
-                Log.d("Login", "Request failed");
-            }
-        });
-        userModel.observeUser().observe(this, liveUser -> {
-            Log.d("Login", "Logged in: " + liveUser.getUsername());
-            isLoggedIn = true; // Set the login status to true
-            if (isCurrentActivity(MainActivity.this)) {
-                navigateToChatsActivity();
-            }
+            userModel.observeToken().observe(this, liveToken -> {
+                if (liveToken != null) {
+                    userModel.getCurrUser(loginRequest.getUsername(), liveToken);
+                    SharedPreferences sharedPref = getApplication().getSharedPreferences
+                            (getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("token", liveToken);
+                    editor.apply();
+                } else {
+                    // invalid login
+                    Log.d("Login", "Request failed");
+                }
+            });
+
+            userModel.observeStatus().observe(this, status -> {
+                if (status == 404) {
+                    MainActivity.showAlert("Invalid username or password", this);
+                }
+            });
+
+            userModel.observeStatus().observe(this, status -> {
+                if(status == 1) {
+                    Log.d("Login", "User inserted to db and login was successful");
+                    Intent intent = new Intent(this, ChatsActivity.class);
+                    startActivity(intent);
+                }
+            });
+
         });
     }
 
-    private void setTheme() {
-    }
 
     public static void showAlert(String msg, Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);

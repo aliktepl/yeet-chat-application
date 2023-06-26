@@ -1,6 +1,8 @@
 package com.example.ap2_ex3.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuInflater;
 import android.view.View;
@@ -8,24 +10,33 @@ import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.adapters.ChatsListAdapter;
+import com.example.ap2_ex3.entities.User;
+import com.example.ap2_ex3.view_models.ChatModel;
 import com.example.ap2_ex3.entities.Chat;
-import com.example.ap2_ex3.viewmodel.ViewModel;
+import com.example.ap2_ex3.view_models.MessageModel;
+import com.example.ap2_ex3.view_models.UserModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import java.util.Date;
+
+import java.util.List;
 
 public class ChatsActivity extends AppCompatActivity {
     private static final int MENU_SETTINGS = R.id.menu_settings;
     private static final int LOGOUT = R.id.menu_logout;
     private ViewModel chatsViewModel;
     public static final int ADD_CONTACT_REQUEST = 1;
+    private ChatModel chatModel;
+    private String token;
+
+    private MessageModel messageModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,16 +45,20 @@ public class ChatsActivity extends AppCompatActivity {
         FloatingActionButton btnAdd = findViewById(R.id.btnAdd);
         btnAdd.setOnClickListener(v -> {
             Intent intent = new Intent(ChatsActivity.this, AddChatActivity.class);
-            startActivityForResult(intent, ADD_CONTACT_REQUEST);
+            startActivity(intent);
         });
 
         RecyclerView lstChats = findViewById(R.id.lstChats);
         final ChatsListAdapter adapter = new ChatsListAdapter(this);
         lstChats.setAdapter(adapter);
         lstChats.setLayoutManager(new LinearLayoutManager(this));
-
-        chatsViewModel = new ViewModelProvider(this).get(ViewModel.class);
-        chatsViewModel.getChats().observe(this, adapter::setChats);
+      
+        chatModel = new ViewModelProvider(this).get(ChatModel.class);
+        SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        token = sharedPref.getString("token", "null");
+        chatModel.setToken(token);
+        chatModel.getChats();
+        chatModel.observeChats().observe(this, chats -> adapter.setChats(chats));}
 
         ImageButton settingsButton = findViewById(R.id.moreBtn);
         settingsButton.setOnClickListener(this::showPopupMenu);
@@ -76,17 +91,4 @@ public class ChatsActivity extends AppCompatActivity {
         finish();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ADD_CONTACT_REQUEST && resultCode == RESULT_OK) {
-            assert data != null;
-            String name = data.getStringExtra(AddChatActivity.EXTRA_CONTACT);
-
-            Chat chat = new Chat(R.drawable.bowser, name, name, "test", new Date());
-            chatsViewModel.Insert(chat);
-        } else {
-            Toast.makeText(this, "Contact not added", Toast.LENGTH_SHORT).show();
-        }
-    }
 }
