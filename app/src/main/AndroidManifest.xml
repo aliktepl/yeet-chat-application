@@ -35,6 +35,9 @@
             android:name=".activities.ChatActivity"
             android:exported="false" />
         <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.AddChatActivity"
             android:exported="false"
             android:parentActivityName=".activities.ChatsActivity" />

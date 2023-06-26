@@ -1,4 +1,4 @@
-package com.example.ap2_ex3.api;
+package com.example.ap2_ex3.api_requests;
 
 public class CreateUserRequest {
     private String username;

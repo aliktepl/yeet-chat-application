@@ -47,14 +47,14 @@ public class SignUpActivity extends AppCompatActivity {
     private String base64Img;
 
 
-    private ViewModel userModel;
+    private UserModel userModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_screen);
 
-        this.userModel = new ViewModelProvider(this).get(ViewModel.class);
+        this.userModel = new ViewModelProvider(this).get(UserModel.class);
         Log.d("UserList", "onCreate called"); // Add this line to check if onCreate is called
 
         userModel.observeStatus().observe(this, status -> {
