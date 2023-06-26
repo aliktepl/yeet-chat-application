@@ -2,11 +2,13 @@ package com.example.ap2_ex3.activities;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -30,8 +32,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_screen);
         this.userModel = new ViewModelProvider(this).get(ViewModel.class);
+
+        SharedPreferences sharedPref = getApplication().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        boolean nightMode = sharedPref.getBoolean("night", false);
+        if (!nightMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        setContentView(R.layout.activity_login_screen);
 
         TextView signUpLink = findViewById(R.id.loginLink);
         signUpLink.setOnClickListener(v -> {
@@ -68,6 +78,9 @@ public class MainActivity extends AppCompatActivity {
                 navigateToChatsActivity();
             }
         });
+    }
+
+    private void setTheme() {
     }
 
     public static void showAlert(String msg, Context context) {

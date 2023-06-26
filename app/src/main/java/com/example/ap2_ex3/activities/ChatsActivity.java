@@ -73,8 +73,7 @@ public class ChatsActivity extends AppCompatActivity {
     }
 
     private void logout() {
-        Intent intent = new Intent(ChatsActivity.this, MainActivity.class);
-        startActivity(intent);
+        finish();
     }
 
     @Override

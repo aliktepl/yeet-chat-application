@@ -17,7 +17,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     Switch switcher;
     boolean nightMode;
-    SharedPreferences s;
+    SharedPreferences sharedPreference;
     SharedPreferences.Editor editor;
 
     @Override
@@ -25,34 +25,34 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-
         switcher = findViewById(R.id.modeSwitch);
 
-        s = getSharedPreferences("MODE", Context.MODE_PRIVATE);
-        nightMode = s.getBoolean("night", false);
+        sharedPreference = getApplication().getSharedPreferences
+                (getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+
+        nightMode = sharedPreference.getBoolean("night", false);
 
         if (nightMode) {
             switcher.setChecked(true);
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-
         }
-
 
         switcher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (nightMode) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    editor = s.edit();
+                    editor = sharedPreference.edit();
                     editor.putBoolean("night", false);
                 } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    editor = s.edit();
+                    editor = sharedPreference.edit();
                     editor.putBoolean("night", true);
                 }
                 editor.apply();
+                nightMode = !nightMode;
             }
         });
-
     }
 }
+
