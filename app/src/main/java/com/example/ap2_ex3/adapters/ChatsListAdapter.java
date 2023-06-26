@@ -36,6 +36,13 @@ public class ChatsListAdapter extends RecyclerView.Adapter<ChatsListAdapter.Chat
             ivPic = itemView.findViewById(R.id.ivPic);
 
             itemView.setOnLongClickListener(this);
+
+            itemView.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (listener != null && position != RecyclerView.NO_POSITION) {
+                    listener.onItemClick(chats.get(position));
+                }
+            });
         }
 
         @Override
@@ -49,10 +56,10 @@ public class ChatsListAdapter extends RecyclerView.Adapter<ChatsListAdapter.Chat
             return false;
         }
     }
-
     private final LayoutInflater mInflater;
     private List<Chat> chats;
     private Context mContext;
+    private OnItemClickListener listener;
 
     public ChatsListAdapter(Context context) {
         mContext = context;
@@ -77,6 +84,7 @@ public class ChatsListAdapter extends RecyclerView.Adapter<ChatsListAdapter.Chat
         }
     }
 
+
     public void setChats(List<Chat> chats) {
         this.chats = chats;
         notifyDataSetChanged();
@@ -87,7 +95,8 @@ public class ChatsListAdapter extends RecyclerView.Adapter<ChatsListAdapter.Chat
     public int getItemCount() {
         if (chats != null) {
             return chats.size();
-        } else return 0;
+        }
+        else return 0;
     }
 
     public void setBitmapFromBase64(String base64String, ChatViewHolder holder) {
@@ -116,6 +125,14 @@ public class ChatsListAdapter extends RecyclerView.Adapter<ChatsListAdapter.Chat
         builder.setNegativeButton("Cancel", null);
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Chat chat);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
 }
