@@ -16,14 +16,10 @@ import android.widget.TextView;
 
 import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.api_requests.LoginRequest;
-import com.example.ap2_ex3.view_models.ChatModel;
 import com.example.ap2_ex3.view_models.UserModel;
-import com.example.ap2_ex3.entities.User;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Objects;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
     private boolean isLoggedIn = false;
@@ -39,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login_screen);
         userModel = new ViewModelProvider(this).get(UserModel.class);
 
-        SharedPreferences sharedPref = getApplication().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        boolean nightMode = sharedPref.getBoolean("night", false);
+        SharedPreferences sharedMode = getApplication().getSharedPreferences(getString(R.string.settings_file_key), Context.MODE_PRIVATE);
+        boolean nightMode = sharedMode.getBoolean("night", false);
         if (!nightMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         } else {
@@ -65,9 +61,9 @@ public class MainActivity extends AppCompatActivity {
             userModel.observeToken().observe(this, liveToken -> {
                 if (liveToken != null) {
                     userModel.getCurrUser(loginRequest.getUsername(), liveToken);
-                    SharedPreferences sharedPref = getApplication().getSharedPreferences
-                            (getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPref.edit();
+                    SharedPreferences sharedToken = getApplication().getSharedPreferences
+                            (getString(R.string.utilities_file_key), Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedToken.edit();
                     editor.putString("token", liveToken);
                     editor.apply();
                 } else {
@@ -85,8 +81,12 @@ public class MainActivity extends AppCompatActivity {
             userModel.observeStatus().observe(this, status -> {
                 if(status == 1) {
                     Log.d("Login", "User inserted to db and login was successful");
-                    Intent intent = new Intent(this, ChatsActivity.class);
-                    startActivity(intent);
+                    isLoggedIn = true; // Set the login status to true
+                    if (isCurrentActivity(MainActivity.this)) {
+                        navigateToChatsActivity();
+                    }
+//                    Intent intent = new Intent(this, ChatsActivity.class);
+//                    startActivity(intent);
                 }
             });
 
@@ -128,6 +128,5 @@ public class MainActivity extends AppCompatActivity {
             navigateToChatsActivity();
         }
     }
-
 
 }

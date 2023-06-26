@@ -8,29 +8,21 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.adapters.ChatsListAdapter;
-import com.example.ap2_ex3.entities.User;
 import com.example.ap2_ex3.view_models.ChatModel;
-import com.example.ap2_ex3.entities.Chat;
 import com.example.ap2_ex3.view_models.MessageModel;
-import com.example.ap2_ex3.view_models.UserModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.List;
 
 public class ChatsActivity extends AppCompatActivity {
     private static final int MENU_SETTINGS = R.id.menu_settings;
     private static final int LOGOUT = R.id.menu_logout;
-    private ViewModel chatsViewModel;
     public static final int ADD_CONTACT_REQUEST = 1;
     private ChatModel chatModel;
     private String token;
@@ -52,17 +44,18 @@ public class ChatsActivity extends AppCompatActivity {
         final ChatsListAdapter adapter = new ChatsListAdapter(this);
         lstChats.setAdapter(adapter);
         lstChats.setLayoutManager(new LinearLayoutManager(this));
-      
+
         chatModel = new ViewModelProvider(this).get(ChatModel.class);
-        SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.utilities_file_key), Context.MODE_PRIVATE);
         token = sharedPref.getString("token", "null");
         chatModel.setToken(token);
         chatModel.getChats();
-        chatModel.observeChats().observe(this, chats -> adapter.setChats(chats));}
+        chatModel.observeChats().observe(this, chats -> {
+            adapter.setChats(chats);
+        });
 
         ImageButton settingsButton = findViewById(R.id.moreBtn);
         settingsButton.setOnClickListener(this::showPopupMenu);
-
     }
 
     private void showPopupMenu(View view) {

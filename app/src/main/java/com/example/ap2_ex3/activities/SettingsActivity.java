@@ -4,9 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.Switch;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -28,7 +26,7 @@ public class SettingsActivity extends AppCompatActivity {
         switcher = findViewById(R.id.modeSwitch);
 
         sharedPreference = getApplication().getSharedPreferences
-                (getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+                (getString(R.string.settings_file_key), Context.MODE_PRIVATE);
 
         nightMode = sharedPreference.getBoolean("night", false);
 

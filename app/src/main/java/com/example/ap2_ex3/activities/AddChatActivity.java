@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.view_models.ChatModel;
-import com.example.ap2_ex3.view_models.UserModel;
 
 public class AddChatActivity extends AppCompatActivity {
     public static final String EXTRA_CONTACT = "" +
@@ -26,7 +25,7 @@ public class AddChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_chat);
         // set token via shared preference
         chatModel = new ViewModelProvider(this).get(ChatModel.class);
-        SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.utilities_file_key), Context.MODE_PRIVATE);
         chatModel.setToken(sharedPref.getString("token", "null"));
         // listen to add contact button
         etAddContact = findViewById(R.id.usernameEditText);
