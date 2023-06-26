@@ -2,9 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/SCREEN"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/backgroundDrawable"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:context=".activities.SignUpActivity">
@@ -21,21 +21,21 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_horizontal"
             android:background="@color/backgroundColor"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
             android:padding="18dp">
 
             <TextView
                 android:id="@+id/signupHead"
+                style="@style/TEXT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="30dp"
-                android:textStyle="bold"
                 android:paddingTop="25dp"
+                android:paddingBottom="30dp"
                 android:text="@string/sign_up_headline"
-                android:textColor="@color/textColor"
-                android:textSize="35sp" />
+                android:textSize="35sp"
+                android:textStyle="bold" />
 
             <View
                 android:layout_width="match_parent"
@@ -51,12 +51,12 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/usernameEditText"
+                    style="@style/TEXT"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
+                    android:autofillHints="username"
                     android:drawableStart="@drawable/ic_user"
                     android:drawablePadding="8dp"
-                    android:textColor="@color/textColor"
-                    android:autofillHints="username"
                     android:inputType="textPersonName"
                     tools:ignore="RtlSymmetry" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -70,12 +70,12 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/passwordEditText"
+                    style="@style/TEXT"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
+                    android:autofillHints="password"
                     android:drawableStart="@drawable/ic_password"
                     android:drawablePadding="8dp"
-                    android:textColor="@color/textColor"
-                    android:autofillHints="password"
                     android:inputType="textPassword"
                     tools:ignore="RtlSymmetry" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -89,12 +89,12 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/confirmPasswordEditText"
+                    style="@style/TEXT"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:paddingStart="16dp"
-                    android:textColor="@color/textColor"
                     android:autofillHints="confirm-password"
                     android:inputType="textPassword"
+                    android:paddingStart="16dp"
                     tools:ignore="RtlSymmetry" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -107,31 +107,31 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/displayNameEditText"
+                    style="@style/TEXT"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:paddingStart="16dp"
-                    android:textColor="@color/textColor"
                     android:autofillHints="display-name"
                     android:inputType="textPersonName"
+                    android:paddingStart="16dp"
                     tools:ignore="RtlSymmetry" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/pictureBtn"
+                style="@style/btnStyle"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="6dp"
                 android:text="@string/choose_picture"
-                android:textSize="18sp"
-                style="@style/btnStyle"/>
+                android:textSize="18sp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/signupBtn"
+                style="@style/btnStyle"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:text="@string/sign_up_btn"
-                android:textSize="18sp"
-                style="@style/btnStyle"/>
+                android:textSize="18sp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -139,26 +139,26 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    style="@style/TEXT"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="5dp"
                     android:padding="8dp"
                     android:text="@string/has_account"
                     android:textAlignment="center"
-                    android:textColor="@color/textColor"
                     android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/signupLink"
+                    style="@style/TEXT"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="5dp"
                     android:padding="8dp"
                     android:text="@string/login_here"
-                    android:textStyle="bold"
                     android:textAlignment="center"
-                    android:textColor="@color/textColor"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 

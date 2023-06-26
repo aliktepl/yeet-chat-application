@@ -2,13 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/backgroundDrawable">
+    style="@style/SCREEN">
 
     <RelativeLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/backgroundColor"
+        style="@style/USER_BACKGROUND"
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
         android:paddingStart="3dp"
@@ -24,7 +24,7 @@
             android:background="?attr/selectableItemBackground"
             android:contentDescription="@string/back_button"
             android:padding="11dp"
-            android:src="@drawable/ic_arrow_back" />
+            style="@style/ARROW_BTN" />
 
         <LinearLayout
             android:id="@+id/contactInfo"
@@ -49,7 +49,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:textColor="@color/textColor"
+                android:text="Contact Name"
+                style="@style/TEXT"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -77,6 +78,7 @@
         android:layout_below="@id/header"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        style="@style/CONTACT_BACKGROUND"
         android:id="@+id/refreshLayout">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -91,7 +93,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/backgroundColor"
+        style="@style/USER_BACKGROUND"
         android:padding="18dp">
 
         <EditText
@@ -107,7 +109,7 @@
             android:hint="@string/message"
             android:inputType="textPersonName"
             android:padding="12dp"
-            android:textColor="@color/textColor"
+            style="@style/TEXT"
             android:textSize="16sp" />
 
         <Button

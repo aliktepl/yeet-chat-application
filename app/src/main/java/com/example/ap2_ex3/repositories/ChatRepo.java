@@ -38,6 +38,8 @@ public class ChatRepo {
     private LiveData<List<Chat>> allChats;
     private MutableLiveData<Integer> status;
 
+    private String token;
+
 
     public ChatRepo(Application application) {
         // database init
@@ -52,13 +54,17 @@ public class ChatRepo {
         status = new MutableLiveData<>();
     }
 
-    // Chat API operations
-    public void getChatsRequest(User myUser){
-        chatAPI.getChats(myUser);
+    public void setToken(String token) {
+        this.token = token;
     }
 
-    public void createChatRequest(String username, User myUser){
-        chatAPI.createChat(myUser.getToken(), status, username);
+    // Chat API operations
+    public void getChatsRequest(){
+        chatAPI.getChats(token);
+    }
+
+    public void createChatRequest(String username){
+        chatAPI.createChat(token, status, username);
     }
 
     // Chat dao operations

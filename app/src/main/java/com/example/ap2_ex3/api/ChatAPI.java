@@ -53,8 +53,8 @@ public class ChatAPI {
     }
 
     // Update your API method
-    public void getChats(User myUser) {
-        String token = myUser.getToken();
+    public void getChats(String token) {
+//        String token = myUser.getToken();
         Call<List<GetChatsRequest>> call = wsAPI.getChats("Bearer " + token);
         call.enqueue(new Callback<List<GetChatsRequest>>() {
             @Override

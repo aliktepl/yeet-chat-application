@@ -4,4 +4,29 @@
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
     </style>
+
+    <style name="SCREEN">
+        <item name="android:background">@drawable/backgroundnight</item>
+    </style>
+
+    <style name="TEXT">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="USER_BACKGROUND">
+        <item name="android:background">#2A000000</item>
+    </style>
+
+    <style name="CONTACT_BACKGROUND">
+        <item name="android:background">#6D000000</item>
+    </style>
+
+    <style name="MORE_BTN">
+        <item name="android:src">@drawable/ic_more_white</item>
+    </style>
+
+    <style name="ARROW_BTN">
+        <item name="android:src">@drawable/ic_arrow_back_white</item>
+    </style>
+
 </resources>

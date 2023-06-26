@@ -3,12 +3,15 @@ package com.example.ap2_ex3.activities;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -18,15 +21,13 @@ import android.widget.Toast;
 import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.api_requests.LoginRequest;
 import com.example.ap2_ex3.view_models.UserModel;
-import com.example.ap2_ex3.entities.User;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Objects;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
+    private boolean isLoggedIn = false;
     private UserModel userModel;
     private TextInputLayout usernameView;
     private TextInputLayout passwordView;
@@ -37,7 +38,16 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
-        this.userModel = new ViewModelProvider(this).get(UserModel.class);
+        userModel = new ViewModelProvider(this).get(UserModel.class);
+
+        SharedPreferences sharedMode = getApplication().getSharedPreferences(getString(R.string.settings_file_key), Context.MODE_PRIVATE);
+        boolean nightMode = sharedMode.getBoolean("night", false);
+        if (!nightMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        setContentView(R.layout.activity_login_screen);
 
         checkPermissions();
 
@@ -58,6 +68,11 @@ public class MainActivity extends AppCompatActivity {
             userModel.observeToken().observe(this, liveToken -> {
                 if (liveToken != null) {
                     userModel.getCurrUser(loginRequest.getUsername(), liveToken);
+                    SharedPreferences sharedToken = getApplication().getSharedPreferences
+                            (getString(R.string.utilities_file_key), Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedToken.edit();
+                    editor.putString("token", liveToken);
+                    editor.apply();
                 } else {
                     // invalid login
                     Log.d("Login", "Request failed");
@@ -73,8 +88,12 @@ public class MainActivity extends AppCompatActivity {
             userModel.observeStatus().observe(this, status -> {
                 if(status == 1) {
                     Log.d("Login", "User inserted to db and login was successful");
-                    Intent intent = new Intent(MainActivity.this, ChatsActivity.class);
-                    startActivity(intent);
+                    isLoggedIn = true; // Set the login status to true
+                    if (isCurrentActivity(MainActivity.this)) {
+                        navigateToChatsActivity();
+                    }
+//                    Intent intent = new Intent(this, ChatsActivity.class);
+//                    startActivity(intent);
                 }
             });
         });
@@ -99,4 +118,28 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 
+    private void navigateToChatsActivity() {
+        Intent intent = new Intent(MainActivity.this, ChatsActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish(); // Optional: finish the current activity to prevent going back to it
+    }
+
+    private boolean isCurrentActivity(Activity activity) {
+        return activity.getClass().equals(MainActivity.class);
+    }
+
+    private void navigateToSettingsActivity() {
+        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Check if the user is logged in and navigate accordingly
+        if (isLoggedIn) {
+            navigateToChatsActivity();
+        }
+    }
 

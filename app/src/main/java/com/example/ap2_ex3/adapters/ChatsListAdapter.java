@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.widget.TextView;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,7 +22,7 @@ import java.util.List;
 
 public class ChatsListAdapter extends RecyclerView.Adapter<ChatsListAdapter.ChatViewHolder> {
 
-    class ChatViewHolder extends RecyclerView.ViewHolder {
+    class ChatViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
         private final TextView tvDisplayName;
         private final TextView tvLastMsg;
         private final TextView tvLastMsgTime;
@@ -32,6 +34,19 @@ public class ChatsListAdapter extends RecyclerView.Adapter<ChatsListAdapter.Chat
             tvLastMsg = itemView.findViewById(R.id.tvLastMsg);
             tvLastMsgTime = itemView.findViewById(R.id.tvLastMsgTime);
             ivPic = itemView.findViewById(R.id.ivPic);
+
+            itemView.setOnLongClickListener(this);
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                Chat clickedChat = chats.get(position);
+                showDeleteChatPopup(clickedChat);
+                return true;
+            }
+            return false;
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -46,10 +61,12 @@ public class ChatsListAdapter extends RecyclerView.Adapter<ChatsListAdapter.Chat
 
     private final LayoutInflater mInflater;
     private List<Chat> chats;
+    private Context mContext;
     private OnItemClickListener listener;
 
     public ChatsListAdapter(Context context) {
-        mInflater = LayoutInflater.from(context);
+        mContext = context;
+        mInflater = LayoutInflater.from(mContext);
     }
 
     @NonNull
@@ -93,6 +110,24 @@ public class ChatsListAdapter extends RecyclerView.Adapter<ChatsListAdapter.Chat
 
     public List<Chat> getChats() {
         return chats;
+    }
+
+
+    // TODO - need to delete all the messages with the specific contact
+    private void showDeleteChatPopup(Chat chat) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle("Delete Chat");
+        builder.setMessage("Are you sure you want to delete this chat?");
+        builder.setPositiveButton("Delete", (dialogInterface, i) -> {
+            int position = chats.indexOf(chat);
+            if (position != -1) {
+                chats.remove(position);
+                notifyItemRemoved(position);
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     public interface OnItemClickListener {

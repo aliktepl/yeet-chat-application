@@ -5,7 +5,7 @@
     <color name="primary_dark">#37034E</color>
 
     <color name="textColor">#000000</color>
-    <color name="backgroundColor">#FFFFFFFF</color>
+    <color name="backgroundColor">#5BFFFFFF</color>
     <color name="userMessage">#D3C6F8</color>
     <color name="contactMessage">#FFFFFFFF</color>
     <drawable name="backgroundDrawable">@drawable/background</drawable>

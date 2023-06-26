@@ -20,7 +20,7 @@ public interface MessageDao {
     LiveData<List<Message>> getMessages();
 
     @Query("SELECT * FROM msg_table WHERE chatId= :chatId")
-    LiveData<List<Message>> getChatMsg(int chatId);
+    List<Message> getMsgByChat(int chatId);
 
     @Insert
     void insert(Message... messages);
