@@ -6,6 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,15 +52,13 @@ public class ChatsListAdapter extends RecyclerView.Adapter<ChatsListAdapter.Chat
 
     @Override
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
-//        if (chats != null) {
-//            final Chat currChat = chats.get(position);
-//            final User currUser = viewModel.getUser(currChat.getRecipient()).getValue();
-//            final Message lstMsg = viewModel.getMessage(currChat.getLst_msg_id()).getValue();
-//            holder.tvDisplayName.setText(currUser.getDisplayName());
-//            holder.ivPic.setImageResource(Integer.parseInt(currUser.getProfPic()));
-//            holder.tvLastMsg.setText(lstMsg.getContent());
-//            holder.tvLastMsgTime.setText(lstMsg.getCreated());
-//        }
+        if (chats != null) {
+            final Chat currChat = chats.get(position);
+            holder.tvDisplayName.setText(currChat.getRecipient());
+            setBitmapFromBase64(currChat.getRecipientProfPic(), holder);
+            holder.tvLastMsg.setText(currChat.getLstMsgContent());
+            holder.tvLastMsgTime.setText(currChat.getLstMsgTime());
+        }
     }
 
     public void setChats(List<Chat> chats) {
@@ -72,6 +73,12 @@ public class ChatsListAdapter extends RecyclerView.Adapter<ChatsListAdapter.Chat
             return chats.size();
         }
         else return 0;
+    }
+
+    public void setBitmapFromBase64(String base64String, ChatViewHolder holder) {
+        byte[] decodedBytes = Base64.decode(base64String, Base64.DEFAULT);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+        holder.ivPic.setImageBitmap(bitmap);
     }
 
     public List<Chat> getChats() {

@@ -1,13 +1,9 @@
 package com.example.ap2_ex3.entities;
 
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-@Entity(foreignKeys={
-        @ForeignKey(entity = User.class, parentColumns = "username", childColumns = "sender"),
-        @ForeignKey(entity = Chat.class, parentColumns = "id", childColumns = "chatId", onDelete = ForeignKey.CASCADE)},
-        tableName = "msg_table")
+@Entity(tableName = "msg_table")
 public class Message {
     @PrimaryKey
     private int id;
@@ -28,38 +24,39 @@ public class Message {
         return id;
     }
 
-    public String getContent() {
-        return content;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getChatId() {
         return chatId;
-    }
-    public String getCreated() {
-        return created;
-    }
-
-    public String getSender() {
-        return sender;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public void setChatId(int chatId) {
         this.chatId = chatId;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public String getCreated() {
+        return created;
     }
 
     public void setCreated(String created) {
         this.created = created;
     }
 
+    public String getSender() {
+        return sender;
+    }
+
     public void setSender(String sender) {
         this.sender = sender;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }

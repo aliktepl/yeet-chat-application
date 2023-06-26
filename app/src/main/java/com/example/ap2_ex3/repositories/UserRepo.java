@@ -1,22 +1,16 @@
 package com.example.ap2_ex3.repositories;
 
 import android.app.Application;
-import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.ap2_ex3.api.ChatAPI;
 import com.example.ap2_ex3.api_requests.CreateUserRequest;
 import com.example.ap2_ex3.api_requests.LoginRequest;
 import com.example.ap2_ex3.database.AppDB;
-import com.example.ap2_ex3.database.MessageDao;
 import com.example.ap2_ex3.database.UserDao;
-import com.example.ap2_ex3.entities.Message;
 import com.example.ap2_ex3.entities.User;
 import com.example.ap2_ex3.api.UserAPI;
-import com.example.ap2_ex3.database.ChatDao;
-import com.example.ap2_ex3.entities.Chat;
 
 import java.util.List;
 
@@ -30,8 +24,7 @@ public class UserRepo {
     private UserAPI userAPI;
 
     // Live Data fields
-    private LiveData<List<User>> users;
-    private LiveData<User> myUser;
+    private LiveData<User> user;
     private MutableLiveData<String> token;
     private MutableLiveData<Integer> status;
 
@@ -43,10 +36,9 @@ public class UserRepo {
         // api init
         userAPI = new UserAPI(userDao);
         // live data init
-        users = userDao.getAllUsers();
-        myUser = userDao.getMyUser();
-        token = new MutableLiveData<>();
+        user = userDao.getUser();
         status = new MutableLiveData<>();
+        token = new MutableLiveData<>();
     }
 
     // User API operations
@@ -59,24 +51,19 @@ public class UserRepo {
     }
 
     public void getUserRequest(String username, String token) {
-        userAPI.getUser(username, token);
+        userAPI.getUser(username, token, status);
     }
 
-    public void userDelete(User user){ userDao.delete(user); }
-
+    // Live data listeners
     public MutableLiveData<Integer> getStatus() {
         return status;
     }
 
-    public MutableLiveData<String> getToken() {
-        return token;
-    }
+    public MutableLiveData<String> getToken(){ return token; }
 
     // User dao operations
-    public LiveData<List<User>> getUsers() { return users; }
-
-    public LiveData<User> getUser(String username) { return userDao.getUser(username); }
-
-    public LiveData<User> getMyUser() { return myUser; }
+    public LiveData<User> getUser() {
+        return user;
+    }
 
 }

@@ -1,7 +1,5 @@
 package com.example.ap2_ex3.api;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
@@ -9,6 +7,7 @@ import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.activities.Username;
 import com.example.ap2_ex3.api_requests.CreateChatRequest;
 import com.example.ap2_ex3.api_requests.GetChatsRequest;
+import com.example.ap2_ex3.api_requests.MessageRequest;
 import com.example.ap2_ex3.api_requests.UserRequest;
 import com.example.ap2_ex3.database.ChatDao;
 import com.example.ap2_ex3.database.MessageDao;
@@ -17,9 +16,6 @@ import com.example.ap2_ex3.entities.Chat;
 import com.example.ap2_ex3.entities.User;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -65,22 +61,18 @@ public class ChatAPI {
             public void onResponse(@NonNull Call<List<GetChatsRequest>> call, @NonNull Response<List<GetChatsRequest>> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
+                    // iterate all chats for logged in user
                     for (GetChatsRequest chat : response.body()) {
                         Chat newChat;
-                        if (chat.getLastMessage() == null) {
-                            newChat = new Chat(chat.getId(), chat.getUser().getUsername(), -1);
+                        if (chat.getLastMessage() != null) {
+                            newChat = new Chat(chat.getId(), chat.getUser().getUsername()
+                                    , chat.getUser().getProfPic(), chat.getLastMessage().getContent(),
+                                    chat.getLastMessage().getCreated());
                         } else {
-                            newChat = new Chat(chat.getId(), chat.getUser().getUsername(), chat.getLastMessage().getId());
+                            newChat = new Chat(chat.getId(), chat.getUser().getUsername()
+                                    , chat.getUser().getProfPic(), null, null);
                         }
-                        User newUser = new User(chat.getUser().getUsername(), chat.getUser().getDisplayName(),
-                                chat.getUser().getProfPic(), null, 0);
-                        insertUserAndChat(newUser, newChat, () -> {
-                            // Callback: User is inserted, now insert the chat
-                            new Thread(() -> {
-                                List<User> users = userDao.getAllUsers().getValue();
-                                chatDao.Insert(newChat);
-                            }).start();
-                        });
+                        new Thread(() -> {chatDao.Insert(newChat);}).start();
                     }
                 }
             }
@@ -90,14 +82,6 @@ public class ChatAPI {
 
             }
         });
-    }
-
-    // Method to insert the user and invoke the callback when user insertion is completed
-    private void insertUserAndChat(User user, Chat chat, InsertUserCallback callback) {
-        new Thread(() -> {
-            userDao.insert(user);
-            callback.onUserInserted();
-        }).start();
     }
 
 
@@ -110,17 +94,11 @@ public class ChatAPI {
             @Override
             public void onResponse(@NonNull Call<CreateChatRequest> call,@NonNull Response<CreateChatRequest> response) {
                 if(response.isSuccessful()){
-                    assert response.body() != null;
-                    Chat new_chat = new Chat(response.body().getId(), response.body().getUser().getUsername(), -1);
-                    UserRequest temp_user = response.body().getUser();
-                    User new_user = new User(temp_user.getUsername(), temp_user.getDisplayName(),
-                            temp_user.getProfPic(), null, 0);
-
-                    new Thread(() -> {
-                        chatDao.Insert(new_chat);
-                        userDao.insert(new_user);
-                    }).start();
-
+                    CreateChatRequest c = response.body();
+                    assert c != null;
+                    UserRequest u = c.getUser();
+                    Chat new_chat = new Chat(c.getId(), u.getUsername(), u.getProfPic(), null, null);
+                    new Thread(() -> {chatDao.Insert(new_chat);}).start();
                 } else if(response.code() == 400) {
                     status.setValue(response.code());
                 }
@@ -128,7 +106,7 @@ public class ChatAPI {
 
             @Override
             public void onFailure(@NonNull Call<CreateChatRequest> call,@NonNull Throwable t) {
-                status.setValue(500);
+                status.setValue(2);
             }
         });
     }

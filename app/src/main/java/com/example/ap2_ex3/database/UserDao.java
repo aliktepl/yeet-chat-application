@@ -9,18 +9,13 @@ import androidx.room.Update;
 
 import com.example.ap2_ex3.entities.User;
 
-import java.util.List;
-
 @Dao
 public interface UserDao {
-    @Query("SELECT * FROM user_table")
-    LiveData<List<User>> getAllUsers();
+    @Query("SELECT * FROM user_table LIMIT 1")
+    LiveData<User> getUser();
 
-    @Query("SELECT * FROM user_table WHERE username = :username")
-    LiveData<User> getUser(String username);
-
-    @Query("SELECT * FROM user_table WHERE myUser = 1")
-    LiveData<User> getMyUser();
+    @Query("DELETE FROM user_table")
+    void deleteAllUsers();
 
     @Insert
     void insert(User... users);
@@ -30,4 +25,5 @@ public interface UserDao {
 
     @Delete
     void delete(User... users);
+
 }

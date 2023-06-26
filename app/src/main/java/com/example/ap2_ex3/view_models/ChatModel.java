@@ -26,10 +26,14 @@ public class ChatModel extends AndroidViewModel {
         chats = mRepository.getAllChats();
     }
 
+    // Live Data listeners
     public LiveData<Integer> observeStatus() {
         return status;
     }
 
+    public LiveData<List<Chat>> observeChats() {
+        return chats;
+    }
 
     // Chat API operations
     public void getChats(User myUser){
@@ -40,21 +44,17 @@ public class ChatModel extends AndroidViewModel {
         mRepository.createChatRequest(username, myUser);
     }
 
-    public LiveData<List<Chat>> observeChats() {
-        return chats;
-    }
-
 
     // Chat Dao operations
     public void ChatInsert(Chat chat) {
         mRepository.insert(chat);
     }
 
-//    public void ChatDelete(Chat chat) {
-//        mRepository.delete(chat);
-//    }
-//
-//    public void ChatUpdate(Chat chat) {
-//        mRepository.update(chat);
-//    }
+    public void ChatDelete(Chat chat) {
+        mRepository.delete(chat);
+    }
+
+    public void ChatUpdate(Chat chat) {
+        mRepository.update(chat);
+    }
 }
