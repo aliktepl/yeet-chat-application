@@ -1,10 +1,7 @@
-# Yeet! - A web chat application
+# Yeet! - Android Chat Application
   
 ## Description
-Welcome to the Yeet! project! This Git repository contains the source code for a web chat application built using HTML, CSS, Bootstrap, JavaScript, and React     running on Node.js. The web chat application provides a seamless and interactive chatting experience.  
-Users can log in, add contacts, and engage in real-time conversations. The application utilizes modern web technologies to create a responsive and user-friendly interface.
-
-[![My Skills](https://skills.thijs.gg/icons?i=js,html,css,react,nodejs,mongodb)](https://skills.thijs.gg)
+Welcome to the `Yeet!` project! This Git repository contains the source code for an Android application that enables users to access the Yeet! chat system. Built using Java and XML, this Android client provides a seamless and intuitive mobile experience for interacting with contacts, engaging in real-time conversations, and exchanging messages.   
 
 ## Getting Started
 To get started with the web chat application, follow these steps:  
