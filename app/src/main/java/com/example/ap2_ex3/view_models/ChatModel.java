@@ -26,6 +26,10 @@ public class ChatModel extends AndroidViewModel {
         chats = mRepository.getAllChats();
     }
 
+    public void setToken(String token){
+        mRepository.setToken(token);
+    }
+
     // Live Data listeners
     public LiveData<Integer> observeStatus() {
         return status;
@@ -36,12 +40,12 @@ public class ChatModel extends AndroidViewModel {
     }
 
     // Chat API operations
-    public void getChats(User myUser){
-        mRepository.getChatsRequest(myUser);
+    public void getChats(){
+        mRepository.getChatsRequest();
     }
 
-    public void createChat(String username, User myUser) {
-        mRepository.createChatRequest(username, myUser);
+    public void createChat(String username) {
+        mRepository.createChatRequest(username);
     }
 
 

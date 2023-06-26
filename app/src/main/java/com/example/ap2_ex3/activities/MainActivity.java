@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.api_requests.LoginRequest;
+import com.example.ap2_ex3.view_models.ChatModel;
 import com.example.ap2_ex3.view_models.UserModel;
 import com.example.ap2_ex3.entities.User;
 import com.google.android.material.textfield.TextInputLayout;
@@ -32,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
-        this.userModel = new ViewModelProvider(this).get(UserModel.class);
+        userModel = new ViewModelProvider(this).get(UserModel.class);
 
         TextView signUpLink = findViewById(R.id.loginLink);
         signUpLink.setOnClickListener(v -> {
@@ -51,6 +53,11 @@ public class MainActivity extends AppCompatActivity {
             userModel.observeToken().observe(this, liveToken -> {
                 if (liveToken != null) {
                     userModel.getCurrUser(loginRequest.getUsername(), liveToken);
+                    SharedPreferences sharedPref = getApplication().getSharedPreferences
+                            (getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("token", liveToken);
+                    editor.apply();
                 } else {
                     // invalid login
                     Log.d("Login", "Request failed");
@@ -66,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             userModel.observeStatus().observe(this, status -> {
                 if(status == 1) {
                     Log.d("Login", "User inserted to db and login was successful");
-                    Intent intent = new Intent(MainActivity.this, ChatsActivity.class);
+                    Intent intent = new Intent(this, ChatsActivity.class);
                     startActivity(intent);
                 }
             });
