@@ -30,6 +30,6 @@
     <string name="logout">logout</string>
     <string name="night_mode_on">Night Mode: On</string>
     <string name="night_mode_off">Night Mode: Off</string>
-    <string name="preference_file_key">Settings</string>
-    <string name="preference_file_key">Utilities</string>
+    <string name="settings_file_key">Settings</string>
+    <string name="utilities_file_key">Utilities</string>
 </resources>
