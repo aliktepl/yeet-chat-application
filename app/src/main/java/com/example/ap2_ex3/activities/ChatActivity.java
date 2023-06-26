@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.SettingsActivity;
 import com.example.ap2_ex3.adapters.MessageListAdapter;
+import com.example.ap2_ex3.entities.Message;
 import com.example.ap2_ex3.view_models.MessageModel;
 
 public class ChatActivity extends AppCompatActivity {
@@ -48,8 +49,8 @@ public class ChatActivity extends AppCompatActivity {
         sendButton = findViewById(R.id.sendButton);
         sendButton.setOnClickListener(v -> {
             messageInput = findViewById(R.id.messageInput);
-            //TODO: Message message = new Message("message text", "sender");
-            //TODO: messageViewModel.Insert(message);
+//            Message message = new Message("message text", "sender");
+//            messageViewModel.Insert(message);
         });
 
         contactName = findViewById(R.id.contactName);

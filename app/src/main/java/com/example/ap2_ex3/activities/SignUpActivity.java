@@ -65,16 +65,6 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
-            if (!task.isSuccessful()) {
-                System.out.println("Fetching FCM registration token failed");
-                return;
-            }
-            String token = task.getResult();
-            //Toast.makeText(MainActivity.this, "the token is: " + token, Toast.LENGTH_SHORT).show();
-            //TODO: Send Token to server
-        });
-
         usernameTextInputLayout = findViewById(R.id.usernameTextInputLayout);
         passwordTextInputLayout = findViewById(R.id.passwordTextInputLayout);
         confirmPasswordTextInputLayout = findViewById(R.id.confirmPasswordTextInputLayout);

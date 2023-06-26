@@ -68,7 +68,7 @@
             android:paddingBottom="11dp"
             android:paddingRight="10dp"
             android:paddingLeft="10dp"
-            android:src="@drawable/ic_more"
+            android:src="@drawable/ic_more_white"
             tools:ignore="RtlSymmetry" />
 
     </RelativeLayout>

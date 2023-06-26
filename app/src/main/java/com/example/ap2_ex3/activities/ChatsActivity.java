@@ -19,14 +19,18 @@ import com.example.ap2_ex3.adapters.ChatsListAdapter;
 import com.example.ap2_ex3.entities.Chat;
 import com.example.ap2_ex3.services.MyFirebaseMessagingService;
 import com.example.ap2_ex3.view_models.ChatModel;
-import com.example.ap2_ex3.view_models.ChatModel;
 import com.example.ap2_ex3.view_models.MessageModel;
+import com.example.ap2_ex3.view_models.UserModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class ChatsActivity extends AppCompatActivity {
     private static final int MENU_SETTINGS = R.id.menu_settings;
     private static final int LOGOUT = R.id.menu_logout;
     public static final int ADD_CONTACT_REQUEST = 1;
+
+    private UserModel userModel;
+
     private ChatModel chatModel;
     private String token;
 
@@ -45,6 +49,16 @@ public class ChatsActivity extends AppCompatActivity {
 
         MyFirebaseMessagingService firebaseMessagingService = new MyFirebaseMessagingService(chatModel);
 
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                System.out.println("Fetching FCM registration token failed");
+                return;
+            }
+            String token = task.getResult();
+            //Toast.makeText(MainActivity.this, "the token is: " + token, Toast.LENGTH_SHORT).show();
+            //TODO: Send Token to server
+        });
+
         RecyclerView lstChats = findViewById(R.id.lstChats);
         final ChatsListAdapter adapter = new ChatsListAdapter(this);
         lstChats.setAdapter(adapter);
@@ -54,26 +68,24 @@ public class ChatsActivity extends AppCompatActivity {
         userModel.getUser().observe(this, user -> {
             if(user != null){
                 chatModel = new ViewModelProvider(this).get(ChatModel.class);
-                chatModel.getChats(user);
+                chatModel.getChats();
                 chatModel.observeChats().observe(this, adapter::setChats);
             }
         });
 
-        adapter.setOnItemClickListener(new ChatsListAdapter.OnItemClickListener() {
-            @Override
-            public void noItemClick(Chat chat) {
-                Intent intent = new Intent(ChatsActivity.this, ChatsActivity.class);
-                intent.putExtra("username", chat.getRecipient());
-                intent.putExtra("picture", chat.getRecipientProfPic());
-                startActivity(intent);
+        adapter.setOnItemClickListener(chat -> {
+            Intent intent = new Intent(ChatsActivity.this, ChatActivity.class);
+            intent.putExtra("username", chat.getRecipient());
+            intent.putExtra("picture", chat.getRecipientProfPic());
+            startActivity(intent);
+        });
+
         chatModel = new ViewModelProvider(this).get(ChatModel.class);
         SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.utilities_file_key), Context.MODE_PRIVATE);
         token = sharedPref.getString("token", "null");
         chatModel.setToken(token);
         chatModel.getChats();
-        chatModel.observeChats().observe(this, chats -> {
-            adapter.setChats(chats);
-        });
+        chatModel.observeChats().observe(this, adapter::setChats);
 
         ImageButton settingsButton = findViewById(R.id.moreBtn);
         settingsButton.setOnClickListener(this::showPopupMenu);

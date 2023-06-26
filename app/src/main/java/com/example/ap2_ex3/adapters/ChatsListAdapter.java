@@ -36,6 +36,13 @@ public class ChatsListAdapter extends RecyclerView.Adapter<ChatsListAdapter.Chat
             ivPic = itemView.findViewById(R.id.ivPic);
 
             itemView.setOnLongClickListener(this);
+
+            itemView.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (listener != null && position != RecyclerView.NO_POSITION) {
+                    listener.onItemClick(chats.get(position));
+                }
+            });
         }
 
         @Override
@@ -47,18 +54,8 @@ public class ChatsListAdapter extends RecyclerView.Adapter<ChatsListAdapter.Chat
                 return true;
             }
             return false;
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    if (listener != null && position != RecyclerView.NO_POSITION) {
-                        listener.noItemClick(chats.get(position));
-                    }
-                }
-            });
         }
     }
-
     private final LayoutInflater mInflater;
     private List<Chat> chats;
     private Context mContext;
@@ -131,7 +128,7 @@ public class ChatsListAdapter extends RecyclerView.Adapter<ChatsListAdapter.Chat
     }
 
     public interface OnItemClickListener {
-        void noItemClick(Chat chat);
+        void onItemClick(Chat chat);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {

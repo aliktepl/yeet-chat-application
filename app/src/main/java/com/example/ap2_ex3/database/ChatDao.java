@@ -15,7 +15,7 @@ import java.util.List;
 
 @Dao
 public interface ChatDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void Insert(Chat... chat);
 
     @Update

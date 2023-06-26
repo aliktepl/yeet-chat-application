@@ -16,13 +16,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.api_requests.LoginRequest;
 import com.example.ap2_ex3.view_models.UserModel;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.messaging.FirebaseMessaging;
+
 
 import java.util.Objects;
 
@@ -86,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             });
 
             userModel.observeStatus().observe(this, status -> {
-                if(status == 1) {
+                if (status == 1) {
                     Log.d("Login", "User inserted to db and login was successful");
                     isLoggedIn = true; // Set the login status to true
                     if (isCurrentActivity(MainActivity.this)) {
@@ -116,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
         }
     }
-}
 
     private void navigateToChatsActivity() {
         Intent intent = new Intent(MainActivity.this, ChatsActivity.class);
@@ -142,4 +140,4 @@ public class MainActivity extends AppCompatActivity {
             navigateToChatsActivity();
         }
     }
-
+}
