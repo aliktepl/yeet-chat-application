@@ -14,7 +14,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.ap2_ex3.R;
-import com.example.ap2_ex3.services.MyFirebaseMessagingService;
+import com.example.ap2_ex3.api_requests.CreateUserRequest;
+import com.example.ap2_ex3.view_models.UserModel;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Objects;
@@ -22,8 +23,6 @@ import java.util.Objects;
 import android.util.Base64;
 import android.util.Log;
 
-import com.example.ap2_ex3.api.CreateUserRequest;
-import com.example.ap2_ex3.viewmodel.ViewModel;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.ByteArrayOutputStream;

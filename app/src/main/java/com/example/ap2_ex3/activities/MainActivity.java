@@ -74,12 +74,9 @@ public class MainActivity extends AppCompatActivity {
                 if(status == 1) {
                     Log.d("Login", "User inserted to db and login was successful");
                     Intent intent = new Intent(MainActivity.this, ChatsActivity.class);
-                    intent.putExtra("username", liveUser.getUsername());
-                    intent.putExtra("picture", liveUser.getProfPic());
                     startActivity(intent);
                 }
             });
-
         });
 
     }

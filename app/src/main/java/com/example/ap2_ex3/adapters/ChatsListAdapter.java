@@ -32,12 +32,21 @@ public class ChatsListAdapter extends RecyclerView.Adapter<ChatsListAdapter.Chat
             tvLastMsg = itemView.findViewById(R.id.tvLastMsg);
             tvLastMsgTime = itemView.findViewById(R.id.tvLastMsgTime);
             ivPic = itemView.findViewById(R.id.ivPic);
-
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (listener != null && position != RecyclerView.NO_POSITION) {
+                        listener.noItemClick(chats.get(position));
+                    }
+                }
+            });
         }
     }
 
     private final LayoutInflater mInflater;
     private List<Chat> chats;
+    private OnItemClickListener listener;
 
     public ChatsListAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
@@ -84,6 +93,14 @@ public class ChatsListAdapter extends RecyclerView.Adapter<ChatsListAdapter.Chat
 
     public List<Chat> getChats() {
         return chats;
+    }
+
+    public interface OnItemClickListener {
+        void noItemClick(Chat chat);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
 }

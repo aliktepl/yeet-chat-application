@@ -9,15 +9,15 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import com.example.ap2_ex3.R;
-import com.example.ap2_ex3.viewmodel.ViewModel;
+import com.example.ap2_ex3.view_models.ChatModel;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
-    private ViewModel viewModel;
-    public MyFirebaseMessagingService(ViewModel viewModel) {
+    private ChatModel chatModel;
+    public MyFirebaseMessagingService(ChatModel chatModel) {
         super();
-        this.viewModel = viewModel;
+        this.chatModel = chatModel;
     }
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -42,7 +42,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             assert notificationManager != null;
             notificationManager.createNotificationChannel(channel);
             notificationManager.notify(1, notificationBuilder.build());
-            viewModel.getChats();
+//             chatModel.getChats();
         }
     }
 

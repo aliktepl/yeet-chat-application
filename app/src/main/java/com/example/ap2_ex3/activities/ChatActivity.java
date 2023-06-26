@@ -11,7 +11,6 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,12 +22,12 @@ import android.widget.TextView;
 import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.SettingsActivity;
 import com.example.ap2_ex3.adapters.MessageListAdapter;
-import com.example.ap2_ex3.viewmodel.ViewModel;
+import com.example.ap2_ex3.view_models.MessageModel;
 
 public class ChatActivity extends AppCompatActivity {
     private static final int MENU_SETTINGS = R.id.menu_settings;
 
-    private ViewModel messageViewModel;
+    private MessageModel messageViewModel;
     private TextView contactName;
     private ImageView contactImage;
 
@@ -76,7 +75,7 @@ public class ChatActivity extends AppCompatActivity {
         lstMessages.setAdapter(adapter);
         lstMessages.setLayoutManager(new LinearLayoutManager(this));
 
-        messageViewModel = new ViewModelProvider(this).get(ViewModel.class);
+        messageViewModel = new ViewModelProvider(this).get(MessageModel.class);
         messageViewModel.getMessages().observe(this, adapter::setMessages);
 
     }

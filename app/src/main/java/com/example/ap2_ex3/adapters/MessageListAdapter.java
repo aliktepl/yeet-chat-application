@@ -11,8 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ap2_ex3.R;
+import com.example.ap2_ex3.entities.Message;
 
 import java.util.List;
+import java.util.Objects;
 
 public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.MessageViewHolder>{
 
@@ -50,14 +52,14 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
     public void onBindViewHolder(@NonNull MessageListAdapter.MessageViewHolder holder, int position) {
         if (messages != null) {
             final Message current = messages.get(position);
-            if (current.getSender() == currentUser) {
+            if (Objects.equals(current.getSender(), currentUser)) {
                 holder.layoutMsgUser.setVisibility(View.VISIBLE);
                 holder.layoutMsgSender.setVisibility(View.GONE);
-                holder.tvMsgUser.setText(current.getMessage);
+                holder.tvMsgUser.setText(current.getContent());
             } else {
                 holder.layoutMsgUser.setVisibility(View.GONE);
                 holder.layoutMsgSender.setVisibility(View.VISIBLE);
-                holder.tvMsgSender.setText(current.getMessage);
+                holder.tvMsgSender.setText(current.getContent());
             }
         }
     }
