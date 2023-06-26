@@ -12,9 +12,24 @@ To get started with the web chat application, follow these steps:
 
 ## Application Overview
 The web application is divided into different parts to ensure a smooth user experience:  
-* Login Screen: Users enter their login credentials to gain access to the web application. If a user doesn't have an account, they can refer to the sign-up screen to create a new account.  
-* Sign-up Screen: Users can create a new account by providing their necessary information. Once the account is created, they can proceed to the login screen.  
-* Chat Screen: After successful login, users are transferred to the chat screen. Here, they can send text messages to other users in their contact list in real-time. Users can also add new contacts to their contact list.  
+
+#### Login Screen:  
+Allows users to enter their login credentials to gain access to the chat application. If a user doesn't have an account, they can refer to the sign-up screen to create a new account. The login screen ensures secure authentication for users. 
+#### Sign-up Screen:  
+Provides a user-friendly interface for creating a new account. Users can provide the necessary information and register for an account. Once the account is created, they can proceed to the login screen to access the chat application.
+#### Contacts Screen:  
+After successful login, users are transferred to the Chats screen. This screen displays a list of contacts that the user has added. Users can view their contacts, initiate conversations, and manage their contact list. In addition, the contacts screen provides additional functionality:
+  - By performing a long press on a contact, users can delete the chat conversation with that contact.
+  - By clicking the "More" button (represented by three dots), users can access a menu that provides additional options.   
+This menu includes the following:
+    * Settings: Users can navigate to the settings screen by selecting the "Settings" option from the menu.
+    * Logout: Users can choose the "Logout" option from the menu to securely log out from their account. This action will terminate the current session and return them to the login screen, ensuring the privacy and security of their account.
+#### Settings Screen:
+The settings screen provides users with the ability to customize various aspects of the application according to their preferences. It includes the following options:  
+* Server Address: Users can edit the address of the server they are working with on this screen. This allows them to connect to a specific server or update the server address as needed.
+* Night Mode Switch: The "Night Mode" switch allows users to toggle between different themes for the application. Enabling the night mode theme provides a darker color scheme, which can enhance visibility and reduce eye strain in low-light environments. 
+#### Chat Screen:  
+After selecting a contact from the contacts list, users are taken to the chat screen. This screen allows users to engage in real-time text conversations with the selected contact. Users can send messages and receive replies in a seamless manner. 
 
 ## Server Implementation
 The server-side implementation of the web chat application follows the Model-View-Controller (MVC) architectural pattern and integrates with MongoDB for data storage. The server is responsible for handling client requests, interacting with the database, and enabling real-time communication.  
