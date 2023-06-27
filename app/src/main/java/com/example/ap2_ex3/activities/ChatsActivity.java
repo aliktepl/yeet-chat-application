@@ -25,6 +25,7 @@ import com.example.ap2_ex3.adapters.ChatsListAdapter;
 import com.example.ap2_ex3.entities.User;
 import com.example.ap2_ex3.services.MyFirebaseMessagingService;
 import com.example.ap2_ex3.view_models.ChatModel;
+import com.example.ap2_ex3.view_models.MessageModel;
 import com.example.ap2_ex3.view_models.UserModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -36,25 +37,28 @@ public class ChatsActivity extends AppCompatActivity {
     private ImageView ivUserProfile;
 
     private UserModel userModel;
-
     private ChatModel chatModel;
+    private MessageModel messageModel;
     private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chats);
+        userModel = new ViewModelProvider(this).get(UserModel.class);
 
         tvUserName = findViewById(R.id.tvUserName);
         ivUserProfile = findViewById(R.id.ivUserProfile);
 
-        final Observer<User> userObserver = user -> {
-            String base64Image = user.getProfPic();
-            byte[] decodedString = Base64.decode(base64Image, Base64.DEFAULT);
-            Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedString,0 , decodedString.length);
-            ivUserProfile.setImageBitmap(decodedBitmap);
-            tvUserName.setText(user.getDisplayName());
-        };
+        userModel.getUser().observe(this, user -> {
+            if(user != null) {
+                String base64Image = user.getProfPic();
+                byte[] decodedString = Base64.decode(base64Image, Base64.DEFAULT);
+                Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                ivUserProfile.setImageBitmap(decodedBitmap);
+                tvUserName.setText(user.getDisplayName());
+            }
+            });
 
         FloatingActionButton btnAdd = findViewById(R.id.btnAdd);
         btnAdd.setOnClickListener(v -> {
@@ -69,10 +73,9 @@ public class ChatsActivity extends AppCompatActivity {
 
 
 
-        userModel = new ViewModelProvider(this).get(UserModel.class);
         chatModel = new ViewModelProvider(this).get(ChatModel.class);
+        messageModel = new ViewModelProvider(this).get(MessageModel.class);
 
-        userModel.getUser().observe(this, userObserver);
 
         adapter.setOnItemClickListener(chat -> {
             Intent intent = new Intent(ChatsActivity.this, ChatActivity.class);
@@ -123,6 +126,9 @@ public class ChatsActivity extends AppCompatActivity {
     }
 
     private void logout() {
+        userModel.deleteAllUsers();
+        chatModel.deleteAllChats();
+        messageModel.deleteAllMessages();
         finish();
     }
 

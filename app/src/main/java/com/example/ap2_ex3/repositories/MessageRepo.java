@@ -19,6 +19,7 @@ public class MessageRepo {
 
     // Dao fields
     private UserDao userDao;
+
     private MessageDao messageDao;
 
     // API fields
@@ -78,6 +79,12 @@ public class MessageRepo {
     public void getMessagesRequest(Integer chatId) {
         messageAPI.getMessages(chatId, status, token);
     }
+    public void deleteAllMessages(){
+        messageDao.deleteAllMessages();
+    }
+
+    // api operations
+    public void getMessagesRequest(Integer chatId){ messageAPI.getMessages(chatId, status, token); }
 
     public void createMessageRequest(Integer chatId, String msgContent) {
         messageAPI.createMessage(chatId, msgContent, token, status);
