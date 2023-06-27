@@ -29,7 +29,6 @@ import com.example.ap2_ex3.entities.Message;
 import com.example.ap2_ex3.services.MyFirebaseMessagingService;
 import com.example.ap2_ex3.view_models.ChatModel;
 import com.example.ap2_ex3.view_models.MessageModel;
-import com.google.firebase.messaging.FirebaseMessagingService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,15 +96,21 @@ public class ChatActivity extends AppCompatActivity {
         RecyclerView lstMessages = findViewById(R.id.lstMessages);
         final MessageListAdapter adapter = new MessageListAdapter(this, currentUser);
         lstMessages.setAdapter(adapter);
-        lstMessages.setLayoutManager(new LinearLayoutManager(this));
-        lstMessages.scrollToPosition(adapter.getItemCount()-1);
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        manager.setStackFromEnd(true);
+        lstMessages.setLayoutManager(manager);
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
-            public void onRefresh() {
-                messageViewModel.getMessages();
-                swipeRefreshLayout.setRefreshing(false);
+            public void onChanged() {
+                lstMessages.smoothScrollToPosition(adapter.getItemCount() - 1);
             }
+        });
+
+
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            messageViewModel.getMessages();
+            swipeRefreshLayout.setRefreshing(false);
         });
 
         messageViewModel.getMessages().observe(this, messages -> {

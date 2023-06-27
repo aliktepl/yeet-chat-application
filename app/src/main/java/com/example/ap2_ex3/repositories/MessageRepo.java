@@ -84,8 +84,6 @@ public class MessageRepo {
     }
 
     // api operations
-    public void getMessagesRequest(Integer chatId){ messageAPI.getMessages(chatId, status, token); }
-
     public void createMessageRequest(Integer chatId, String msgContent) {
         messageAPI.createMessage(chatId, msgContent, token, status);
     }

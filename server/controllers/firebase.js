@@ -10,12 +10,15 @@ const firebase = initializeApp({
 
 const users = new Map()
 
-function sendMessage(registrationToken, title, body) {
+function sendMessage(registrationToken, title, body, id) {
     const message = {
         "token" : registrationToken,
         "notification" : {
             "title" : title,
-            "body" : body
+            "body" : body,
+        },
+        "data" : {
+            "id": id
         }
     }
 
