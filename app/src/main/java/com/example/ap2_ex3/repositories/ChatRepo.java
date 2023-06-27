@@ -80,7 +80,6 @@ public class ChatRepo {
     public void deleteAllChats(){
         chatDao.deleteAllChats();
     }
-
     public void updateLastMsg(Integer chatId, String lstMsgContent, String lstMsgTime){
         new Thread(() -> {
             chatDao.updateLastMessage(chatId, lstMsgContent, lstMsgTime);

@@ -5,11 +5,15 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -22,6 +26,7 @@ import android.widget.TextView;
 
 import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.api_requests.LoginRequest;
+import com.example.ap2_ex3.entities.User;
 import com.example.ap2_ex3.view_models.ChatModel;
 import com.example.ap2_ex3.view_models.MessageModel;
 import com.example.ap2_ex3.view_models.UserModel;
@@ -37,10 +42,71 @@ public class MainActivity extends AppCompatActivity {
     private TextInputLayout passwordView;
     private LoginRequest loginRequest;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initializeActivity();
+        setContentView(R.layout.activity_login_screen);
+        userModel = new ViewModelProvider(this).get(UserModel.class);
+
+        SharedPreferences sharedMode = getApplication().getSharedPreferences(getString(R.string.settings_file_key), Context.MODE_PRIVATE);
+        boolean nightMode = sharedMode.getBoolean("night", false);
+        if (!nightMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            checkPermissions();
+        }
+
+        TextView signUpLink = findViewById(R.id.loginLink);
+        signUpLink.setOnClickListener(v -> {
+            Intent i = new Intent(MainActivity.this, SignUpActivity.class);
+            startActivity(i);
+        });
+        Button loginBtn = findViewById(R.id.loginBtn);
+        loginBtn.setOnClickListener(v -> {
+            // Token request
+            usernameView = findViewById(R.id.usernameTextInputLayout);
+            passwordView = findViewById(R.id.passwordTextInputLayout);
+            loginRequest = new LoginRequest(Objects.requireNonNull(usernameView.getEditText()).getText().toString(),
+                    Objects.requireNonNull(passwordView.getEditText()).getText().toString());
+            userModel.getToken(loginRequest);
+        });
+
+        User currUser = userModel.getUserObject();
+        if(currUser != null){
+            Intent intent = new Intent(MainActivity.this, ChatsActivity.class);
+            intent.putExtra("username", currUser.getUsername());
+            intent.putExtra("needUser", false);
+            startActivity(intent);
+        }
+
+        userModel.observeToken().observe(this, liveToken -> {
+            if (liveToken != null) {
+                SharedPreferences sharedToken = getApplication().getSharedPreferences
+                        (getString(R.string.utilities_file_key), Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedToken.edit();
+                editor.putString("token", liveToken);
+                editor.apply();
+                Intent intent = new Intent(MainActivity.this, ChatsActivity.class);
+                intent.putExtra("username", loginRequest.getUsername());
+                intent.putExtra("needUser", true);
+                startActivity(intent);
+            } else {
+                // invalid login
+                Log.d("Login", "Request failed");
+            }
+        });
+
+        userModel.observeStatus().observe(this, status -> {
+            if (status == 404) {
+                MainActivity.showAlert("Invalid username or password", this);
+            }
+        });
     }
 
 
@@ -70,83 +136,4 @@ public class MainActivity extends AppCompatActivity {
         return activity.getClass().equals(MainActivity.class);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        initializeActivity();
-    }
-
-    private void initializeActivity(){
-        setContentView(R.layout.activity_login_screen);
-        userModel = new ViewModelProvider(this).get(UserModel.class);
-
-        SharedPreferences sharedMode = getApplication().getSharedPreferences(getString(R.string.settings_file_key), Context.MODE_PRIVATE);
-        boolean nightMode = sharedMode.getBoolean("night", false);
-        if (!nightMode) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            checkPermissions();
-        }
-
-        userModel.getUser().observe(this, user -> {
-            if (user != null) {
-                Log.d("Login", "User inserted to db and login was successful");
-                if (isCurrentActivity(MainActivity.this)) {
-                    checkActivityStack();
-                    navigateToChatsActivity();
-                }
-            }
-        });
-
-        TextView signUpLink = findViewById(R.id.loginLink);
-        signUpLink.setOnClickListener(v -> {
-            Intent i = new Intent(MainActivity.this, SignUpActivity.class);
-            startActivity(i);
-        });
-        Button loginBtn = findViewById(R.id.loginBtn);
-        loginBtn.setOnClickListener(v -> {
-            // Token request
-            usernameView = findViewById(R.id.usernameTextInputLayout);
-            passwordView = findViewById(R.id.passwordTextInputLayout);
-            loginRequest = new LoginRequest(Objects.requireNonNull(usernameView.getEditText()).getText().toString(),
-                    Objects.requireNonNull(passwordView.getEditText()).getText().toString());
-            userModel.getToken(loginRequest);
-            userModel.observeToken().observe(this, liveToken -> {
-                if (liveToken != null) {
-                    userModel.getCurrUser(loginRequest.getUsername(), liveToken);
-                    SharedPreferences sharedToken = getApplication().getSharedPreferences
-                            (getString(R.string.utilities_file_key), Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedToken.edit();
-                    editor.putString("token", liveToken);
-                    editor.apply();
-                } else {
-                    // invalid login
-                    Log.d("Login", "Request failed");
-                }
-            });
-
-            userModel.observeStatus().observe(this, status -> {
-                if (status == 404) {
-                    MainActivity.showAlert("Invalid username or password", this);
-                }
-            });
-
-        });
-    }
-    private void checkActivityStack() {
-        ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        if (activityManager != null) {
-            // Get the list of running tasks (activities) in the activity stack
-            List<ActivityManager.RunningTaskInfo> taskInfoList = activityManager.getRunningTasks(10);
-
-            // Iterate through the task list and print information about each activity
-            for (ActivityManager.RunningTaskInfo taskInfo : taskInfoList) {
-                Log.d("Activity Stack", "Activity: " + taskInfo.topActivity.getClassName());
-            }
-        }
-    }
 }

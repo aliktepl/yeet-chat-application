@@ -1,12 +1,16 @@
 package com.example.ap2_ex3.activities;
 
+import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ImageButton;
@@ -29,6 +33,8 @@ import com.example.ap2_ex3.view_models.MessageModel;
 import com.example.ap2_ex3.view_models.UserModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.List;
+
 public class ChatsActivity extends AppCompatActivity {
     private static final int MENU_SETTINGS = R.id.menu_settings;
     private static final int LOGOUT = R.id.menu_logout;
@@ -46,9 +52,16 @@ public class ChatsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chats);
         userModel = new ViewModelProvider(this).get(UserModel.class);
+        SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.utilities_file_key), Context.MODE_PRIVATE);
+        token = sharedPref.getString("token", "null");
 
         tvUserName = findViewById(R.id.tvUserName);
         ivUserProfile = findViewById(R.id.ivUserProfile);
+        Bundle bundle = getIntent().getExtras();
+
+        if(bundle.getBoolean("needUser")){
+            userModel.getCurrUser(bundle.getString("username"), token);
+        }
 
         userModel.getUser().observe(this, user -> {
             if(user != null) {
@@ -71,11 +84,8 @@ public class ChatsActivity extends AppCompatActivity {
         lstChats.setAdapter(adapter);
         lstChats.setLayoutManager(new LinearLayoutManager(this));
 
-
-
         chatModel = new ViewModelProvider(this).get(ChatModel.class);
         messageModel = new ViewModelProvider(this).get(MessageModel.class);
-
 
         adapter.setOnItemClickListener(chat -> {
             Intent intent = new Intent(ChatsActivity.this, ChatActivity.class);
@@ -87,8 +97,6 @@ public class ChatsActivity extends AppCompatActivity {
         });
 
         chatModel = new ViewModelProvider(this).get(ChatModel.class);
-        SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.utilities_file_key), Context.MODE_PRIVATE);
-        token = sharedPref.getString("token", "null");
         chatModel.setToken(token);
         chatModel.getChats();
         chatModel.observeChats().observe(this, chats -> {
@@ -96,8 +104,6 @@ public class ChatsActivity extends AppCompatActivity {
                 adapter.setChats(chats);
             }
         });
-
-
 
         ImageButton settingsButton = findViewById(R.id.moreBtn);
         settingsButton.setOnClickListener(this::showPopupMenu);

@@ -25,7 +25,7 @@ public class UserRepo {
 
     // Live Data fields
     private LiveData<User> user;
-    private MutableLiveData<String> token;
+    private MutableLiveData<String> token = new MutableLiveData<>();
     private MutableLiveData<Integer> status;
 
 
@@ -38,7 +38,6 @@ public class UserRepo {
         // live data init
         user = userDao.getUser();
         status = new MutableLiveData<>();
-        token = new MutableLiveData<>();
     }
 
     // User API operations
@@ -69,5 +68,7 @@ public class UserRepo {
     public void deleteAllUsers(){
         userDao.deleteAllUsers();
     }
+
+    public User getUserObject(){ return userDao.getUserObject(); }
 
 }
