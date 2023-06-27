@@ -3,23 +3,28 @@ package com.example.ap2_ex3.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.adapters.ChatsListAdapter;
-import com.example.ap2_ex3.entities.Chat;
+import com.example.ap2_ex3.entities.User;
 import com.example.ap2_ex3.services.MyFirebaseMessagingService;
 import com.example.ap2_ex3.view_models.ChatModel;
-import com.example.ap2_ex3.view_models.MessageModel;
 import com.example.ap2_ex3.view_models.UserModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -27,19 +32,30 @@ import com.google.firebase.messaging.FirebaseMessaging;
 public class ChatsActivity extends AppCompatActivity {
     private static final int MENU_SETTINGS = R.id.menu_settings;
     private static final int LOGOUT = R.id.menu_logout;
-    public static final int ADD_CONTACT_REQUEST = 1;
+
+    private TextView tvUserName;
+    private ImageView ivUserProfile;
 
     private UserModel userModel;
 
     private ChatModel chatModel;
     private String token;
 
-    private MessageModel messageModel;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chats);
+
+        tvUserName = findViewById(R.id.tvUserName);
+        ivUserProfile = findViewById(R.id.ivUserProfile);
+
+        final Observer<User> userObserver = user -> {
+            String base64Image = user.getProfPic();
+            byte[] decodedString = Base64.decode(base64Image, Base64.DEFAULT);
+            Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedString,0 , decodedString.length);
+            ivUserProfile.setImageBitmap(decodedBitmap);
+            tvUserName.setText(user.getDisplayName());
+        };
 
         FloatingActionButton btnAdd = findViewById(R.id.btnAdd);
         btnAdd.setOnClickListener(v -> {
@@ -48,16 +64,6 @@ public class ChatsActivity extends AppCompatActivity {
         });
 
         MyFirebaseMessagingService firebaseMessagingService = new MyFirebaseMessagingService(chatModel);
-
-        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
-            if (!task.isSuccessful()) {
-                System.out.println("Fetching FCM registration token failed");
-                return;
-            }
-            String token = task.getResult();
-            //Toast.makeText(MainActivity.this, "the token is: " + token, Toast.LENGTH_SHORT).show();
-            //TODO: Send Token to server
-        });
 
         RecyclerView lstChats = findViewById(R.id.lstChats);
         final ChatsListAdapter adapter = new ChatsListAdapter(this);
@@ -72,6 +78,8 @@ public class ChatsActivity extends AppCompatActivity {
                 chatModel.observeChats().observe(this, adapter::setChats);
             }
         });
+
+        userModel.getUser().observe(this, userObserver);
 
         adapter.setOnItemClickListener(chat -> {
             Intent intent = new Intent(ChatsActivity.this, ChatActivity.class);

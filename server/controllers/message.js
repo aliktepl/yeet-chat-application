@@ -15,7 +15,7 @@ const createMessage = async (req, res) => {
         if(doesExist){
             res.json(await messageService.createMessage(doesExist, req.body.msg, req.headers.passedName))
             //firebase
-            firebase.sendMessage(firebase.users.get(req.headers.passedName), "Send Message", req.body.msg)
+            firebase.sendMessage(firebase.users.get(doesExist.users[1].username), "Sent Message", req.body.msg)
         } else {
             res.status(401).send()
         }
