@@ -1,5 +1,8 @@
 package com.example.ap2_ex3.api;
 
+import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -34,12 +37,15 @@ public class ChatAPI {
     // dao fields
     private ChatDao chatDao;
 
-    public ChatAPI(ChatDao chatDao) {
+    public ChatAPI(ChatDao chatDao, Application application) {
         // init database
         this.chatDao = chatDao;
+        // init address
+        SharedPreferences sharedSettings = application.getSharedPreferences(application.getString(R.string.settings_file_key) , Context.MODE_PRIVATE);
+        String address = sharedSettings.getString("address", "");
         // init service and retrofit
         retrofit = new Retrofit.Builder()
-                .baseUrl(AppContext.context.getString(R.string.BaseUrl))
+                .baseUrl(address)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         wsAPI = retrofit.create(WebServiceAPI.class);

@@ -1,4 +1,8 @@
 package com.example.ap2_ex3.api;
+import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
@@ -26,10 +30,12 @@ public class MessageAPI {
     private WebServiceAPI wsAPI;
     private MessageDao messageDao;
 
-    public MessageAPI(MessageDao messageDao){
+    public MessageAPI(MessageDao messageDao, Application application){
         this.messageDao = messageDao;
+        SharedPreferences sharedSettings = application.getSharedPreferences(application.getString(R.string.settings_file_key) , Context.MODE_PRIVATE);
+        String address = sharedSettings.getString("address", "");
         retrofit = new Retrofit.Builder()
-                .baseUrl(AppContext.context.getString(R.string.BaseUrl))
+                .baseUrl(address)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         wsAPI = retrofit.create(WebServiceAPI.class);

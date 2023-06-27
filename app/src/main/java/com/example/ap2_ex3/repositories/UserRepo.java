@@ -34,7 +34,7 @@ public class UserRepo {
         AppDB db = AppDB.getInstance(application);
         userDao = db.userDao();
         // api init
-        userAPI = new UserAPI(userDao);
+        userAPI = new UserAPI(userDao, application);
         // live data init
         user = userDao.getUser();
         status = new MutableLiveData<>();

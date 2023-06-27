@@ -1,6 +1,10 @@
 package com.example.ap2_ex3.api;
 
 
+import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
@@ -30,11 +34,13 @@ public class UserAPI {
 
     private String fbToken;
 
-    public UserAPI(UserDao userDao) {
+    public UserAPI(UserDao userDao, Application application) {
         // init dao
         this.userDao = userDao;
+        SharedPreferences sharedSettings = application.getSharedPreferences(application.getString(R.string.settings_file_key) , Context.MODE_PRIVATE);
+        String address = sharedSettings.getString("address", "");
         retrofit = new Retrofit.Builder()
-                .baseUrl(AppContext.context.getString(R.string.BaseUrl))
+                .baseUrl(address)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         wsAPI = retrofit.create(WebServiceAPI.class);

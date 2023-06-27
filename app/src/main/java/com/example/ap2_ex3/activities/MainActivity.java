@@ -41,9 +41,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
+
+
+        // write ip address settings to shared pref
+        SharedPreferences sharedMode = getApplication().getSharedPreferences(getString(R.string.settings_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor2 = sharedMode.edit();
+        if(sharedMode.getString("address", "").equals("")){
+            editor2.putString("address", getString(R.string.BaseUrl));
+            editor2.apply();
+        }
+
         userModel = new ViewModelProvider(this).get(UserModel.class);
 
-        SharedPreferences sharedMode = getApplication().getSharedPreferences(getString(R.string.settings_file_key), Context.MODE_PRIVATE);
         boolean nightMode = sharedMode.getBoolean("night", false);
         if (!nightMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);

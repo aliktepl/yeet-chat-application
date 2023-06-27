@@ -41,7 +41,7 @@ public class ChatRepo {
         messageDao = db.messageDao();
         chatDao = db.chatDao();
         // api init
-        chatAPI = new ChatAPI(chatDao);
+        chatAPI = new ChatAPI(chatDao, application);
         // live data init
         allChats = chatDao.getAllChats();
         status = new MutableLiveData<>();
