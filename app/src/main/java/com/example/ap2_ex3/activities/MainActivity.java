@@ -60,6 +60,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         TextView signUpLink = findViewById(R.id.loginLink);
+        TextView settingsLink = findViewById(R.id.settingsLink);
+
+        settingsLink.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent);
+        });
+
         signUpLink.setOnClickListener(v -> {
             Intent i = new Intent(MainActivity.this, SignUpActivity.class);
             startActivity(i);
