@@ -78,6 +78,12 @@ public class ChatRepo {
         new Thread(() -> { chatDao.Delete(chat);}).start();
     }
 
+    public void updateLastMsg(Integer chatId, String lstMsgContent, String lstMsgTime){
+        new Thread(() -> {
+            chatDao.updateLastMessage(chatId, lstMsgContent, lstMsgTime);
+        }).start();
+    }
+
     // Live Data listeners
     public MutableLiveData<Integer> getStatus() {
         return status;

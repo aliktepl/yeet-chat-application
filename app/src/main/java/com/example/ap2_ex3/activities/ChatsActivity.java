@@ -71,13 +71,7 @@ public class ChatsActivity extends AppCompatActivity {
         lstChats.setLayoutManager(new LinearLayoutManager(this));
 
         userModel = new ViewModelProvider(this).get(UserModel.class);
-        userModel.getUser().observe(this, user -> {
-            if(user != null){
-                chatModel = new ViewModelProvider(this).get(ChatModel.class);
-                chatModel.getChats();
-                chatModel.observeChats().observe(this, adapter::setChats);
-            }
-        });
+        chatModel = new ViewModelProvider(this).get(ChatModel.class);
 
         userModel.getUser().observe(this, userObserver);
 
@@ -94,7 +88,13 @@ public class ChatsActivity extends AppCompatActivity {
         token = sharedPref.getString("token", "null");
         chatModel.setToken(token);
         chatModel.getChats();
-        chatModel.observeChats().observe(this, adapter::setChats);
+        chatModel.observeChats().observe(this, chats -> {
+            if(!chats.isEmpty()){
+                adapter.setChats(chats);
+            }
+        });
+
+
 
         ImageButton settingsButton = findViewById(R.id.moreBtn);
         settingsButton.setOnClickListener(this::showPopupMenu);
