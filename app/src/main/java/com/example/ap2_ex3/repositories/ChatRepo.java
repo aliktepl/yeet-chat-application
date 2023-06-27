@@ -30,7 +30,6 @@ public class ChatRepo {
     // Live Data fields
     private LiveData<List<Chat>> allChats;
     private MutableLiveData<Integer> status;
-
     private String token;
 
     // Private constructor

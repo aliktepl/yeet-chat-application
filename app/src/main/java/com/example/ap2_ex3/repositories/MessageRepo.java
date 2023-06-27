@@ -19,7 +19,6 @@ public class MessageRepo {
 
     // Dao fields
     private UserDao userDao;
-
     private MessageDao messageDao;
 
     // API fields
@@ -28,7 +27,6 @@ public class MessageRepo {
     // Live Data fields
     private LiveData<List<Message>> messages;
     private MutableLiveData<Integer> status;
-
     private String token;
 
     private MessageRepo(Application application) {
@@ -61,8 +59,7 @@ public class MessageRepo {
         this.token = token;
     }
 
-    // Message Dao operations
-
+    // Message dao operations
     public LiveData<List<Message>> getMessages() {
         return messages;
     }
@@ -74,16 +71,16 @@ public class MessageRepo {
     public LiveData<Message> getMessage(int id) {
         return messageDao.getMessage(id);
     }
+  
+      public void deleteAllMessages(){
+        messageDao.deleteAllMessages();
+    }
 
     // API operations
     public void getMessagesRequest(Integer chatId) {
         messageAPI.getMessages(chatId, status, token);
     }
-    public void deleteAllMessages(){
-        messageDao.deleteAllMessages();
-    }
 
-    // api operations
     public void createMessageRequest(Integer chatId, String msgContent) {
         messageAPI.createMessage(chatId, msgContent, token, status);
     }

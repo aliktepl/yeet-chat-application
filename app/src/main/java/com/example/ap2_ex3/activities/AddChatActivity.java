@@ -32,7 +32,7 @@ public class AddChatActivity extends AppCompatActivity {
         Button btn = findViewById(R.id.loginBtn);
         btn.setOnClickListener(v -> {
             String displayName = etAddContact.getText().toString();
-            if (displayName.trim().isEmpty()){
+            if (displayName.trim().isEmpty()) {
                 Toast.makeText(this, "Enter a valid username", Toast.LENGTH_SHORT).show();
             } else {
                 chatModel.createChat(etAddContact.getText().toString());
@@ -40,7 +40,7 @@ public class AddChatActivity extends AppCompatActivity {
             }
         });
         chatModel.observeStatus().observe(this, status -> {
-            if(status == 400){
+            if (status == 400) {
                 Toast.makeText(this, "Contact doesn't exist", Toast.LENGTH_SHORT).show();
             }
         });

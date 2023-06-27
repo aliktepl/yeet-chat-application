@@ -1,14 +1,12 @@
 package com.example.ap2_ex3.api_requests;
 
-import com.example.ap2_ex3.entities.User;
-
 public class CreateMsgRequest {
     private int id;
     private String created;
     private String sender;
     private String content;
 
-    public CreateMsgRequest(int id, String created, String sender, String content){
+    public CreateMsgRequest(int id, String created, String sender, String content) {
         this.id = id;
         this.created = created;
         this.sender = sender;

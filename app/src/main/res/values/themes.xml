@@ -36,4 +36,8 @@
         <item name="android:src">@drawable/ic_arrow_back_black</item>
     </style>
 
+    <style name="SEND_BTN">
+        <item name="android:src">@drawable/ic_send_btn_purple</item>
+    </style>
+
 </resources>

@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.widget.TextView;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -56,6 +55,7 @@ public class ChatsListAdapter extends RecyclerView.Adapter<ChatsListAdapter.Chat
             return false;
         }
     }
+
     private final LayoutInflater mInflater;
     private List<Chat> chats;
     private Context mContext;
@@ -84,19 +84,16 @@ public class ChatsListAdapter extends RecyclerView.Adapter<ChatsListAdapter.Chat
         }
     }
 
-
     public void setChats(List<Chat> chats) {
         this.chats = chats;
         notifyDataSetChanged();
     }
 
-
     @Override
     public int getItemCount() {
         if (chats != null) {
             return chats.size();
-        }
-        else return 0;
+        } else return 0;
     }
 
     public void setBitmapFromBase64(String base64String, ChatViewHolder holder) {
@@ -108,7 +105,6 @@ public class ChatsListAdapter extends RecyclerView.Adapter<ChatsListAdapter.Chat
     public List<Chat> getChats() {
         return chats;
     }
-
 
     // TODO - need to delete all the messages with the specific contact
     private void showDeleteChatPopup(Chat chat) {

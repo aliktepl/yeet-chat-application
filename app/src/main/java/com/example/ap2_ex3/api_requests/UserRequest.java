@@ -5,7 +5,7 @@ public class UserRequest {
     private String displayName;
     private String profilePic;
 
-    public UserRequest(String username, String displayName, String profPic){
+    public UserRequest(String username, String displayName, String profPic) {
         this.username = username;
         this.displayName = displayName;
         this.profilePic = profPic;

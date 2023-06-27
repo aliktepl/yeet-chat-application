@@ -26,6 +26,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.adapters.ChatsListAdapter;
+import com.example.ap2_ex3.services.MyFirebaseMessagingService;
 import com.example.ap2_ex3.view_models.ChatModel;
 import com.example.ap2_ex3.view_models.MessageModel;
 import com.example.ap2_ex3.view_models.UserModel;
@@ -96,7 +97,7 @@ public class ChatsActivity extends AppCompatActivity {
             intent.putExtra("currentUser", tvUserName.getText().toString());
             intent.putExtra("username", chat.getRecipient());
             intent.putExtra("picture", chat.getRecipientProfPic());
-            intent.putExtra("id" ,chat.getId());
+            intent.putExtra("id", chat.getId());
             startActivity(intent);
         });
 

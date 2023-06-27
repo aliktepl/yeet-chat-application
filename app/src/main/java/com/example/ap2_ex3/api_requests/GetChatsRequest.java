@@ -5,7 +5,7 @@ public class GetChatsRequest {
     private UserRequest user;
     private GetMessageRequest lastMessage;
 
-    public GetChatsRequest(int id, UserRequest user, GetMessageRequest lastMessage){
+    public GetChatsRequest(int id, UserRequest user, GetMessageRequest lastMessage) {
         this.id = id;
         this.user = user;
         this.lastMessage = lastMessage;

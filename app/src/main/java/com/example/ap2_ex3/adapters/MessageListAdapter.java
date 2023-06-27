@@ -16,7 +16,7 @@ import com.example.ap2_ex3.entities.Message;
 import java.util.List;
 import java.util.Objects;
 
-public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.MessageViewHolder>{
+public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.MessageViewHolder> {
 
     class MessageViewHolder extends RecyclerView.ViewHolder {
         private final TextView tvMsgUser, tvMsgSender;
@@ -32,7 +32,6 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
     }
 
     private final LayoutInflater mInflater;
-
     private Context mContext;
     private final String currentUser;
     private List<Message> messages;
@@ -65,6 +64,7 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
             }
         }
     }
+
     public void setMessages(List<Message> m) {
         messages = m;
         notifyDataSetChanged();
@@ -74,8 +74,7 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
     public int getItemCount() {
         if (messages != null) {
             return messages.size();
-        }
-        else return 0;
+        } else return 0;
     }
 
     public List<Message> getMessages() {

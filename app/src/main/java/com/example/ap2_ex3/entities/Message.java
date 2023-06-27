@@ -2,7 +2,6 @@ package com.example.ap2_ex3.entities;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
 @Entity(tableName = "msg_table")
 public class Message {
     @PrimaryKey
@@ -12,7 +11,7 @@ public class Message {
     private String sender;
     private String content;
 
-    public Message(int id,int chatId, String created, String sender, String content){
+    public Message(int id, int chatId, String created, String sender, String content) {
         this.id = id;
         this.created = created;
         this.sender = sender;

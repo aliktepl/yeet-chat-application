@@ -32,7 +32,6 @@ import com.example.ap2_ex3.view_models.MessageModel;
 import com.example.ap2_ex3.view_models.UserModel;
 import com.google.android.material.textfield.TextInputLayout;
 
-
 import java.util.List;
 import java.util.Objects;
 
@@ -108,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 
     public static void showAlert(String msg, Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
