@@ -45,7 +45,7 @@ public class MessageAPI {
                 if(response.isSuccessful()){
                     assert response.body() != null;
                     for(GetMsgReqByObj msg : response.body()){
-                        Message new_msg = new Message(msg.getId(), chatId, msg.getCreated(),
+                        Message new_msg = new Message(msg.getId(), chatId, formatDate(msg.getCreated()),
                                 msg.getSender().getUsername(), msg.getContent());
                         new Thread(() -> messageDao.insert(new_msg)).start();
                     }

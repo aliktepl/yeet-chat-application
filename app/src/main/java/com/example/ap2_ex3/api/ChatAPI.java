@@ -36,7 +36,7 @@ public class ChatAPI {
     // dao fields
     private ChatDao chatDao;
 
-    public ChatAPI(ChatDao chatDao, UserDao userDao, MessageDao messageDao) {
+    public ChatAPI(ChatDao chatDao) {
         // init database
         this.chatDao = chatDao;
         // init service and retrofit

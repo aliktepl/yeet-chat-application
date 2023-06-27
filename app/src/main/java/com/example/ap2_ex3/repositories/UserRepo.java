@@ -66,4 +66,8 @@ public class UserRepo {
         return user;
     }
 
+    public void deleteAllUsers(){
+        userDao.deleteAllUsers();
+    }
+
 }
