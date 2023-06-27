@@ -119,6 +119,20 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/settingsLink"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:padding="8dp"
+                android:text="@string/settings"
+                android:textAlignment="center"
+                style="@style/TEXT"
+                android:textSize="16sp"
+                android:textStyle="bold">
+            </TextView>
+
+
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
