@@ -1,29 +1,64 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     style="@style/SCREEN"
-    android:padding="16dp">
+    android:padding="22dp">
 
     <TextView
         android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/settings"
-        android:textSize="24sp"
+        android:textSize="36sp"
         style="@style/TEXT"
         android:textStyle="bold" />
 
-    <Switch
-        android:id="@+id/modeSwitch"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
+    <LinearLayout
+        android:id="@+id/switchLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/titleTextView"
         android:layout_marginTop="16dp"
-        style="@style/TEXT"
-        android:text="@string/night_mode"
-        android:textSize="18sp"
-        tools:ignore="UseSwitchCompatOrMaterialXml" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/night_mode"
+            android:textSize="18sp"
+            style="@style/TEXT" />
+
+        <Switch
+            android:id="@+id/modeSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            style="@style/TEXT"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/serverAddressEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/switchLayout"
+        android:layout_marginTop="16dp"
+        android:hint="Server Address"
+        android:inputType="text"
+        style="@style/TEXT" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/saveButton"
+        style="@style/btnStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="16dp"
+        android:text="save"
+        android:textSize="18sp" />
 
 </RelativeLayout>
