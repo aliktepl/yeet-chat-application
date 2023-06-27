@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Switch;
@@ -35,10 +36,10 @@ public class SettingsActivity extends AppCompatActivity {
         // get editor for sharedSettings
         editor = sharedPreference.edit();
 
-        ImageButton backButton = findViewById(R.id.backButtonsettings);
-        backButton.setOnClickListener(v -> {
-            finish(); // Go back to the previous screen (ChatsActivity)
-        });
+//        ImageButton backButton = findViewById(R.id.backButtonsettings);
+//        backButton.setOnClickListener(v -> {
+//            finish(); // Go back to the previous screen (ChatsActivity)
+//        });
 
         Button saveButton = findViewById(R.id.saveButton);
         saveButton.setOnClickListener(new View.OnClickListener() {

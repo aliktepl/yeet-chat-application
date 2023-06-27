@@ -52,4 +52,15 @@
         android:inputType="text"
         style="@style/TEXT" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/saveButton"
+        style="@style/btnStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="16dp"
+        android:text="save"
+        android:textSize="18sp" />
+
 </RelativeLayout>
