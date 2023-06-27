@@ -6,11 +6,16 @@ import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.api_requests.CreateMsgReq;
 import com.example.ap2_ex3.api_requests.CreateMsgRequest;
 import com.example.ap2_ex3.api_requests.GetMessageRequest;
+import com.example.ap2_ex3.api_requests.GetMsgReqByObj;
 import com.example.ap2_ex3.database.ChatDao;
 import com.example.ap2_ex3.database.MessageDao;
 import com.example.ap2_ex3.entities.Message;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,13 +38,13 @@ public class MessageAPI {
     }
 
     public void getMessages(Integer chatId, MutableLiveData<Integer> status, String token){
-        Call<List<GetMessageRequest>> getMsgCall = wsAPI.getMessages("Bearer " + token, chatId);
-        getMsgCall.enqueue(new Callback<List<GetMessageRequest>>() {
+        Call<List<GetMsgReqByObj>> getMsgCall = wsAPI.getMessages("Bearer " + token, chatId);
+        getMsgCall.enqueue(new Callback<List<GetMsgReqByObj>>() {
             @Override
-            public void onResponse(@NonNull Call<List<GetMessageRequest>> call, @NonNull Response<List<GetMessageRequest>> response) {
+            public void onResponse(@NonNull Call<List<GetMsgReqByObj>> call, @NonNull Response<List<GetMsgReqByObj>> response) {
                 if(response.isSuccessful()){
                     assert response.body() != null;
-                    for(GetMessageRequest msg : response.body()){
+                    for(GetMsgReqByObj msg : response.body()){
                         Message new_msg = new Message(msg.getId(), chatId, msg.getCreated(),
                                 msg.getSender().getUsername(), msg.getContent());
                         new Thread(() -> messageDao.insert(new_msg)).start();
@@ -50,7 +55,7 @@ public class MessageAPI {
             }
 
             @Override
-            public void onFailure(@NonNull Call<List<GetMessageRequest>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<List<GetMsgReqByObj>> call, @NonNull Throwable t) {
                 status.setValue(500);
             }
         });
@@ -65,7 +70,7 @@ public class MessageAPI {
                 if(response.isSuccessful()){
                     CreateMsgRequest msgReq = response.body();
                     assert msgReq != null;
-                    Message new_msg = new Message(msgReq.getId(), chatId, msgReq.getCreated(),
+                    Message new_msg = new Message(msgReq.getId(), chatId, formatDate(msgReq.getCreated()),
                             msgReq.getSender(), msgReq.getContent());
                     new Thread(() -> { messageDao.insert(new_msg);}).start();
                 } else if(response.code() == 401){
@@ -79,6 +84,21 @@ public class MessageAPI {
                 status.setValue(500);
             }
         });
+    }
+
+    private String formatDate(String dateString) {
+        SimpleDateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+        SimpleDateFormat outputDateFormat = new SimpleDateFormat("MMM dd, yyyy hh:mm a", Locale.getDefault());
+
+        try {
+            Date date = inputDateFormat.parse(dateString);
+            assert date != null;
+            return outputDateFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return ""; // Return an empty string in case of parsing error
     }
 
 }

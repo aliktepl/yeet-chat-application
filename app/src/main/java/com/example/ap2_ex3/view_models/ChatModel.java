@@ -61,4 +61,8 @@ public class ChatModel extends AndroidViewModel {
     public void ChatUpdate(Chat chat) {
         mRepository.update(chat);
     }
+
+    public void updateLastMsg(Integer chatId, String lstMsgContent, String lstMsgTime){
+        mRepository.updateLastMsg(chatId, lstMsgContent, lstMsgTime);
+    }
 }

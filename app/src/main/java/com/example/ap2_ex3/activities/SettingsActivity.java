@@ -28,7 +28,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         serverAddressEditText = findViewById(R.id.serverAddressEditText);
-        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.settings_file_key), Context.MODE_PRIVATE);
         String currentServerAddress = sharedPref.getString("server_address", "");
         serverAddressEditText.setText(currentServerAddress);
 

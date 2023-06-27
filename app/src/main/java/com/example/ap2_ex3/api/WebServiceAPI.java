@@ -6,6 +6,7 @@ import com.example.ap2_ex3.api_requests.CreateMsgReq;
 import com.example.ap2_ex3.api_requests.CreateMsgRequest;
 import com.example.ap2_ex3.api_requests.CreateUserRequest;
 import com.example.ap2_ex3.api_requests.GetChatsRequest;
+import com.example.ap2_ex3.api_requests.GetMsgReqByObj;
 import com.example.ap2_ex3.api_requests.LoginRequest;
 import com.example.ap2_ex3.api_requests.GetMessageRequest;
 import com.example.ap2_ex3.api_requests.UserRequest;
@@ -43,7 +44,7 @@ public interface WebServiceAPI {
 
     // MESSAGE services
     @GET("Chats/{id}/Messages")
-    Call<List<GetMessageRequest>> getMessages(@Header("Authorization") String token, @Path("id") Integer chatId);
+    Call<List<GetMsgReqByObj>> getMessages(@Header("Authorization") String token, @Path("id") Integer chatId);
 
     @POST("Chats/{id}/Messages")
     Call<CreateMsgRequest> createMessage(@Header("Authorization") String token, @Path("id") Integer chatId, @Body CreateMsgReq msgReq);

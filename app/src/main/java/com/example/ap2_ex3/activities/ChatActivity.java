@@ -25,6 +25,7 @@ import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.SettingsActivity;
 import com.example.ap2_ex3.adapters.MessageListAdapter;
 import com.example.ap2_ex3.entities.Message;
+import com.example.ap2_ex3.view_models.ChatModel;
 import com.example.ap2_ex3.view_models.MessageModel;
 
 import java.util.ArrayList;
@@ -34,6 +35,8 @@ public class ChatActivity extends AppCompatActivity {
     private static final int MENU_SETTINGS = R.id.menu_settings;
 
     private MessageModel messageViewModel;
+
+    private ChatModel chatModel;
     private TextView contactName;
     private ImageView contactImage;
     private EditText messageInput;
@@ -48,6 +51,7 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
         messageViewModel = new ViewModelProvider(this).get(MessageModel.class);
+        chatModel = new ViewModelProvider(this).get(ChatModel.class);
         Bundle bundle = getIntent().getExtras();
 
         String username = bundle.getString("username");
@@ -58,7 +62,7 @@ public class ChatActivity extends AppCompatActivity {
         SharedPreferences sharedToken = getApplication().getSharedPreferences(getString(R.string.utilities_file_key), Context.MODE_PRIVATE);
         token = sharedToken.getString("token", "null");
         messageViewModel.setToken(token);
-        messageViewModel.getMessagesByChat(chatId);
+        messageViewModel.getMessagesRequest(chatId);
 
         sendButton = findViewById(R.id.sendButton);
         sendButton.setOnClickListener(v -> {
@@ -99,6 +103,9 @@ public class ChatActivity extends AppCompatActivity {
                 }
                 if(!renderMsg.isEmpty()){
                     adapter.setMessages(renderMsg);
+                    // update last msg in chat
+                    Message lstMsg = renderMsg.get(renderMsg.size() - 1);
+                    chatModel.updateLastMsg(chatId,lstMsg.getContent(), lstMsg.getCreated());
                 }
             }
         });
