@@ -22,9 +22,6 @@ import java.util.Objects;
 
 import android.util.Base64;
 import android.util.Log;
-
-import com.google.firebase.messaging.FirebaseMessaging;
-
 import java.io.ByteArrayOutputStream;
 
 import android.content.ContentResolver;

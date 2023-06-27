@@ -1,7 +1,5 @@
 package com.example.ap2_ex3.api_requests;
 
-import com.example.ap2_ex3.entities.User;
-
 public class GetMessageRequest {
     private int id;
     private String created;

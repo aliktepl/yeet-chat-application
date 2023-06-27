@@ -1,8 +1,6 @@
 package com.example.ap2_ex3.database;
 
-import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;

@@ -5,9 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.api_requests.CreateMsgReq;
 import com.example.ap2_ex3.api_requests.CreateMsgRequest;
-import com.example.ap2_ex3.api_requests.GetMessageRequest;
 import com.example.ap2_ex3.api_requests.GetMsgReqByObj;
-import com.example.ap2_ex3.database.ChatDao;
 import com.example.ap2_ex3.database.MessageDao;
 import com.example.ap2_ex3.entities.Message;
 

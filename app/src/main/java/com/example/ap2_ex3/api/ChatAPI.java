@@ -11,8 +11,6 @@ import com.example.ap2_ex3.api_requests.CreateChatRequest;
 import com.example.ap2_ex3.api_requests.GetChatsRequest;
 import com.example.ap2_ex3.api_requests.UserRequest;
 import com.example.ap2_ex3.database.ChatDao;
-import com.example.ap2_ex3.database.MessageDao;
-import com.example.ap2_ex3.database.UserDao;
 import com.example.ap2_ex3.entities.Chat;
 
 import java.text.ParseException;

@@ -5,15 +5,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.ActivityManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -27,8 +22,6 @@ import android.widget.TextView;
 import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.api_requests.LoginRequest;
 import com.example.ap2_ex3.entities.User;
-import com.example.ap2_ex3.view_models.ChatModel;
-import com.example.ap2_ex3.view_models.MessageModel;
 import com.example.ap2_ex3.view_models.UserModel;
 import com.google.android.material.textfield.TextInputLayout;
 

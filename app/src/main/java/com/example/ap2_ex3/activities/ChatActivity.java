@@ -23,7 +23,6 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.example.ap2_ex3.R;
-import com.example.ap2_ex3.SettingsActivity;
 import com.example.ap2_ex3.adapters.MessageListAdapter;
 import com.example.ap2_ex3.entities.Message;
 import com.example.ap2_ex3.services.MyFirebaseMessagingService;
