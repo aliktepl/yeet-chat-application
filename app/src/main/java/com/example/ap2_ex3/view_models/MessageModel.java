@@ -5,7 +5,6 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.example.ap2_ex3.api_requests.MessageRequest;
 import com.example.ap2_ex3.entities.Message;
 import com.example.ap2_ex3.repositories.MessageRepo;
 

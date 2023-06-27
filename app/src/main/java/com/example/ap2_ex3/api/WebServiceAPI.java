@@ -2,13 +2,13 @@ package com.example.ap2_ex3.api;
 
 import com.example.ap2_ex3.activities.Username;
 import com.example.ap2_ex3.api_requests.CreateChatRequest;
+import com.example.ap2_ex3.api_requests.CreateMsgReq;
+import com.example.ap2_ex3.api_requests.CreateMsgRequest;
 import com.example.ap2_ex3.api_requests.CreateUserRequest;
 import com.example.ap2_ex3.api_requests.GetChatsRequest;
 import com.example.ap2_ex3.api_requests.LoginRequest;
-import com.example.ap2_ex3.api_requests.MessageRequest;
+import com.example.ap2_ex3.api_requests.GetMessageRequest;
 import com.example.ap2_ex3.api_requests.UserRequest;
-import com.example.ap2_ex3.entities.Chat;
-import com.example.ap2_ex3.entities.User;
 
 import java.util.List;
 
@@ -42,9 +42,8 @@ public interface WebServiceAPI {
 
     // MESSAGE services
     @GET("Chats/{id}/Messages")
-    Call<List<MessageRequest>> getMessages(@Header("Authorization") String token, @Path("id") Integer chatId);
+    Call<List<GetMessageRequest>> getMessages(@Header("Authorization") String token, @Path("id") Integer chatId);
 
     @POST("Chats/{id}/Messages")
-    Call<MessageRequest> createMessage(@Path("id") Integer msgId
-            , @Body String msgContent, @Header("Authorization") String token);
+    Call<CreateMsgRequest> createMessage(@Header("Authorization") String token, @Path("id") Integer chatId, @Body CreateMsgReq msgReq);
 }
