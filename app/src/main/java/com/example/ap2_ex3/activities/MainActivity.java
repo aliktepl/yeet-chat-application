@@ -41,8 +41,6 @@ public class MainActivity extends AppCompatActivity {
     private TextInputLayout passwordView;
     private LoginRequest loginRequest;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,12 +75,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
         User currUser = userModel.getUserObject();
-        if(currUser != null){
+        if (currUser != null) {
             Intent intent = new Intent(MainActivity.this, ChatsActivity.class);
             intent.putExtra("username", currUser.getUsername());
             intent.putExtra("needUser", false);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
         }
+
 
         userModel.observeToken().observe(this, liveToken -> {
             if (liveToken != null) {
@@ -94,12 +94,14 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, ChatsActivity.class);
                 intent.putExtra("username", loginRequest.getUsername());
                 intent.putExtra("needUser", true);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
             } else {
                 // invalid login
                 Log.d("Login", "Request failed");
             }
         });
+
 
         userModel.observeStatus().observe(this, status -> {
             if (status == 404) {
