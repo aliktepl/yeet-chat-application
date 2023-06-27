@@ -1,24 +1,15 @@
 package com.example.ap2_ex3.repositories;
 
 import android.app.Application;
-import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.ap2_ex3.api.ChatAPI;
 import com.example.ap2_ex3.api.MessageAPI;
-import com.example.ap2_ex3.api_requests.CreateUserRequest;
-import com.example.ap2_ex3.api_requests.LoginRequest;
-import com.example.ap2_ex3.api_requests.MessageRequest;
 import com.example.ap2_ex3.database.AppDB;
 import com.example.ap2_ex3.database.MessageDao;
 import com.example.ap2_ex3.database.UserDao;
 import com.example.ap2_ex3.entities.Message;
-import com.example.ap2_ex3.entities.User;
-import com.example.ap2_ex3.api.UserAPI;
-import com.example.ap2_ex3.database.ChatDao;
-import com.example.ap2_ex3.entities.Chat;
 
 import java.util.List;
 
@@ -70,8 +61,8 @@ public class MessageRepo {
     // api operations
     public void getMessagesRequest(Integer chatId){ messageAPI.getMessages(chatId, status, token); }
 
-    public void createMessageRequest(Integer chatId, MessageRequest msgReq){
-        messageAPI.createMessage(chatId, msgReq, token, status);
+    public void createMessageRequest(Integer chatId, String msgContent){
+        messageAPI.createMessage(chatId, msgContent, token, status);
     }
 
 }

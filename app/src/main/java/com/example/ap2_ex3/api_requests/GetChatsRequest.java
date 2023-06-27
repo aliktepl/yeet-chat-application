@@ -1,13 +1,11 @@
 package com.example.ap2_ex3.api_requests;
 
-import com.example.ap2_ex3.entities.User;
-
 public class GetChatsRequest {
     private int id;
     private UserRequest user;
-    private MessageRequest lastMessage;
+    private GetMessageRequest lastMessage;
 
-    public GetChatsRequest(int id, UserRequest user, MessageRequest lastMessage){
+    public GetChatsRequest(int id, UserRequest user, GetMessageRequest lastMessage){
         this.id = id;
         this.user = user;
         this.lastMessage = lastMessage;
@@ -21,7 +19,7 @@ public class GetChatsRequest {
         return user;
     }
 
-    public MessageRequest getLastMessage() {
+    public GetMessageRequest getLastMessage() {
         return lastMessage;
     }
 }
