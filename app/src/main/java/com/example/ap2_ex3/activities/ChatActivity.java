@@ -63,8 +63,14 @@ public class ChatActivity extends AppCompatActivity {
         sendButton = findViewById(R.id.sendButton);
         sendButton.setOnClickListener(v -> {
             messageInput = findViewById(R.id.messageInput);
-            messageViewModel.createMessageRequest(chatId, messageInput.getText().toString());
+            String message = messageInput.getText().toString().trim(); // Trim any leading or trailing whitespace
+
+            if (!message.isEmpty()) { // Check if the message is not empty
+                messageViewModel.createMessageRequest(chatId, message);
+                messageInput.setText(""); // Clear the text from the input field
+            }
         });
+
 
         contactName = findViewById(R.id.contactName);
         contactImage = findViewById(R.id.contactImage);
