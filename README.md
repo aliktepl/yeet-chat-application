@@ -13,7 +13,7 @@ Once you have followed these steps, you will be able to use the Yeet! Android ch
 Enjoy Yeeting!  
 
 ## Application Overview
-The web application is divided into different parts to ensure a smooth user experience:  
+The chat application is divided into different parts to ensure a smooth user experience:  
 
 #### Login Screen:  
 Allows users to enter their login credentials to gain access to the chat application. If a user doesn't have an account, they can refer to the sign-up screen to create a new account. The login screen ensures secure authentication for users. 
