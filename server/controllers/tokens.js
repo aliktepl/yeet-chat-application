@@ -11,7 +11,7 @@ const generateToken = async (req, res) => {
         res.status(200).send(response);
         //firebase
         //TODO: Add token to client request
-        users.set(req.body.username, req.headers.params.fbToken);
+        users.set(req.body.username, req.headers.fbtoken);
     } else {
         res.status(404).send('Invalid username or password');
 

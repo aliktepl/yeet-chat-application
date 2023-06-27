@@ -27,7 +27,6 @@ import com.example.ap2_ex3.services.MyFirebaseMessagingService;
 import com.example.ap2_ex3.view_models.ChatModel;
 import com.example.ap2_ex3.view_models.UserModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 public class ChatsActivity extends AppCompatActivity {
     private static final int MENU_SETTINGS = R.id.menu_settings;
@@ -63,12 +62,12 @@ public class ChatsActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        MyFirebaseMessagingService firebaseMessagingService = new MyFirebaseMessagingService(chatModel);
-
         RecyclerView lstChats = findViewById(R.id.lstChats);
         final ChatsListAdapter adapter = new ChatsListAdapter(this);
         lstChats.setAdapter(adapter);
         lstChats.setLayoutManager(new LinearLayoutManager(this));
+
+
 
         userModel = new ViewModelProvider(this).get(UserModel.class);
         userModel.getUser().observe(this, user -> {
@@ -83,6 +82,7 @@ public class ChatsActivity extends AppCompatActivity {
 
         adapter.setOnItemClickListener(chat -> {
             Intent intent = new Intent(ChatsActivity.this, ChatActivity.class);
+            intent.putExtra("currentUser", tvUserName.getText().toString());
             intent.putExtra("username", chat.getRecipient());
             intent.putExtra("picture", chat.getRecipientProfPic());
             intent.putExtra("id" ,chat.getId());
