@@ -19,6 +19,8 @@ import android.widget.TextView;
 
 import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.api_requests.LoginRequest;
+import com.example.ap2_ex3.view_models.ChatModel;
+import com.example.ap2_ex3.view_models.MessageModel;
 import com.example.ap2_ex3.view_models.UserModel;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -28,6 +30,8 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity {
     private boolean isLoggedIn = false;
     private UserModel userModel;
+    private MessageModel messageModel;
+    private ChatModel chatModel;
     private TextInputLayout usernameView;
     private TextInputLayout passwordView;
     private LoginRequest loginRequest;
@@ -38,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
         userModel = new ViewModelProvider(this).get(UserModel.class);
+        chatModel = new ViewModelProvider(this).get(ChatModel.class);
+        messageModel = new ViewModelProvider(this).get(MessageModel.class);
 
         SharedPreferences sharedMode = getApplication().getSharedPreferences(getString(R.string.settings_file_key), Context.MODE_PRIVATE);
         boolean nightMode = sharedMode.getBoolean("night", false);
@@ -90,14 +96,19 @@ public class MainActivity extends AppCompatActivity {
                     if (isCurrentActivity(MainActivity.this)) {
                         navigateToChatsActivity();
                     }
-//                    Intent intent = new Intent(this, ChatsActivity.class);
-//                    startActivity(intent);
                 }
             });
         });
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        userModel.deleteAllUsers();
+        chatModel.deleteAllChats();
+        messageModel.deleteAllMessages();
+    }
 
     public static void showAlert(String msg, Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -119,16 +130,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, ChatsActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
-        finish(); // Optional: finish the current activity to prevent going back to it
     }
 
     private boolean isCurrentActivity(Activity activity) {
         return activity.getClass().equals(MainActivity.class);
-    }
-
-    private void navigateToSettingsActivity() {
-        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-        startActivity(intent);
     }
 
     @Override

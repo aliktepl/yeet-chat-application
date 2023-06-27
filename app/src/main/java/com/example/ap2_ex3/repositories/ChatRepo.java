@@ -48,7 +48,7 @@ public class ChatRepo {
         messageDao = db.messageDao();
         chatDao = db.chatDao();
         // api init
-        chatAPI = new ChatAPI(chatDao, userDao, messageDao);
+        chatAPI = new ChatAPI(chatDao);
         // live data init
         allChats = chatDao.getAllChats();
         status = new MutableLiveData<>();
@@ -76,6 +76,9 @@ public class ChatRepo {
     }
     public void delete(Chat chat) {
         new Thread(() -> { chatDao.Delete(chat);}).start();
+    }
+    public void deleteAllChats(){
+        new Thread(()->{chatDao.deleteAllChats();}).start();
     }
 
     public void updateLastMsg(Integer chatId, String lstMsgContent, String lstMsgTime){

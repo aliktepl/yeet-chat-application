@@ -52,5 +52,7 @@ public class UserModel extends AndroidViewModel {
     // User Dao operations
     public LiveData<User> getUser(){ return user; }
 
+    public void deleteAllUsers() { mRepository.deleteAllUsers();}
+
 }
 

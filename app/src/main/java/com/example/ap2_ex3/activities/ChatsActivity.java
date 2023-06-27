@@ -25,6 +25,7 @@ import com.example.ap2_ex3.adapters.ChatsListAdapter;
 import com.example.ap2_ex3.entities.User;
 import com.example.ap2_ex3.services.MyFirebaseMessagingService;
 import com.example.ap2_ex3.view_models.ChatModel;
+import com.example.ap2_ex3.view_models.MessageModel;
 import com.example.ap2_ex3.view_models.UserModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -36,8 +37,8 @@ public class ChatsActivity extends AppCompatActivity {
     private ImageView ivUserProfile;
 
     private UserModel userModel;
-
     private ChatModel chatModel;
+    private MessageModel messageModel;
     private String token;
 
     @Override
@@ -71,6 +72,7 @@ public class ChatsActivity extends AppCompatActivity {
 
         userModel = new ViewModelProvider(this).get(UserModel.class);
         chatModel = new ViewModelProvider(this).get(ChatModel.class);
+        messageModel = new ViewModelProvider(this).get(MessageModel.class);
 
         userModel.getUser().observe(this, userObserver);
 
@@ -123,6 +125,9 @@ public class ChatsActivity extends AppCompatActivity {
     }
 
     private void logout() {
+        userModel.deleteAllUsers();
+        chatModel.deleteAllChats();
+        messageModel.deleteAllMessages();
         finish();
     }
 

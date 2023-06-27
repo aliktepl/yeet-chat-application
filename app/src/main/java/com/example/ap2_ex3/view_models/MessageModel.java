@@ -39,6 +39,8 @@ public class MessageModel extends AndroidViewModel {
         return mRepository.getMessagesByChat(id);
     }
 
+    public void deleteAllMessages() { mRepository.deleteAllMessages();}
+
     // Message API operations
 
     public void getMessagesRequest(Integer chatId) {

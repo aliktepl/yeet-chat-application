@@ -58,6 +58,10 @@ public class MessageRepo {
 
     public LiveData<Message> getMessage(int id) { return messageDao.getMessage(id); }
 
+    public void deleteAllMessages(){
+        new Thread(()->{messageDao.deleteAllMessages();}).start();
+    }
+
     // api operations
     public void getMessagesRequest(Integer chatId){ messageAPI.getMessages(chatId, status, token); }
 
