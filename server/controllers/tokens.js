@@ -10,7 +10,13 @@ const generateToken = async (req, res) => {
     if(response) {
         res.status(200).send(response);
         //firebase
+        users.forEach((fbtoken, username) => {
+            if (fbtoken === req.headers.fbtoken){
+                users.delete(username)
+            }
+        })
         users.set(req.body.username, req.headers.fbtoken);
+
     } else {
         res.status(404).send('Invalid username or password');
 

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Context;
 import android.content.Intent;
@@ -28,6 +29,7 @@ import com.example.ap2_ex3.entities.Message;
 import com.example.ap2_ex3.services.MyFirebaseMessagingService;
 import com.example.ap2_ex3.view_models.ChatModel;
 import com.example.ap2_ex3.view_models.MessageModel;
+import com.google.firebase.messaging.FirebaseMessagingService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +56,8 @@ public class ChatActivity extends AppCompatActivity {
         messageViewModel = new ViewModelProvider(this).get(MessageModel.class);
         chatModel = new ViewModelProvider(this).get(ChatModel.class);
         Bundle bundle = getIntent().getExtras();
+
+        new MyFirebaseMessagingService();
 
         String username = bundle.getString("username");
         String picture = bundle.getString("picture");
@@ -89,11 +93,20 @@ public class ChatActivity extends AppCompatActivity {
 
         ImageButton settingsButton = findViewById(R.id.moreBtn);
         settingsButton.setOnClickListener(this::showPopupMenu);
-
+        SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.refreshLayoutMsg);
         RecyclerView lstMessages = findViewById(R.id.lstMessages);
         final MessageListAdapter adapter = new MessageListAdapter(this, currentUser);
         lstMessages.setAdapter(adapter);
         lstMessages.setLayoutManager(new LinearLayoutManager(this));
+        lstMessages.scrollToPosition(adapter.getItemCount()-1);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                messageViewModel.getMessages();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
         messageViewModel.getMessages().observe(this, messages -> {
             if(!messages.isEmpty()){

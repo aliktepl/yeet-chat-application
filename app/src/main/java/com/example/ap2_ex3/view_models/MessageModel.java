@@ -19,7 +19,7 @@ public class MessageModel extends AndroidViewModel {
 
     public MessageModel(Application application){
         super(application);
-        mRepository = new MessageRepo(application);
+        mRepository = MessageRepo.getInstance(application);
         status = mRepository.getStatus();
         messages = mRepository.getMessages();
     }

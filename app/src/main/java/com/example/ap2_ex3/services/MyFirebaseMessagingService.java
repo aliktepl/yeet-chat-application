@@ -1,14 +1,19 @@
 package com.example.ap2_ex3.services;
 
+import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.example.ap2_ex3.R;
+import com.example.ap2_ex3.api.AppContext;
 import com.example.ap2_ex3.view_models.ChatModel;
 import com.example.ap2_ex3.view_models.MessageModel;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -16,11 +21,10 @@ import com.google.firebase.messaging.RemoteMessage;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private MessageModel messageModel;
-    private ChatModel chatModel;
+    //private ChatModel chatModel;
 
     public MyFirebaseMessagingService() {
         messageModel = new MessageModel(getApplication());
-        chatModel = new ChatModel((getApplication()));
     }
 
     @Override
@@ -46,6 +50,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             assert notificationManager != null;
             notificationManager.createNotificationChannel(channel);
             notificationManager.notify(1, notificationBuilder.build());
+            messageModel.getMessages();
+            //chatModel.getChats();
         }
     }
 
