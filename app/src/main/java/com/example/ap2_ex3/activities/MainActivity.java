@@ -25,7 +25,6 @@ import com.example.ap2_ex3.entities.User;
 import com.example.ap2_ex3.view_models.UserModel;
 import com.google.android.material.textfield.TextInputLayout;
 
-
 import java.util.List;
 import java.util.Objects;
 
@@ -34,8 +33,6 @@ public class MainActivity extends AppCompatActivity {
     private TextInputLayout usernameView;
     private TextInputLayout passwordView;
     private LoginRequest loginRequest;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +62,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         TextView signUpLink = findViewById(R.id.loginLink);
+        TextView settingsLink = findViewById(R.id.settingsLink);
+
+        settingsLink.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent);
+        });
+
         signUpLink.setOnClickListener(v -> {
             Intent i = new Intent(MainActivity.this, SignUpActivity.class);
             startActivity(i);
@@ -80,12 +84,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
         User currUser = userModel.getUserObject();
-        if(currUser != null){
+        if (currUser != null) {
             Intent intent = new Intent(MainActivity.this, ChatsActivity.class);
             intent.putExtra("username", currUser.getUsername());
             intent.putExtra("needUser", false);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
         }
+
 
         userModel.observeToken().observe(this, liveToken -> {
             if (liveToken != null) {
@@ -97,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, ChatsActivity.class);
                 intent.putExtra("username", loginRequest.getUsername());
                 intent.putExtra("needUser", true);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
             } else {
                 // invalid login
@@ -104,13 +111,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         userModel.observeStatus().observe(this, status -> {
             if (status == 404) {
                 MainActivity.showAlert("Invalid username or password", this);
             }
         });
     }
-
 
     public static void showAlert(String msg, Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);

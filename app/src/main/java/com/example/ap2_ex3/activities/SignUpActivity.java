@@ -22,6 +22,7 @@ import java.util.Objects;
 
 import android.util.Base64;
 import android.util.Log;
+
 import java.io.ByteArrayOutputStream;
 
 import android.content.ContentResolver;

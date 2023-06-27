@@ -16,7 +16,6 @@ import androidx.appcompat.app.AppCompatDelegate;
 import com.example.ap2_ex3.R;
 
 public class SettingsActivity extends AppCompatActivity {
-
     Switch switcher;
     boolean nightMode;
     SharedPreferences sharedPreference;
@@ -54,6 +53,8 @@ public class SettingsActivity extends AppCompatActivity {
                 editor.putString("address", modifiedUrl);
                 editor.apply();
 
+        switcher = findViewById(R.id.modeSwitch);
+
 
                 // Show a message or perform any necessary actions after saving the server address
 
@@ -66,27 +67,27 @@ public class SettingsActivity extends AppCompatActivity {
 
         nightMode = sharedPreference.getBoolean("night", false);
 
-//        if (nightMode) {
-//            switcher.setChecked(true);
-//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-//        }
+        if (nightMode) {
+            switcher.setChecked(true);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
 
-        switcher.setOnClickListener(new View.OnClickListener() {
+        switcher.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                if (nightMode) {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    editor = sharedPreference.edit();
-                    editor.putBoolean("night", false);
-                } else {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     editor = sharedPreference.edit();
                     editor.putBoolean("night", true);
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    editor = sharedPreference.edit();
+                    editor.putBoolean("night", false);
                 }
                 editor.apply();
-                nightMode = !nightMode;
             }
         });
+
     }
 }
 

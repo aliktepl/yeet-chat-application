@@ -38,6 +38,8 @@
         android:textColor="#888888"
         android:maxLines="1"
         android:ellipsize="end"
+        style="@style/TEXT"
+
         android:layout_toEndOf="@id/ivPic"
         android:layout_below="@id/tvDisplayName"
         android:layout_marginTop="4dp"
@@ -49,7 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12sp"
-        android:textColor="#888888"
+        style="@style/TEXT"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="7dp"
         android:layout_marginStart="8dp"

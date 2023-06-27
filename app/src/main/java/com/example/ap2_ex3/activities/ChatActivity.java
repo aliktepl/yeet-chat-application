@@ -7,19 +7,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
-import android.view.MenuInflater;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.example.ap2_ex3.R;
@@ -33,16 +28,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
-    private static final int MENU_SETTINGS = R.id.menu_settings;
-
     private MessageModel messageViewModel;
 
     private ChatModel chatModel;
     private TextView contactName;
     private ImageView contactImage;
     private EditText messageInput;
-    private Button sendButton;
-
+    private ImageButton sendButton;
     private String token;
     private Integer chatId;
 
@@ -89,8 +81,7 @@ public class ChatActivity extends AppCompatActivity {
             finish(); // Go back to the previous screen (ChatsActivity)
         });
 
-        ImageButton settingsButton = findViewById(R.id.moreBtn);
-        settingsButton.setOnClickListener(this::showPopupMenu);
+
         SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.refreshLayoutMsg);
         RecyclerView lstMessages = findViewById(R.id.lstMessages);
         final MessageListAdapter adapter = new MessageListAdapter(this, currentUser);
@@ -113,14 +104,14 @@ public class ChatActivity extends AppCompatActivity {
         });
 
         messageViewModel.getMessages().observe(this, messages -> {
-            if(!messages.isEmpty()){
+            if (!messages.isEmpty()) {
                 List<Message> renderMsg = new ArrayList<>();
-                for (Message msg : messages){
-                    if(msg.getChatId() == chatId){
+                for (Message msg : messages) {
+                    if (msg.getChatId() == chatId) {
                         renderMsg.add(msg);
                     }
                 }
-                if(!renderMsg.isEmpty()){
+                if (!renderMsg.isEmpty()) {
                     adapter.setMessages(renderMsg);
                     // update last msg in chat
                     Message lstMsg = renderMsg.get(renderMsg.size() - 1);
@@ -128,27 +119,5 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
-
-    private void showPopupMenu(View view) {
-        PopupMenu popupMenu = new PopupMenu(this, view);
-        MenuInflater inflater = popupMenu.getMenuInflater();
-        inflater.inflate(R.menu.more_menu, popupMenu.getMenu());
-        popupMenu.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == MENU_SETTINGS) {
-                openSettings();
-                return true;
-            }
-            return false;
-        });
-        popupMenu.show();
-    }
-
-    private void openSettings() {
-        Intent intent = new Intent(ChatActivity.this, SettingsActivity.class);
-        startActivity(intent);
-    }
-
-
 }

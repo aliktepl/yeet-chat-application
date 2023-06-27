@@ -10,21 +10,20 @@ import com.example.ap2_ex3.repositories.ChatRepo;
 
 import java.util.List;
 
-
 public class ChatModel extends AndroidViewModel {
 
     private final ChatRepo mRepository;
     private LiveData<Integer> status;
     private LiveData<List<Chat>> chats;
 
-    public ChatModel(Application application){
+    public ChatModel(Application application) {
         super(application);
         mRepository = ChatRepo.getInstance(application);
         status = mRepository.getStatus();
         chats = mRepository.getAllChats();
     }
 
-    public void setToken(String token){
+    public void setToken(String token) {
         mRepository.setToken(token);
     }
 
@@ -38,7 +37,7 @@ public class ChatModel extends AndroidViewModel {
     }
 
     // Chat API operations
-    public void getChats(){
+    public void getChats() {
         mRepository.getChatsRequest();
     }
 

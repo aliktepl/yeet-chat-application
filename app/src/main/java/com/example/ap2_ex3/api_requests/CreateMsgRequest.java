@@ -6,7 +6,7 @@ public class CreateMsgRequest {
     private String sender;
     private String content;
 
-    public CreateMsgRequest(int id, String created, String sender, String content){
+    public CreateMsgRequest(int id, String created, String sender, String content) {
         this.id = id;
         this.created = created;
         this.sender = sender;

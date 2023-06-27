@@ -4,7 +4,7 @@ public class CreateChatRequest {
     private int id;
     private UserRequest user;
 
-    public CreateChatRequest(int id, UserRequest user){
+    public CreateChatRequest(int id, UserRequest user) {
         this.id = id;
         this.user = user;
     }

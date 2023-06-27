@@ -71,7 +71,9 @@ public class ChatAPI {
                             newChat = new Chat(chat.getId(), chat.getUser().getUsername()
                                     , chat.getUser().getProfPic(), null, null);
                         }
-                        new Thread(() -> {chatDao.Insert(newChat);}).start();
+                        new Thread(() -> {
+                            chatDao.Insert(newChat);
+                        }).start();
                     }
                 }
             }
@@ -83,28 +85,28 @@ public class ChatAPI {
         });
     }
 
-
-
     public void createChat(String token, MutableLiveData<Integer> status,
-                            String username){
+                           String username) {
         Username usernameObj = new Username(username);
         Call<CreateChatRequest> call = wsAPI.createChat("Bearer " + token, usernameObj);
         call.enqueue(new Callback<CreateChatRequest>() {
             @Override
-            public void onResponse(@NonNull Call<CreateChatRequest> call,@NonNull Response<CreateChatRequest> response) {
-                if(response.isSuccessful()){
+            public void onResponse(@NonNull Call<CreateChatRequest> call, @NonNull Response<CreateChatRequest> response) {
+                if (response.isSuccessful()) {
                     CreateChatRequest c = response.body();
                     assert c != null;
                     UserRequest u = c.getUser();
                     Chat new_chat = new Chat(c.getId(), u.getUsername(), u.getProfPic(), null, null);
-                    new Thread(() -> {chatDao.Insert(new_chat);}).start();
-                } else if(response.code() == 400) {
+                    new Thread(() -> {
+                        chatDao.Insert(new_chat);
+                    }).start();
+                } else if (response.code() == 400) {
                     status.setValue(response.code());
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<CreateChatRequest> call,@NonNull Throwable t) {
+            public void onFailure(@NonNull Call<CreateChatRequest> call, @NonNull Throwable t) {
                 status.setValue(2);
             }
         });

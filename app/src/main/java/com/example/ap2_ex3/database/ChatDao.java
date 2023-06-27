@@ -25,6 +25,7 @@ public interface ChatDao {
 
     @Query("SELECT * FROM chat_table ORDER BY id ASC")
     LiveData<List<Chat>> getAllChats();
+
     @Query("SELECT * FROM chat_table WHERE id=:id")
     Chat getChat(int id);
     @Query("UPDATE chat_table SET lstMsgContent = :newMsgContent, lstMsgTime = :newMsgTime WHERE id = :chatId")
