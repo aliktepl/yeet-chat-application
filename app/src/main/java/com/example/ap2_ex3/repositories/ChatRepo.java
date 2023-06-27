@@ -78,7 +78,7 @@ public class ChatRepo {
         new Thread(() -> { chatDao.Delete(chat);}).start();
     }
     public void deleteAllChats(){
-        new Thread(()->{chatDao.deleteAllChats();}).start();
+        chatDao.deleteAllChats();
     }
 
     public void updateLastMsg(Integer chatId, String lstMsgContent, String lstMsgTime){

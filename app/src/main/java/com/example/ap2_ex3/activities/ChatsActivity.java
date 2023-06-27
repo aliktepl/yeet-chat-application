@@ -45,17 +45,20 @@ public class ChatsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chats);
+        userModel = new ViewModelProvider(this).get(UserModel.class);
 
         tvUserName = findViewById(R.id.tvUserName);
         ivUserProfile = findViewById(R.id.ivUserProfile);
 
-        final Observer<User> userObserver = user -> {
-            String base64Image = user.getProfPic();
-            byte[] decodedString = Base64.decode(base64Image, Base64.DEFAULT);
-            Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedString,0 , decodedString.length);
-            ivUserProfile.setImageBitmap(decodedBitmap);
-            tvUserName.setText(user.getDisplayName());
-        };
+        userModel.getUser().observe(this, user -> {
+            if(user != null) {
+                String base64Image = user.getProfPic();
+                byte[] decodedString = Base64.decode(base64Image, Base64.DEFAULT);
+                Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                ivUserProfile.setImageBitmap(decodedBitmap);
+                tvUserName.setText(user.getDisplayName());
+            }
+            });
 
         FloatingActionButton btnAdd = findViewById(R.id.btnAdd);
         btnAdd.setOnClickListener(v -> {
@@ -70,11 +73,9 @@ public class ChatsActivity extends AppCompatActivity {
 
 
 
-        userModel = new ViewModelProvider(this).get(UserModel.class);
         chatModel = new ViewModelProvider(this).get(ChatModel.class);
         messageModel = new ViewModelProvider(this).get(MessageModel.class);
 
-        userModel.getUser().observe(this, userObserver);
 
         adapter.setOnItemClickListener(chat -> {
             Intent intent = new Intent(ChatsActivity.this, ChatActivity.class);

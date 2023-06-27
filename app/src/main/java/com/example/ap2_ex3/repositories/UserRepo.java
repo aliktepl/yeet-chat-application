@@ -67,7 +67,7 @@ public class UserRepo {
     }
 
     public void deleteAllUsers(){
-        new Thread(()->{userDao.deleteAllUsers();}).start();
+        userDao.deleteAllUsers();
     }
 
 }

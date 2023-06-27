@@ -59,7 +59,7 @@ public class MessageRepo {
     public LiveData<Message> getMessage(int id) { return messageDao.getMessage(id); }
 
     public void deleteAllMessages(){
-        new Thread(()->{messageDao.deleteAllMessages();}).start();
+        messageDao.deleteAllMessages();
     }
 
     // api operations
