@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
             loginRequest = new LoginRequest(Objects.requireNonNull(usernameView.getEditText()).getText().toString(),
                     Objects.requireNonNull(passwordView.getEditText()).getText().toString());
             userModel.getToken(loginRequest);
-
             userModel.observeToken().observe(this, liveToken -> {
                 if (liveToken != null) {
                     userModel.getCurrUser(loginRequest.getUsername(), liveToken);

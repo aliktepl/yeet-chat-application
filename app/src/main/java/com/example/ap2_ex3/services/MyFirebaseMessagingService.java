@@ -42,7 +42,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             assert notificationManager != null;
             notificationManager.createNotificationChannel(channel);
             notificationManager.notify(1, notificationBuilder.build());
-//             chatModel.getChats();
+             chatModel.getChats();
         }
     }
 
