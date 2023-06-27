@@ -4,16 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.ChatsActivity"
-    style="@style/SCREEN">
+    tools:context=".activities.ChatsActivity">
 
     <RelativeLayout
         android:id="@+id/userLayout"
+        style="@style/USER_BACKGROUND"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/USER_BACKGROUND"
-        android:padding="8dp"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:padding="8dp">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivUserProfile"
@@ -25,6 +24,7 @@
 
         <TextView
             android:id="@+id/tvUserName"
+            style="@style/TEXT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -32,11 +32,11 @@
             android:layout_toEndOf="@id/ivUserProfile"
             android:text="User Name"
             android:textSize="16sp"
-            style="@style/TEXT"
             android:textStyle="bold" />
 
         <ImageButton
             android:id="@+id/moreBtn"
+            style="@style/MORE_BTN"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -47,7 +47,6 @@
             android:paddingTop="11dp"
             android:paddingRight="10dp"
             android:paddingBottom="11dp"
-            style="@style/MORE_BTN"
             tools:ignore="RtlSymmetry" />
 
     </RelativeLayout>
@@ -61,8 +60,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/lstChats"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            style="@style/SCREEN" />
+            android:layout_height="match_parent" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

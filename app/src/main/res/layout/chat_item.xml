@@ -4,10 +4,9 @@
     android:id="@+id/chatItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp"
+    android:padding="12dp"
     android:clickable="true"
-    style="@style/CONTACT_BACKGROUND"
-    android:foreground="?android:attr/selectableItemBackground">
+    style="@style/CONTACT_BACKGROUND">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivPic"
@@ -54,7 +53,6 @@
         android:textColor="#888888"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="7dp"
-
         android:layout_marginStart="8dp"
         android:layout_marginEnd="16dp" />
 
