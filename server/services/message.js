@@ -37,7 +37,7 @@ const getMessage = async (chat) => {
     let msgList = []
     for (const msg of chat.messages) {
         const msgContent = await Messages.findById(msg);
-       const user = await User.findById(msgContent.sender);
+       const user = await User.findById(msgContent.sender); 
        const newMsg = {
            id : msgContent.id,
            created : msgContent.created,
