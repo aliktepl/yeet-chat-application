@@ -5,7 +5,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -25,32 +27,43 @@ import com.example.ap2_ex3.adapters.MessageListAdapter;
 import com.example.ap2_ex3.entities.Message;
 import com.example.ap2_ex3.view_models.MessageModel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ChatActivity extends AppCompatActivity {
     private static final int MENU_SETTINGS = R.id.menu_settings;
 
     private MessageModel messageViewModel;
     private TextView contactName;
     private ImageView contactImage;
-
     private EditText messageInput;
-
     private Button sendButton;
+
+    private String token;
+    private Integer chatId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        messageViewModel = new ViewModelProvider(this).get(MessageModel.class);
         Bundle bundle = getIntent().getExtras();
 
         String username = bundle.getString("username");
         String picture = bundle.getString("picture");
 
+        // init chatId and token
+        chatId = bundle.getInt("id");
+        SharedPreferences sharedToken = getApplication().getSharedPreferences(getString(R.string.utilities_file_key), Context.MODE_PRIVATE);
+        token = sharedToken.getString("token", "null");
+        messageViewModel.setToken(token);
+        messageViewModel.getMessagesByChat(chatId);
+
         sendButton = findViewById(R.id.sendButton);
         sendButton.setOnClickListener(v -> {
             messageInput = findViewById(R.id.messageInput);
-//            Message message = new Message("message text", "sender");
-//            messageViewModel.Insert(message);
+            messageViewModel.createMessageRequest(chatId, messageInput.getText().toString());
         });
 
         contactName = findViewById(R.id.contactName);
@@ -76,8 +89,19 @@ public class ChatActivity extends AppCompatActivity {
         lstMessages.setAdapter(adapter);
         lstMessages.setLayoutManager(new LinearLayoutManager(this));
 
-        messageViewModel = new ViewModelProvider(this).get(MessageModel.class);
-        messageViewModel.getMessages().observe(this, adapter::setMessages);
+        messageViewModel.getMessages().observe(this, messages -> {
+            if(!messages.isEmpty()){
+                List<Message> renderMsg = new ArrayList<>();
+                for (Message msg : messages){
+                    if(msg.getChatId() == chatId){
+                        renderMsg.add(msg);
+                    }
+                }
+                if(!renderMsg.isEmpty()){
+                    adapter.setMessages(renderMsg);
+                }
+            }
+        });
 
     }
 

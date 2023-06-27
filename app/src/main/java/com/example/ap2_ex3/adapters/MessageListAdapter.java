@@ -33,23 +33,25 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
 
     private final LayoutInflater mInflater;
 
+    private Context mContext;
     private final String currentUser;
     private List<Message> messages;
 
     public MessageListAdapter(Context context, String currentUser) {
+        mContext = context;
         this.currentUser = currentUser;
-        mInflater = LayoutInflater.from(context);
+        mInflater = LayoutInflater.from(mContext);
     }
 
     @NonNull
     @Override
-    public MessageListAdapter.MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = mInflater.inflate(R.layout.message_item, parent, false);
-        return new MessageListAdapter.MessageViewHolder(itemView);
+        return new MessageViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MessageListAdapter.MessageViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
         if (messages != null) {
             final Message current = messages.get(position);
             if (Objects.equals(current.getSender(), currentUser)) {

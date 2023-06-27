@@ -2,13 +2,13 @@ package com.example.ap2_ex3.api_requests;
 
 import com.example.ap2_ex3.entities.User;
 
-public class MessageRequest {
+public class CreateMsgRequest {
     private int id;
     private String created;
-    private User sender;
+    private String sender;
     private String content;
 
-    public MessageRequest(int id, String created, User sender, String content){
+    public CreateMsgRequest(int id, String created, String sender, String content){
         this.id = id;
         this.created = created;
         this.sender = sender;
@@ -19,7 +19,7 @@ public class MessageRequest {
         return id;
     }
 
-    public User getSender() {
+    public String getSender() {
         return sender;
     }
 
@@ -31,3 +31,4 @@ public class MessageRequest {
         return content;
     }
 }
+
