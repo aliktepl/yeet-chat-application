@@ -15,7 +15,15 @@ const createMessage = async (req, res) => {
         if(doesExist){
             res.json(await messageService.createMessage(doesExist, req.body.msg, req.headers.passedName))
             //firebase
-            firebase.sendMessage(firebase.users.get(doesExist.users[1].username), "Sent Message", req.body.msg)
+            if(req.headers.passedName === doesExist.users[0].username){
+                if (firebase.users.has(doesExist.users[1].username)) {
+                    firebase.sendMessage(firebase.users.get(doesExist.users[1].username), "Message Received", req.body.msg, req.params.id)
+                }
+            } else {
+                if (firebase.users.has(doesExist.users[0].username)) {
+                    firebase.sendMessage(firebase.users.get(doesExist.users[0].username), "Message Received", req.body.msg, req.params.id)
+                }
+            }
         } else {
             res.status(401).send()
         }

@@ -13,8 +13,9 @@ import com.example.ap2_ex3.entities.Message;
 
 import java.util.List;
 
-
 public class MessageRepo {
+    // Singleton instance
+    private static MessageRepo instance;
 
     // Dao fields
     private UserDao userDao;
@@ -30,43 +31,60 @@ public class MessageRepo {
 
     private String token;
 
-
-    public MessageRepo(Application application) {
-        // database init
+    private MessageRepo(Application application) {
+        // Database initialization
         AppDB db = AppDB.getInstance(application);
         userDao = db.userDao();
         messageDao = db.messageDao();
-        // api init
+
+        // API initialization
         messageAPI = new MessageAPI(messageDao);
-        // live data init
+
+        // Live Data initialization
         messages = messageDao.getMessages();
         status = new MutableLiveData<>();
     }
 
-    // live data listeners
+    public static synchronized MessageRepo getInstance(Application application) {
+        if (instance == null) {
+            instance = new MessageRepo(application);
+        }
+        return instance;
+    }
+
+    // Live Data listeners
     public MutableLiveData<Integer> getStatus() {
         return status;
     }
 
-    public void setToken(String token) { this.token = token; }
+    public void setToken(String token) {
+        this.token = token;
+    }
 
-    // Message dao operations
+    // Message Dao operations
 
-    public LiveData<List<Message>> getMessages() { return messages; }
+    public LiveData<List<Message>> getMessages() {
+        return messages;
+    }
 
-    public List<Message> getMessagesByChat(Integer id) { return messageDao.getMsgByChat(id); }
+    public List<Message> getMessagesByChat(Integer id) {
+        return messageDao.getMsgByChat(id);
+    }
 
-    public LiveData<Message> getMessage(int id) { return messageDao.getMessage(id); }
+    public LiveData<Message> getMessage(int id) {
+        return messageDao.getMessage(id);
+    }
 
+    // API operations
+    public void getMessagesRequest(Integer chatId) {
+        messageAPI.getMessages(chatId, status, token);
+    }
     public void deleteAllMessages(){
         messageDao.deleteAllMessages();
     }
 
     // api operations
-    public void getMessagesRequest(Integer chatId){ messageAPI.getMessages(chatId, status, token); }
-
-    public void createMessageRequest(Integer chatId, String msgContent){
+    public void createMessageRequest(Integer chatId, String msgContent) {
         messageAPI.createMessage(chatId, msgContent, token, status);
     }
-
 }

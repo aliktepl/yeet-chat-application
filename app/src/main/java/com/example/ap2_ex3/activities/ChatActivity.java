@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Context;
 import android.content.Intent;
@@ -55,6 +56,8 @@ public class ChatActivity extends AppCompatActivity {
         chatModel = new ViewModelProvider(this).get(ChatModel.class);
         Bundle bundle = getIntent().getExtras();
 
+        new MyFirebaseMessagingService();
+
         String username = bundle.getString("username");
         String picture = bundle.getString("picture");
         String currentUser = bundle.getString("currentUser");
@@ -89,11 +92,26 @@ public class ChatActivity extends AppCompatActivity {
 
         ImageButton settingsButton = findViewById(R.id.moreBtn);
         settingsButton.setOnClickListener(this::showPopupMenu);
-
+        SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.refreshLayoutMsg);
         RecyclerView lstMessages = findViewById(R.id.lstMessages);
         final MessageListAdapter adapter = new MessageListAdapter(this, currentUser);
         lstMessages.setAdapter(adapter);
-        lstMessages.setLayoutManager(new LinearLayoutManager(this));
+
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        manager.setStackFromEnd(true);
+        lstMessages.setLayoutManager(manager);
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                lstMessages.smoothScrollToPosition(adapter.getItemCount() - 1);
+            }
+        });
+
+
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            messageViewModel.getMessages();
+            swipeRefreshLayout.setRefreshing(false);
+        });
 
         messageViewModel.getMessages().observe(this, messages -> {
             if(!messages.isEmpty()){

@@ -19,15 +19,13 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.adapters.ChatsListAdapter;
-import com.example.ap2_ex3.entities.User;
-import com.example.ap2_ex3.services.MyFirebaseMessagingService;
 import com.example.ap2_ex3.view_models.ChatModel;
 import com.example.ap2_ex3.view_models.MessageModel;
 import com.example.ap2_ex3.view_models.UserModel;
@@ -79,10 +77,16 @@ public class ChatsActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.refreshLayout);
         RecyclerView lstChats = findViewById(R.id.lstChats);
         final ChatsListAdapter adapter = new ChatsListAdapter(this);
         lstChats.setAdapter(adapter);
         lstChats.setLayoutManager(new LinearLayoutManager(this));
+
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            chatModel.getChats();
+            swipeRefreshLayout.setRefreshing(false);
+        });
 
         chatModel = new ViewModelProvider(this).get(ChatModel.class);
         messageModel = new ViewModelProvider(this).get(MessageModel.class);
