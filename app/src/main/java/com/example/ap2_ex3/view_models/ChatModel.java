@@ -5,13 +5,10 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.example.ap2_ex3.activities.Username;
 import com.example.ap2_ex3.entities.Chat;
-import com.example.ap2_ex3.entities.User;
 import com.example.ap2_ex3.repositories.ChatRepo;
 
 import java.util.List;
-
 
 public class ChatModel extends AndroidViewModel {
 
@@ -19,14 +16,14 @@ public class ChatModel extends AndroidViewModel {
     private LiveData<Integer> status;
     private LiveData<List<Chat>> chats;
 
-    public ChatModel(Application application){
+    public ChatModel(Application application) {
         super(application);
         mRepository = new ChatRepo(application);
         status = mRepository.getStatus();
         chats = mRepository.getAllChats();
     }
 
-    public void setToken(String token){
+    public void setToken(String token) {
         mRepository.setToken(token);
     }
 
@@ -40,7 +37,7 @@ public class ChatModel extends AndroidViewModel {
     }
 
     // Chat API operations
-    public void getChats(){
+    public void getChats() {
         mRepository.getChatsRequest();
     }
 

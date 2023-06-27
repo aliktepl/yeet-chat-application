@@ -1,34 +1,24 @@
 package com.example.ap2_ex3.repositories;
 
 import android.app.Application;
-import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.ap2_ex3.activities.Username;
 import com.example.ap2_ex3.api.ChatAPI;
-import com.example.ap2_ex3.api_requests.CreateUserRequest;
-import com.example.ap2_ex3.api_requests.LoginRequest;
 import com.example.ap2_ex3.database.AppDB;
 import com.example.ap2_ex3.database.MessageDao;
 import com.example.ap2_ex3.database.UserDao;
-import com.example.ap2_ex3.entities.Message;
-import com.example.ap2_ex3.entities.User;
-import com.example.ap2_ex3.api.UserAPI;
 import com.example.ap2_ex3.database.ChatDao;
 import com.example.ap2_ex3.entities.Chat;
 
 import java.util.List;
 
-
 public class ChatRepo {
 
     // Dao fields
     private ChatDao chatDao;
-
     private UserDao userDao;
-
     private MessageDao messageDao;
 
     // API fields
@@ -37,9 +27,7 @@ public class ChatRepo {
     // Live Data fields
     private LiveData<List<Chat>> allChats;
     private MutableLiveData<Integer> status;
-
     private String token;
-
 
     public ChatRepo(Application application) {
         // database init
@@ -59,29 +47,38 @@ public class ChatRepo {
     }
 
     // Chat API operations
-    public void getChatsRequest(){
+    public void getChatsRequest() {
         chatAPI.getChats(token);
     }
 
-    public void createChatRequest(String username){
+    public void createChatRequest(String username) {
         chatAPI.createChat(token, status, username);
     }
 
     // Chat dao operations
     public void insert(Chat chat) {
-        new Thread(() -> { chatDao.Insert(chat);}).start();
+        new Thread(() -> {
+            chatDao.Insert(chat);
+        }).start();
     }
+
     public void update(Chat chat) {
-        new Thread(() -> { chatDao.Update(chat);}).start();
+        new Thread(() -> {
+            chatDao.Update(chat);
+        }).start();
     }
+
     public void delete(Chat chat) {
-        new Thread(() -> { chatDao.Delete(chat);}).start();
+        new Thread(() -> {
+            chatDao.Delete(chat);
+        }).start();
     }
 
     // Live Data listeners
     public MutableLiveData<Integer> getStatus() {
         return status;
     }
+
     public LiveData<List<Chat>> getAllChats() {
         return allChats;
     }

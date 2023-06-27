@@ -12,9 +12,6 @@ import com.example.ap2_ex3.database.UserDao;
 import com.example.ap2_ex3.entities.User;
 import com.example.ap2_ex3.api.UserAPI;
 
-import java.util.List;
-
-
 public class UserRepo {
 
     // Dao fields
@@ -27,7 +24,6 @@ public class UserRepo {
     private LiveData<User> user;
     private MutableLiveData<String> token;
     private MutableLiveData<Integer> status;
-
 
     public UserRepo(Application application) {
         // database init
@@ -59,7 +55,9 @@ public class UserRepo {
         return status;
     }
 
-    public MutableLiveData<String> getToken(){ return token; }
+    public MutableLiveData<String> getToken() {
+        return token;
+    }
 
     // User dao operations
     public LiveData<User> getUser() {

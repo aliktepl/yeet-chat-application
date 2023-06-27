@@ -22,7 +22,6 @@ import com.example.ap2_ex3.api_requests.LoginRequest;
 import com.example.ap2_ex3.view_models.UserModel;
 import com.google.android.material.textfield.TextInputLayout;
 
-
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -91,14 +90,11 @@ public class MainActivity extends AppCompatActivity {
                     if (isCurrentActivity(MainActivity.this)) {
                         navigateToChatsActivity();
                     }
-//                    Intent intent = new Intent(this, ChatsActivity.class);
-//                    startActivity(intent);
                 }
             });
         });
 
     }
-
 
     public static void showAlert(String msg, Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -125,11 +121,6 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isCurrentActivity(Activity activity) {
         return activity.getClass().equals(MainActivity.class);
-    }
-
-    private void navigateToSettingsActivity() {
-        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-        startActivity(intent);
     }
 
     @Override

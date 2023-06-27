@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 
@@ -15,7 +14,6 @@ import androidx.appcompat.app.AppCompatDelegate;
 import com.example.ap2_ex3.R;
 
 public class SettingsActivity extends AppCompatActivity {
-
     Switch switcher;
     boolean nightMode;
     SharedPreferences sharedPreference;
@@ -28,7 +26,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         serverAddressEditText = findViewById(R.id.serverAddressEditText);
-        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.settings_file_key), Context.MODE_PRIVATE);
         String currentServerAddress = sharedPref.getString("server_address", "");
         serverAddressEditText.setText(currentServerAddress);
 

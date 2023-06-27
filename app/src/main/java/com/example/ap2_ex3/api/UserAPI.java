@@ -1,22 +1,16 @@
 package com.example.ap2_ex3.api;
 
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.ap2_ex3.R;
-import com.example.ap2_ex3.activities.Username;
 import com.example.ap2_ex3.api_requests.CreateUserRequest;
 import com.example.ap2_ex3.api_requests.LoginRequest;
 import com.example.ap2_ex3.api_requests.UserRequest;
 import com.example.ap2_ex3.database.UserDao;
 import com.example.ap2_ex3.entities.User;
 
-
 import java.io.IOException;
-import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -24,7 +18,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
 
 public class UserAPI {
     private Retrofit retrofit;
@@ -59,7 +52,7 @@ public class UserAPI {
     }
 
     // Request to get token from the API
-    public void getToken(LoginRequest loginRequest,MutableLiveData<String> token,
+    public void getToken(LoginRequest loginRequest, MutableLiveData<String> token,
                          MutableLiveData<Integer> status) {
         Call<ResponseBody> getTokenCall = wsAPI.createToken(loginRequest);
         getTokenCall.enqueue(new Callback<ResponseBody>() {
@@ -102,7 +95,7 @@ public class UserAPI {
             }
 
             @Override
-            public void onFailure(@NonNull Call<UserRequest> call,@NonNull Throwable t) {
+            public void onFailure(@NonNull Call<UserRequest> call, @NonNull Throwable t) {
 
             }
         });

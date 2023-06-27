@@ -8,7 +8,7 @@ public class GetMessageRequest {
     private User sender;
     private String content;
 
-    public GetMessageRequest(int id, String created, User sender, String content){
+    public GetMessageRequest(int id, String created, User sender, String content) {
         this.id = id;
         this.created = created;
         this.sender = sender;

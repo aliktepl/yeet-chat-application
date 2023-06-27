@@ -18,7 +18,6 @@ public class MessageRepo {
 
     // Dao fields
     private UserDao userDao;
-
     private MessageDao messageDao;
 
     // API fields
@@ -27,9 +26,7 @@ public class MessageRepo {
     // Live Data fields
     private LiveData<List<Message>> messages;
     private MutableLiveData<Integer> status;
-
     private String token;
-
 
     public MessageRepo(Application application) {
         // database init
@@ -48,20 +45,29 @@ public class MessageRepo {
         return status;
     }
 
-    public void setToken(String token) { this.token = token; }
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     // Message dao operations
+    public LiveData<List<Message>> getMessages() {
+        return messages;
+    }
 
-    public LiveData<List<Message>> getMessages() { return messages; }
+    public List<Message> getMessagesByChat(Integer id) {
+        return messageDao.getMsgByChat(id);
+    }
 
-    public List<Message> getMessagesByChat(Integer id) { return messageDao.getMsgByChat(id); }
-
-    public LiveData<Message> getMessage(int id) { return messageDao.getMessage(id); }
+    public LiveData<Message> getMessage(int id) {
+        return messageDao.getMessage(id);
+    }
 
     // api operations
-    public void getMessagesRequest(Integer chatId){ messageAPI.getMessages(chatId, status, token); }
+    public void getMessagesRequest(Integer chatId) {
+        messageAPI.getMessages(chatId, status, token);
+    }
 
-    public void createMessageRequest(Integer chatId, String msgContent){
+    public void createMessageRequest(Integer chatId, String msgContent) {
         messageAPI.createMessage(chatId, msgContent, token, status);
     }
 

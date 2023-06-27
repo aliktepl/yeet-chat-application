@@ -16,7 +16,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.adapters.ChatsListAdapter;
-import com.example.ap2_ex3.entities.Chat;
 import com.example.ap2_ex3.services.MyFirebaseMessagingService;
 import com.example.ap2_ex3.view_models.ChatModel;
 import com.example.ap2_ex3.view_models.MessageModel;
@@ -27,8 +26,6 @@ import com.google.firebase.messaging.FirebaseMessaging;
 public class ChatsActivity extends AppCompatActivity {
     private static final int MENU_SETTINGS = R.id.menu_settings;
     private static final int LOGOUT = R.id.menu_logout;
-    public static final int ADD_CONTACT_REQUEST = 1;
-
     private UserModel userModel;
 
     private ChatModel chatModel;
@@ -66,7 +63,7 @@ public class ChatsActivity extends AppCompatActivity {
 
         userModel = new ViewModelProvider(this).get(UserModel.class);
         userModel.getUser().observe(this, user -> {
-            if(user != null){
+            if (user != null) {
                 chatModel = new ViewModelProvider(this).get(ChatModel.class);
                 chatModel.getChats();
                 chatModel.observeChats().observe(this, adapter::setChats);
@@ -77,7 +74,7 @@ public class ChatsActivity extends AppCompatActivity {
             Intent intent = new Intent(ChatsActivity.this, ChatActivity.class);
             intent.putExtra("username", chat.getRecipient());
             intent.putExtra("picture", chat.getRecipientProfPic());
-            intent.putExtra("id" ,chat.getId());
+            intent.putExtra("id", chat.getId());
             startActivity(intent);
         });
 

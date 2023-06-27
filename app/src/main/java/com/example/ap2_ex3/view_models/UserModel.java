@@ -10,9 +10,6 @@ import com.example.ap2_ex3.api_requests.LoginRequest;
 import com.example.ap2_ex3.entities.User;
 import com.example.ap2_ex3.repositories.UserRepo;
 
-import java.util.List;
-
-
 public class UserModel extends AndroidViewModel {
 
     private final UserRepo mRepository;
@@ -20,7 +17,7 @@ public class UserModel extends AndroidViewModel {
     private LiveData<String> token;
     private LiveData<User> user;
 
-    public UserModel(Application application){
+    public UserModel(Application application) {
         super(application);
         mRepository = new UserRepo(application);
         status = mRepository.getStatus();
@@ -32,6 +29,7 @@ public class UserModel extends AndroidViewModel {
     public void createUser(CreateUserRequest createUserRequest) {
         mRepository.createUserRequest(createUserRequest);
     }
+
     public void getToken(LoginRequest loginRequest) {
         mRepository.tokenRequest(loginRequest);
     }
@@ -50,7 +48,9 @@ public class UserModel extends AndroidViewModel {
     }
 
     // User Dao operations
-    public LiveData<User> getUser(){ return user; }
+    public LiveData<User> getUser() {
+        return user;
+    }
 
 }
 
