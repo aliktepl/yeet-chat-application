@@ -7,13 +7,11 @@ import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.activities.Username;
 import com.example.ap2_ex3.api_requests.CreateChatRequest;
 import com.example.ap2_ex3.api_requests.GetChatsRequest;
-import com.example.ap2_ex3.api_requests.MessageRequest;
 import com.example.ap2_ex3.api_requests.UserRequest;
 import com.example.ap2_ex3.database.ChatDao;
 import com.example.ap2_ex3.database.MessageDao;
 import com.example.ap2_ex3.database.UserDao;
 import com.example.ap2_ex3.entities.Chat;
-import com.example.ap2_ex3.entities.User;
 
 import java.util.List;
 
@@ -31,25 +29,16 @@ public class ChatAPI {
 
     // dao fields
     private ChatDao chatDao;
-    private UserDao userDao;
-    private MessageDao messageDao;
 
     public ChatAPI(ChatDao chatDao, UserDao userDao, MessageDao messageDao) {
         // init database
         this.chatDao = chatDao;
-        this.userDao = userDao;
-        this.messageDao = messageDao;
         // init service and retrofit
         retrofit = new Retrofit.Builder()
                 .baseUrl(AppContext.context.getString(R.string.BaseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         wsAPI = retrofit.create(WebServiceAPI.class);
-    }
-
-    // Define an interface for the callback
-    interface InsertUserCallback {
-        void onUserInserted();
     }
 
     // Update your API method
