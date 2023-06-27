@@ -9,7 +9,8 @@ To get started with the web chat application, follow these steps:
 2. To start the server navigate the the `/server` directory in the project directory and run the following command: `npm install` - this will install all the required dependencies. After that, run `npm start`.    
 3. Launch the Android emulator of your choice or connect a physical Android device to your computer.
 
-Once you have followed these steps, you will be able to use the Yeet! Android chat application and start communicating with other users. Enjoy chatting!  
+Once you have followed these steps, you will be able to use the Yeet! Android chat application and start communicating with other users.  
+Enjoy Yeeting!  
 
 ## Application Overview
 The web application is divided into different parts to ensure a smooth user experience:  
