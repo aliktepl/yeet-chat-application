@@ -5,15 +5,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.ActivityManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -27,8 +22,6 @@ import android.widget.TextView;
 import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.api_requests.LoginRequest;
 import com.example.ap2_ex3.entities.User;
-import com.example.ap2_ex3.view_models.ChatModel;
-import com.example.ap2_ex3.view_models.MessageModel;
 import com.example.ap2_ex3.view_models.UserModel;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -45,9 +38,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
+
+
+        // write ip address settings to shared pref
+        SharedPreferences sharedMode = getApplication().getSharedPreferences(getString(R.string.settings_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor2 = sharedMode.edit();
+        if(sharedMode.getString("address", "").equals("")){
+            editor2.putString("address", getString(R.string.BaseUrl));
+            editor2.apply();
+        }
+
         userModel = new ViewModelProvider(this).get(UserModel.class);
 
-        SharedPreferences sharedMode = getApplication().getSharedPreferences(getString(R.string.settings_file_key), Context.MODE_PRIVATE);
         boolean nightMode = sharedMode.getBoolean("night", false);
         if (!nightMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);

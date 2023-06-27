@@ -36,7 +36,7 @@ public class MessageRepo {
         messageDao = db.messageDao();
 
         // API initialization
-        messageAPI = new MessageAPI(messageDao);
+        messageAPI = new MessageAPI(messageDao, application);
 
         // Live Data initialization
         messages = messageDao.getMessages();

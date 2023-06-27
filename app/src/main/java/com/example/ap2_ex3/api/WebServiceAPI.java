@@ -8,7 +8,6 @@ import com.example.ap2_ex3.api_requests.CreateUserRequest;
 import com.example.ap2_ex3.api_requests.GetChatsRequest;
 import com.example.ap2_ex3.api_requests.GetMsgReqByObj;
 import com.example.ap2_ex3.api_requests.LoginRequest;
-import com.example.ap2_ex3.api_requests.GetMessageRequest;
 import com.example.ap2_ex3.api_requests.UserRequest;
 
 import java.util.List;

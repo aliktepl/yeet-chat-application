@@ -14,8 +14,6 @@ import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.view_models.ChatModel;
 
 public class AddChatActivity extends AppCompatActivity {
-    public static final String EXTRA_CONTACT = "" +
-            "com.example.ap2_ex3.EXTRA_CONTACT";
     private EditText etAddContact;
     private ChatModel chatModel;
 

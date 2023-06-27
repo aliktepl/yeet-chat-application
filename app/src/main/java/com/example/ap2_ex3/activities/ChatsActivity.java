@@ -1,16 +1,12 @@
 package com.example.ap2_ex3.activities;
 
-import android.app.ActivityManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
-import android.util.Log;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ImageButton;
