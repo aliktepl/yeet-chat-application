@@ -25,6 +25,7 @@ import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.SettingsActivity;
 import com.example.ap2_ex3.adapters.MessageListAdapter;
 import com.example.ap2_ex3.entities.Message;
+import com.example.ap2_ex3.services.MyFirebaseMessagingService;
 import com.example.ap2_ex3.view_models.ChatModel;
 import com.example.ap2_ex3.view_models.MessageModel;
 
@@ -56,6 +57,7 @@ public class ChatActivity extends AppCompatActivity {
 
         String username = bundle.getString("username");
         String picture = bundle.getString("picture");
+        String currentUser = bundle.getString("currentUser");
 
         // init chatId and token
         chatId = bundle.getInt("id");
@@ -89,7 +91,7 @@ public class ChatActivity extends AppCompatActivity {
         settingsButton.setOnClickListener(this::showPopupMenu);
 
         RecyclerView lstMessages = findViewById(R.id.lstMessages);
-        final MessageListAdapter adapter = new MessageListAdapter(this, username);
+        final MessageListAdapter adapter = new MessageListAdapter(this, currentUser);
         lstMessages.setAdapter(adapter);
         lstMessages.setLayoutManager(new LinearLayoutManager(this));
 
