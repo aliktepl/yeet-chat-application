@@ -81,8 +81,7 @@ public class ChatActivity extends AppCompatActivity {
             finish(); // Go back to the previous screen (ChatsActivity)
         });
 
-        ImageButton settingsButton = findViewById(R.id.moreBtn);
-        settingsButton.setOnClickListener(this::showPopupMenu);
+
         SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.refreshLayoutMsg);
         RecyclerView lstMessages = findViewById(R.id.lstMessages);
         final MessageListAdapter adapter = new MessageListAdapter(this, currentUser);

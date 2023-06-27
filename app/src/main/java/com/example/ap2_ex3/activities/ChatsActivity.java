@@ -98,6 +98,7 @@ public class ChatsActivity extends AppCompatActivity {
             intent.putExtra("username", chat.getRecipient());
             intent.putExtra("picture", chat.getRecipientProfPic());
             intent.putExtra("id", chat.getId());
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
         });
 
