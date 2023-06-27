@@ -6,6 +6,7 @@ const {users} = require("./firebase");
 
 const generateToken = async (req, res) => {
     const response = await userService.generateToken(req.body.username, req.body.password);
+
     if(response) {
         res.status(200).send(response);
         //firebase

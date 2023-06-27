@@ -23,8 +23,9 @@ import retrofit2.http.Path;
 public interface WebServiceAPI {
 
     // TOKEN services
+    // TODO: add header for firebase token
     @POST("Tokens")
-    Call<ResponseBody> createToken(@Body LoginRequest userLogin);
+    Call<ResponseBody> createToken(@Body LoginRequest userLogin, @Header("fbToken") String fbToken);
 
     // USER services
     @POST("Users")

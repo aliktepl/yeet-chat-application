@@ -11,6 +11,7 @@ import com.example.ap2_ex3.api_requests.LoginRequest;
 import com.example.ap2_ex3.api_requests.UserRequest;
 import com.example.ap2_ex3.database.UserDao;
 import com.example.ap2_ex3.entities.User;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 
 import java.io.IOException;
@@ -31,6 +32,8 @@ public class UserAPI {
     private WebServiceAPI wsAPI;
     private UserDao userDao;
 
+    private String fbToken;
+
     public UserAPI(UserDao userDao) {
         // init dao
         this.userDao = userDao;
@@ -39,6 +42,12 @@ public class UserAPI {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         wsAPI = retrofit.create(WebServiceAPI.class);
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                return;
+            }
+            fbToken = task.getResult();
+        });
     }
 
     // create a new user with the api and store live data variable to check request status
@@ -61,7 +70,7 @@ public class UserAPI {
     // Request to get token from the API
     public void getToken(LoginRequest loginRequest,MutableLiveData<String> token,
                          MutableLiveData<Integer> status) {
-        Call<ResponseBody> getTokenCall = wsAPI.createToken(loginRequest);
+        Call<ResponseBody> getTokenCall = wsAPI.createToken(loginRequest, fbToken);
         getTokenCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call,
