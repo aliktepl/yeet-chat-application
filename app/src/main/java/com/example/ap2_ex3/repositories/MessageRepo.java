@@ -13,8 +13,9 @@ import com.example.ap2_ex3.entities.Message;
 
 import java.util.List;
 
-
 public class MessageRepo {
+    // Singleton instance
+    private static MessageRepo instance;
 
     // Dao fields
     private UserDao userDao;
@@ -28,19 +29,28 @@ public class MessageRepo {
     private MutableLiveData<Integer> status;
     private String token;
 
-    public MessageRepo(Application application) {
-        // database init
+    private MessageRepo(Application application) {
+        // Database initialization
         AppDB db = AppDB.getInstance(application);
         userDao = db.userDao();
         messageDao = db.messageDao();
-        // api init
+
+        // API initialization
         messageAPI = new MessageAPI(messageDao);
-        // live data init
+
+        // Live Data initialization
         messages = messageDao.getMessages();
         status = new MutableLiveData<>();
     }
 
-    // live data listeners
+    public static synchronized MessageRepo getInstance(Application application) {
+        if (instance == null) {
+            instance = new MessageRepo(application);
+        }
+        return instance;
+    }
+
+    // Live Data listeners
     public MutableLiveData<Integer> getStatus() {
         return status;
     }
@@ -61,8 +71,12 @@ public class MessageRepo {
     public LiveData<Message> getMessage(int id) {
         return messageDao.getMessage(id);
     }
+  
+      public void deleteAllMessages(){
+        messageDao.deleteAllMessages();
+    }
 
-    // api operations
+    // API operations
     public void getMessagesRequest(Integer chatId) {
         messageAPI.getMessages(chatId, status, token);
     }
@@ -70,5 +84,4 @@ public class MessageRepo {
     public void createMessageRequest(Integer chatId, String msgContent) {
         messageAPI.createMessage(chatId, msgContent, token, status);
     }
-
 }

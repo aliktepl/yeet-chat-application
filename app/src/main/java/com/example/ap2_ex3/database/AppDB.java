@@ -13,7 +13,7 @@ import com.example.ap2_ex3.entities.Chat;
 import com.example.ap2_ex3.entities.Message;
 import com.example.ap2_ex3.entities.User;
 
-@Database(entities = {Chat.class, User.class, Message.class}, version = 3)
+@Database(entities = {Chat.class, User.class, Message.class}, version = 4)
 public abstract class AppDB extends RoomDatabase {
     private static AppDB instance;
 

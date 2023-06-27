@@ -61,10 +61,11 @@
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_below="@id/header"
+        android:layout_above="@id/footer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         style="@style/CONTACT_BACKGROUND"
-        android:id="@+id/refreshLayout">
+        android:id="@+id/refreshLayoutMsg">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/lstMessages"

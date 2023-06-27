@@ -52,5 +52,8 @@ public class UserModel extends AndroidViewModel {
         return user;
     }
 
+    public User getUserObject(){ return mRepository.getUserObject(); }
+    public void deleteAllUsers() { mRepository.deleteAllUsers();}
+
 }
 

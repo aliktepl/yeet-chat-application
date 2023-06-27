@@ -18,7 +18,7 @@ public class MessageModel extends AndroidViewModel {
 
     public MessageModel(Application application) {
         super(application);
-        mRepository = new MessageRepo(application);
+        mRepository = MessageRepo.getInstance(application);
         status = mRepository.getStatus();
         messages = mRepository.getMessages();
     }
@@ -44,6 +44,8 @@ public class MessageModel extends AndroidViewModel {
     public List<Message> getMessagesByChat(Integer id) {
         return mRepository.getMessagesByChat(id);
     }
+
+    public void deleteAllMessages() { mRepository.deleteAllMessages();}
 
     // Message API operations
     public void getMessagesRequest(Integer chatId) {

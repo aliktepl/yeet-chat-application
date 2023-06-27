@@ -19,8 +19,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:scaleType="centerCrop"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundImageView"
-            app:srcCompat="@drawable/bowser" />
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundImageView" />
 
         <TextView
             android:id="@+id/tvUserName"
@@ -30,7 +29,6 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="18dp"
             android:layout_toEndOf="@id/ivUserProfile"
-            android:text="User Name"
             android:textSize="16sp"
             android:textStyle="bold" />
 

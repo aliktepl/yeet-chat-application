@@ -18,7 +18,7 @@ public class ChatModel extends AndroidViewModel {
 
     public ChatModel(Application application) {
         super(application);
-        mRepository = new ChatRepo(application);
+        mRepository = ChatRepo.getInstance(application);
         status = mRepository.getStatus();
         chats = mRepository.getAllChats();
     }
@@ -57,5 +57,11 @@ public class ChatModel extends AndroidViewModel {
 
     public void ChatUpdate(Chat chat) {
         mRepository.update(chat);
+    }
+
+    public void deleteAllChats() { mRepository.deleteAllChats();}
+
+    public void updateLastMsg(Integer chatId, String lstMsgContent, String lstMsgTime){
+        mRepository.updateLastMsg(chatId, lstMsgContent, lstMsgTime);
     }
 }

@@ -1,5 +1,7 @@
 package com.example.ap2_ex3.api;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
@@ -13,7 +15,11 @@ import com.example.ap2_ex3.database.MessageDao;
 import com.example.ap2_ex3.database.UserDao;
 import com.example.ap2_ex3.entities.Chat;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,7 +36,7 @@ public class ChatAPI {
     // dao fields
     private ChatDao chatDao;
 
-    public ChatAPI(ChatDao chatDao, UserDao userDao, MessageDao messageDao) {
+    public ChatAPI(ChatDao chatDao) {
         // init database
         this.chatDao = chatDao;
         // init service and retrofit
@@ -56,7 +62,7 @@ public class ChatAPI {
                         if (chat.getLastMessage() != null) {
                             newChat = new Chat(chat.getId(), chat.getUser().getUsername()
                                     , chat.getUser().getProfPic(), chat.getLastMessage().getContent(),
-                                    chat.getLastMessage().getCreated());
+                                    formatDate(chat.getLastMessage().getCreated()));
                         } else {
                             newChat = new Chat(chat.getId(), chat.getUser().getUsername()
                                     , chat.getUser().getProfPic(), null, null);
@@ -70,7 +76,7 @@ public class ChatAPI {
 
             @Override
             public void onFailure(Call<List<GetChatsRequest>> call, Throwable t) {
-
+                Log.d("getChats", "failed");
             }
         });
     }
@@ -100,5 +106,20 @@ public class ChatAPI {
                 status.setValue(2);
             }
         });
+    }
+
+    private String formatDate(String dateString) {
+        SimpleDateFormat inputDateFormat = new SimpleDateFormat("EEE MMM dd yyyy HH:mm:ss 'GMT'Z (zzzz)", Locale.getDefault());
+        SimpleDateFormat outputDateFormat = new SimpleDateFormat("MMM dd, yyyy hh:mm a", Locale.getDefault());
+
+        try {
+            Date date = inputDateFormat.parse(dateString);
+            assert date != null;
+            return outputDateFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return ""; // Return an empty string in case of parsing error
     }
 }

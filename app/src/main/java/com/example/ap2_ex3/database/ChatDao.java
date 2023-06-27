@@ -28,4 +28,8 @@ public interface ChatDao {
 
     @Query("SELECT * FROM chat_table WHERE id=:id")
     Chat getChat(int id);
+    @Query("UPDATE chat_table SET lstMsgContent = :newMsgContent, lstMsgTime = :newMsgTime WHERE id = :chatId")
+    void updateLastMessage(int chatId, String newMsgContent, String newMsgTime);
+    @Query("DELETE FROM chat_table")
+    void deleteAllChats();
 }

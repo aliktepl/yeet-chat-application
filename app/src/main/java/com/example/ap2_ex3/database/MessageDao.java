@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -23,7 +24,10 @@ public interface MessageDao {
     @Query("SELECT * FROM msg_table WHERE chatId= :chatId")
     List<Message> getMsgByChat(int chatId);
 
-    @Insert
+    @Query("DELETE FROM msg_table")
+    void deleteAllMessages();
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Message... messages);
 
     @Update

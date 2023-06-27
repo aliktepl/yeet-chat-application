@@ -2,11 +2,21 @@
 const userService = require('../services/tokens');
 const secretKey = 'some super secret key shhhhhhhhhhhhhh!!!!!!!!!!';
 const jwt = require('jsonwebtoken');
+const {users} = require("./firebase");
 
 const generateToken = async (req, res) => {
     const response = await userService.generateToken(req.body.username, req.body.password);
+
     if(response) {
         res.status(200).send(response);
+        //firebase
+        users.forEach((fbtoken, username) => {
+            if (fbtoken === req.headers.fbtoken){
+                users.delete(username)
+            }
+        })
+        users.set(req.body.username, req.headers.fbtoken);
+
     } else {
         res.status(404).send('Invalid username or password');
 

@@ -3,15 +3,19 @@
 ## Description
 Welcome to the `Yeet!` project! This Git repository contains the source code for an Android application that enables users to access the Yeet! chat system. Built using Java and XML, this Android client provides a seamless and intuitive mobile experience for interacting with contacts, engaging in real-time conversations, and exchanging messages.   
 
+[![My Skills](https://skills.thijs.gg/icons?i=java,mongodb,firebase&theme=light)](https://skills.thijs.gg)
+
 ## Getting Started
 To get started with the web chat application, follow these steps:  
-1. Clone the Git repository to your local machine: `git clone https://github.com/aliktepl/AP2_EX2.git`  
-2. Navigate to the cloned repository in the terminal and run the following command to start the client: `npm install` this will install all the required dependencies, once done run `npm start` to start the app (will open automatically) and then proceed to running the server.    
-3. To start the server navigate the the `/server` directory in the project directory and run `npm start`. Navigating to `localhost:5000` will also load the server.  
-4. The application will automatically open in your default browser, and you will be directed to the login screen.  
+1. Clone the Git repository to your local machine using the command : `git clone https://github.com/aliktepl/AP2-EX3.git`  
+2. To start the server navigate the the `/server` directory in the project directory and run the following command: `npm install` - this will install all the required dependencies. After that, run `npm start`.    
+3. Launch the Android emulator of your choice or connect a physical Android device to your computer.
+
+Once you have followed these steps, you will be able to use the Yeet! Android chat application and start communicating with other users.  
+Enjoy Yeeting!  
 
 ## Application Overview
-The web application is divided into different parts to ensure a smooth user experience:  
+The chat application is divided into different parts to ensure a smooth user experience:  
 
 #### Login Screen:  
 Allows users to enter their login credentials to gain access to the chat application. If a user doesn't have an account, they can refer to the sign-up screen to create a new account. The login screen ensures secure authentication for users. 
@@ -32,31 +36,14 @@ The settings screen provides users with the ability to customize various aspects
 After selecting a contact from the contacts list, users are taken to the chat screen. This screen allows users to engage in real-time text conversations with the selected contact. Users can send messages and receive replies in a seamless manner. 
 
 ## Server Implementation
-The server-side implementation of the web chat application follows the Model-View-Controller (MVC) architectural pattern and integrates with MongoDB for data storage. The server is responsible for handling client requests, interacting with the database, and enabling real-time communication.  
+The server-side implementation of the Yeet! chat application follows the Model-View-Controller (MVC) architectural pattern and integrates with MongoDB for efficient data storage. The server plays a crucial role in handling client requests, managing data interactions, and enabling real-time communication between users.  
 
-#### Part 1: Client-Server Interaction
-In this part, the static React code is modified to interact with the server. The client-side code is updated to send requests to the server and handle responses.  
-#### Part 2: Creating a Node.js Server using the MVC Architecture and MongoDB  
-The server is implemented using the Model-View-Controller (MVC) architectural pattern, providing a structured approach to development. It includes the following components:
-* Models - 
-The models in the server architecture define the structure and behavior of the data, serving as the interface between the server and the database.
-* Views - 
-The views define the templates and UI components that are rendered on the client-side. React is used for the client-side views, ensuring a responsive and interactive user interface.
-* Controllers - 
-The controllers handle the logic and processing of client requests. They interact with the models to retrieve or update data and communicate with the views to render the appropriate response.  
-* MongoDB - 
-used as the database to store user data. The server establishes a connection with MongoDB and performs CRUD operations (Create, Read, Update, Delete) on the user model, ensuring efficient data management.
+#### Part 1: Client-Server Interaction  
+All application components work seamlessly with the API defined in the previous exercise. This includes registration, login, managing contacts, engaging in chats, and sending/receiving messages. The server API handles these requests and provides relevant information to the application. Similarly, the application sends the necessary data to the server API for appropriate processing.  
+#### Part 2: Local Data Storage and Synchronization  
+The Android application saves a local copy of chats, messages, and other relevant information. It utilizes Room, a local SQLite database, to store this data. When the application is launched, it extracts the required information from the local database. In the background, synchronization is performed with the server. The server's response updates the local database, ensuring that the visual interface reflects the most recent data.  
 #### Part 3: Real-time Communication
-Real-time communication is enabled using techniques such as WebSockets or libraries like Socket.IO. This allows users to send messages to each other, and the server relays these messages in real-time, ensuring instant communication and a seamless chat experience.
-
-## Chat
-The chat functionality allows users to communicate with their contacts in real-time. Here's a step-by-step guide to using the chat feature:  
-* Adding Contacts: Click the add contact icon and enter the contact's credentials. Make sure to provide a name as it is a mandatory field.  
-* Navigating Between Contacts: Users can navigate between contacts and click on the desired contact they want to chat with. The active chat will be highlighted in blue in the chat box screen.  
-* Chat Box: After selecting a contact to chat with, a chat box will appear on the right-hand side of the chat screen, displaying the contact's credentials. Users can type messages into the chat bar below and press Enter or click the send icon to send the message.  
-* Timestamps: Each message in the chat will have a timestamp indicating when it was sent.  
-* Contact Information: The last message sent to a contact will appear alongside the timestamp in the contact's information in the contact list.  
-* Logging Out: When you are done using the application, click the logout button to be transferred back to the login screen. Note that the profile will be saved for future logins, but all contacts and messages will be deleted.
+The server implements push notifications to deliver messages to clients using Firebase. Firebase's push notification functionality is leveraged to send notifications to the Android client. When a user receives a message, the server pushes the notification to the respective client device using Firebase's push notification service. This ensures that users are instantly notified of new messages, even if the application is not actively running.  
 
 ## Contributors
 Roy Amit  

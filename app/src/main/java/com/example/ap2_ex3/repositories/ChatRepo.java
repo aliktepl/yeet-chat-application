@@ -16,6 +16,9 @@ import java.util.List;
 
 public class ChatRepo {
 
+    // Singleton instance
+    private static ChatRepo instance;
+
     // Dao fields
     private ChatDao chatDao;
     private UserDao userDao;
@@ -29,17 +32,26 @@ public class ChatRepo {
     private MutableLiveData<Integer> status;
     private String token;
 
-    public ChatRepo(Application application) {
+    // Private constructor
+    private ChatRepo(Application application) {
         // database init
         AppDB db = AppDB.getInstance(application);
         userDao = db.userDao();
         messageDao = db.messageDao();
         chatDao = db.chatDao();
         // api init
-        chatAPI = new ChatAPI(chatDao, userDao, messageDao);
+        chatAPI = new ChatAPI(chatDao);
         // live data init
         allChats = chatDao.getAllChats();
         status = new MutableLiveData<>();
+    }
+
+    // Public method to get or create the singleton instance
+    public static synchronized ChatRepo getInstance(Application application) {
+        if (instance == null) {
+            instance = new ChatRepo(application);
+        }
+        return instance;
     }
 
     public void setToken(String token) {
@@ -57,21 +69,23 @@ public class ChatRepo {
 
     // Chat dao operations
     public void insert(Chat chat) {
-        new Thread(() -> {
-            chatDao.Insert(chat);
-        }).start();
+        new Thread(() -> chatDao.Insert(chat)).start();
     }
 
     public void update(Chat chat) {
-        new Thread(() -> {
-            chatDao.Update(chat);
-        }).start();
+        new Thread(() -> chatDao.Update(chat)).start();
     }
 
     public void delete(Chat chat) {
-        new Thread(() -> {
-            chatDao.Delete(chat);
-        }).start();
+        new Thread(() -> chatDao.Delete(chat)).start();
+    }
+
+    public void deleteAllChats() {
+        chatDao.deleteAllChats();
+    }
+
+    public void updateLastMsg(Integer chatId, String lstMsgContent, String lstMsgTime) {
+        new Thread(() -> chatDao.updateLastMessage(chatId, lstMsgContent, lstMsgTime)).start();
     }
 
     // Live Data listeners
@@ -82,5 +96,4 @@ public class ChatRepo {
     public LiveData<List<Chat>> getAllChats() {
         return allChats;
     }
-
 }

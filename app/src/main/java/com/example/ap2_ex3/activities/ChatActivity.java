@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -19,6 +20,8 @@ import android.widget.TextView;
 import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.adapters.MessageListAdapter;
 import com.example.ap2_ex3.entities.Message;
+import com.example.ap2_ex3.services.MyFirebaseMessagingService;
+import com.example.ap2_ex3.view_models.ChatModel;
 import com.example.ap2_ex3.view_models.MessageModel;
 
 import java.util.ArrayList;
@@ -26,6 +29,8 @@ import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
     private MessageModel messageViewModel;
+
+    private ChatModel chatModel;
     private TextView contactName;
     private ImageView contactImage;
     private EditText messageInput;
@@ -39,17 +44,21 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
         messageViewModel = new ViewModelProvider(this).get(MessageModel.class);
+        chatModel = new ViewModelProvider(this).get(ChatModel.class);
         Bundle bundle = getIntent().getExtras();
+
+        new MyFirebaseMessagingService();
 
         String username = bundle.getString("username");
         String picture = bundle.getString("picture");
+        String currentUser = bundle.getString("currentUser");
 
         // init chatId and token
         chatId = bundle.getInt("id");
         SharedPreferences sharedToken = getApplication().getSharedPreferences(getString(R.string.utilities_file_key), Context.MODE_PRIVATE);
         token = sharedToken.getString("token", "null");
         messageViewModel.setToken(token);
-        messageViewModel.getMessagesByChat(chatId);
+        messageViewModel.getMessagesRequest(chatId);
 
         sendButton = findViewById(R.id.sendButton);
         sendButton.setOnClickListener(v -> {
@@ -72,10 +81,28 @@ public class ChatActivity extends AppCompatActivity {
             finish(); // Go back to the previous screen (ChatsActivity)
         });
 
+        ImageButton settingsButton = findViewById(R.id.moreBtn);
+        settingsButton.setOnClickListener(this::showPopupMenu);
+        SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.refreshLayoutMsg);
         RecyclerView lstMessages = findViewById(R.id.lstMessages);
-        final MessageListAdapter adapter = new MessageListAdapter(this, username);
+        final MessageListAdapter adapter = new MessageListAdapter(this, currentUser);
         lstMessages.setAdapter(adapter);
-        lstMessages.setLayoutManager(new LinearLayoutManager(this));
+
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        manager.setStackFromEnd(true);
+        lstMessages.setLayoutManager(manager);
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                lstMessages.smoothScrollToPosition(adapter.getItemCount() - 1);
+            }
+        });
+
+
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            messageViewModel.getMessages();
+            swipeRefreshLayout.setRefreshing(false);
+        });
 
         messageViewModel.getMessages().observe(this, messages -> {
             if (!messages.isEmpty()) {
@@ -87,6 +114,9 @@ public class ChatActivity extends AppCompatActivity {
                 }
                 if (!renderMsg.isEmpty()) {
                     adapter.setMessages(renderMsg);
+                    // update last msg in chat
+                    Message lstMsg = renderMsg.get(renderMsg.size() - 1);
+                    chatModel.updateLastMsg(chatId,lstMsg.getContent(), lstMsg.getCreated());
                 }
             }
         });
