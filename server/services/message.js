@@ -12,17 +12,24 @@ async function messageCounter() {
 
 const createMessage = async (chat, message, username) => {
     const sender = await User.findOne({username: username})
+    const count = await messageCounter()
     const newMsg = await new Messages({
-        id : await messageCounter(),
+        id : count,
         created : new Date(),
         sender: sender.id,
         content : message})
+    const retMsg = {
+        id : count,
+        created : new Date(),
+        sender: sender.username,
+        content: message
+    }
     // save new msg
     newMsg.save();
     // save pushed message to chat
     chat.messages.push(newMsg)
     chat.save();
-    return newMsg
+    return retMsg
 }
 
 const getMessage = async (chat) => {
