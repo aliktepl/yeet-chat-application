@@ -52,6 +52,16 @@ public class UserAPI {
         });
     }
 
+    public void setUserUrl(Application application){
+        SharedPreferences sharedSettings = application.getSharedPreferences(application.getString(R.string.settings_file_key) , Context.MODE_PRIVATE);
+        String address = sharedSettings.getString("address", "");
+        retrofit = new Retrofit.Builder()
+                .baseUrl(address)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        wsAPI = retrofit.create(WebServiceAPI.class);
+    }
+
     // create a new user with the api and store live data variable to check request status
     public void createUser(CreateUserRequest createUserRequest, MutableLiveData<Integer> status) {
 

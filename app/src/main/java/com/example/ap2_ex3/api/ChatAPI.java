@@ -51,6 +51,16 @@ public class ChatAPI {
         wsAPI = retrofit.create(WebServiceAPI.class);
     }
 
+    public void setChatUrl(Application application){
+        SharedPreferences sharedSettings = application.getSharedPreferences(application.getString(R.string.settings_file_key) , Context.MODE_PRIVATE);
+        String address = sharedSettings.getString("address", "");
+        retrofit = new Retrofit.Builder()
+                .baseUrl(address)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        wsAPI = retrofit.create(WebServiceAPI.class);
+    }
+
     // Update your API method
     public void getChats(String token) {
 //        String token = myUser.getToken();

@@ -13,8 +13,12 @@ import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.ap2_ex3.R;
+import com.example.ap2_ex3.view_models.ChatModel;
+import com.example.ap2_ex3.view_models.MessageModel;
+import com.example.ap2_ex3.view_models.UserModel;
 
 public class SettingsActivity extends AppCompatActivity {
     Switch switcher;
@@ -22,11 +26,18 @@ public class SettingsActivity extends AppCompatActivity {
     SharedPreferences sharedPreference;
     SharedPreferences.Editor editor;
     private EditText serverAddressEditText;
+    private UserModel userModel;
+    private ChatModel chatModel;
+    private MessageModel messageModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        userModel = new ViewModelProvider(this).get(UserModel.class);
+        chatModel = new ViewModelProvider(this).get(ChatModel.class);
+        messageModel = new ViewModelProvider(this).get(MessageModel.class);
 
         // user entered address
         serverAddressEditText = findViewById(R.id.serverAddressEditText);
@@ -53,12 +64,14 @@ public class SettingsActivity extends AppCompatActivity {
                 // Save the updated server address to shared preferences
                 editor.putString("address", modifiedUrl);
                 editor.apply();
+                // set new baseurl for all retrofit instances
+                userModel.setUserUrl(getApplication());
+                chatModel.setChatUrl(getApplication());
+                messageModel.setMsgUrl(getApplication());
 
-        switcher = findViewById(R.id.modeSwitch);
-
+                switcher = findViewById(R.id.modeSwitch);
 
                 // Show a message or perform any necessary actions after saving the server address
-
                 // Finish the activity to go back to the previous screen
                 finish();
             }

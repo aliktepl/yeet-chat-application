@@ -54,6 +54,11 @@ public class ChatRepo {
         return instance;
     }
 
+    // set retrofit base url in settings
+    public void setChatUrl(Application application){
+        chatAPI.setChatUrl(application);
+    }
+
     public void setToken(String token) {
         this.token = token;
     }

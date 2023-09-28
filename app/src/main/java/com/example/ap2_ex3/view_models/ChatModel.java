@@ -23,6 +23,10 @@ public class ChatModel extends AndroidViewModel {
         chats = mRepository.getAllChats();
     }
 
+    // set retrofit base url in settings
+    public void setChatUrl(Application application){
+        mRepository.setChatUrl(application);
+    }
     public void setToken(String token) {
         mRepository.setToken(token);
     }

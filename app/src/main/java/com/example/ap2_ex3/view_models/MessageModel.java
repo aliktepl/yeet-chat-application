@@ -23,6 +23,11 @@ public class MessageModel extends AndroidViewModel {
         messages = mRepository.getMessages();
     }
 
+    // set retrofit base url in settings
+    public void setMsgUrl(Application application){
+        mRepository.setMsgUrl(application);
+    }
+
     // Live Data listeners
     public LiveData<Integer> observeStatus() {
         return status;

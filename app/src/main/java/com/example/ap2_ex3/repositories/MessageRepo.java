@@ -43,6 +43,11 @@ public class MessageRepo {
         status = new MutableLiveData<>();
     }
 
+    // set retrofit base url in settings
+    public void setMsgUrl(Application application){
+        messageAPI.setMsgUrl(application);
+    }
+
     public static synchronized MessageRepo getInstance(Application application) {
         if (instance == null) {
             instance = new MessageRepo(application);

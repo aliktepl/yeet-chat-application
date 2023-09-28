@@ -49,6 +49,11 @@ public class UserRepo {
         userAPI.getUser(username, token, status);
     }
 
+    // Set retrofit base URL
+    public void setUserUrl(Application application){
+        userAPI.setUserUrl(application);
+    }
+
     // Live data listeners
     public MutableLiveData<Integer> getStatus() {
         return status;

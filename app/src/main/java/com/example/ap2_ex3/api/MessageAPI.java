@@ -51,6 +51,16 @@ public class MessageAPI {
         wsAPI = retrofit.create(WebServiceAPI.class);
     }
 
+    public void setMsgUrl(Application application){
+        SharedPreferences sharedSettings = application.getSharedPreferences(application.getString(R.string.settings_file_key) , Context.MODE_PRIVATE);
+        String address = sharedSettings.getString("address", "");
+        retrofit = new Retrofit.Builder()
+                .baseUrl(address)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        wsAPI = retrofit.create(WebServiceAPI.class);
+    }
+
     public void getMessages(Integer chatId, MutableLiveData<Integer> status, String token) {
         Call<List<GetMsgReqByObj>> getMsgCall = wsAPI.getMessages("Bearer " + token, chatId);
         getMsgCall.enqueue(new Callback<List<GetMsgReqByObj>>() {

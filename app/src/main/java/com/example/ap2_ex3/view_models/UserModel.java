@@ -38,6 +38,11 @@ public class UserModel extends AndroidViewModel {
         mRepository.getUserRequest(username, token);
     }
 
+    // Set retrofit base URL
+    public void setUserUrl(Application application){
+        mRepository.setUserUrl(application);
+    }
+
     // Live data listeners
     public LiveData<Integer> observeStatus() {
         return status;
