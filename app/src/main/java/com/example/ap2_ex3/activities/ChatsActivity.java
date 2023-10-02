@@ -133,6 +133,11 @@ public class ChatsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
+
     private void logout() {
         userModel.deleteAllUsers();
         chatModel.deleteAllChats();

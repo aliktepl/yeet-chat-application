@@ -3,6 +3,14 @@ package com.example.ap2_ex3.entities;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.DateTimeException;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Date;
+
 /**
  * Represents a chat between users.
  */
@@ -60,7 +68,16 @@ public class Chat {
     }
 
     public void setLstMsgTime(String lstMsgTime) {
-        this.lstMsgTime = lstMsgTime;
+        try {
+            LocalTime time = LocalTime.parse(lstMsgTime, DateTimeFormatter.ofPattern("HH:mm:ss"));
+
+            // Format the LocalTime object as "hh:mm" and set it as lstMsgTime
+            this.lstMsgTime = time.format(DateTimeFormatter.ofPattern("hh:mm"));
+        } catch (DateTimeParseException e) {
+            // Handle parsing errors here
+            e.printStackTrace();
+            // You may want to set a default value or handle the error in a different way
+        }
     }
 
 
