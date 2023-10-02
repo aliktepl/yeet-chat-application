@@ -29,7 +29,6 @@ import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
     private MessageModel messageViewModel;
-
     private ChatModel chatModel;
     private TextView contactName;
     private ImageView contactImage;

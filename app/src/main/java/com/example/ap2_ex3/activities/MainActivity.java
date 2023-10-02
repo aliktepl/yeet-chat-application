@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -25,7 +24,6 @@ import com.example.ap2_ex3.entities.User;
 import com.example.ap2_ex3.view_models.UserModel;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,10 +33,15 @@ public class MainActivity extends AppCompatActivity {
     private LoginRequest loginRequest;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        userModel.setUserUrl(getApplication());
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
-
 
         // write ip address settings to shared pref
         SharedPreferences sharedMode = getApplication().getSharedPreferences(getString(R.string.settings_file_key), Context.MODE_PRIVATE);
@@ -49,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         userModel = new ViewModelProvider(this).get(UserModel.class);
-        userModel.setUserUrl(getApplication());
 
         boolean nightMode = sharedMode.getBoolean("night", false);
         if (!nightMode) {
@@ -136,14 +138,4 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
         }
     }
-
-    private void navigateToChatsActivity() {
-        Intent intent = new Intent(MainActivity.this, ChatsActivity.class);
-        startActivity(intent);
-    }
-
-    private boolean isCurrentActivity(Activity activity) {
-        return activity.getClass().equals(MainActivity.class);
-    }
-
 }
