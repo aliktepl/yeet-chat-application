@@ -6,9 +6,9 @@
     style="@style/SCREEN"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingLeft="32dp"
+    android:paddingLeft="22dp"
     android:paddingTop="120dp"
-    android:paddingRight="32dp"
+    android:paddingRight="22dp"
     android:paddingBottom="120dp"
     tools:context=".activities.MainActivity">
 
@@ -40,8 +40,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                style="@style/TEXT"
-                />
+                android:background="@color/textColor" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/usernameTextInputLayout"
@@ -69,7 +68,6 @@
                 android:layout_marginTop="6dp"
                 android:text="@string/add"
                 android:textSize="18sp" />
-
 
         </LinearLayout>
 

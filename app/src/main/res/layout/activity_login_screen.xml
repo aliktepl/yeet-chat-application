@@ -1,14 +1,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/SCREEN"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="@style/SCREEN"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingLeft="32dp"
+    android:paddingLeft="22dp"
     android:paddingTop="120dp"
-    android:paddingRight="32dp"
+    android:paddingRight="22dp"
     android:paddingBottom="120dp"
     tools:context=".activities.MainActivity">
 
@@ -34,14 +34,13 @@
                 android:paddingBottom="30dp"
                 android:text="@string/welcome_back"
                 style="@style/TEXT"
-                android:textSize="35sp"
+                android:textSize="36sp"
                 android:textStyle="bold" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                style="@style/TEXT"
-                />
+                android:background="@color/textColor" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/usernameTextInputLayout"
@@ -53,7 +52,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/usernameEditText"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:autofillHints="username"
                     android:drawableStart="@drawable/ic_user"
                     android:drawablePadding="8dp"
@@ -72,7 +71,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/passwordEditText"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:autofillHints="password"
                     android:drawableStart="@drawable/ic_password"
                     android:drawablePadding="8dp"

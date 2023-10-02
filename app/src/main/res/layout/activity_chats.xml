@@ -16,10 +16,14 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivUserProfile"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:scaleType="centerCrop"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundImageView" />
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            tools:ignore="RtlSymmetry"
+            style="@style/ShapeAppearanceOverlay.App.RoundImageView"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundImageView"/>
 
         <TextView
             android:id="@+id/tvUserName"
@@ -29,7 +33,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="18dp"
             android:layout_toEndOf="@id/ivUserProfile"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <ImageButton

@@ -7,16 +7,17 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
+    android:paddingLeft="22dp"
+    android:paddingTop="60dp"
+    android:paddingRight="22dp"
+    android:paddingBottom="85dp"
     tools:context=".activities.SignUpActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        android:layout_marginTop="50dp"
-        android:paddingTop="50dp"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="30dp">
+        android:elevation="30dp"
+        app:cardCornerRadius="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -53,7 +54,7 @@
                     android:id="@+id/usernameEditText"
                     style="@style/TEXT"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:autofillHints="username"
                     android:drawableStart="@drawable/ic_user"
                     android:drawablePadding="8dp"
@@ -72,7 +73,7 @@
                     android:id="@+id/passwordEditText"
                     style="@style/TEXT"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:autofillHints="password"
                     android:drawableStart="@drawable/ic_password"
                     android:drawablePadding="8dp"
@@ -91,7 +92,7 @@
                     android:id="@+id/confirmPasswordEditText"
                     style="@style/TEXT"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:autofillHints="confirm-password"
                     android:inputType="textPassword"
                     android:paddingStart="16dp"
@@ -109,7 +110,7 @@
                     android:id="@+id/displayNameEditText"
                     style="@style/TEXT"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:autofillHints="display-name"
                     android:inputType="textPersonName"
                     android:paddingStart="16dp"
