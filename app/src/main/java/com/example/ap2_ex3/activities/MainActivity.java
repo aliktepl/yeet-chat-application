@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         userModel = new ViewModelProvider(this).get(UserModel.class);
+        userModel.setUserUrl(getApplication());
 
         boolean nightMode = sharedMode.getBoolean("night", false);
         if (!nightMode) {

@@ -31,7 +31,6 @@ public class UserAPI {
     private Retrofit retrofit;
     private WebServiceAPI wsAPI;
     private UserDao userDao;
-
     private String fbToken;
 
     public UserAPI(UserDao userDao, Application application) {
