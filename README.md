@@ -1,4 +1,10 @@
 # Yeet! - Android Chat Application
+
+## Table of Contents
+* [Project Description](#project-description)
+* [Implementation](#implementation)
+* [How To Run](#how-to-run)
+* [Authors](#authors)
   
 ## Description
 Welcome to the `Yeet!` project! This Git repository contains the source code for an Android application that enables users to access the Yeet! chat system. Built using Java and XML, this Android client provides a seamless and intuitive mobile experience for interacting with contacts, engaging in real-time conversations, and exchanging messages.   
@@ -46,7 +52,7 @@ The Android application saves a local copy of chats, messages, and other relevan
 The server implements push notifications to deliver messages to clients using Firebase. Firebase's push notification functionality is leveraged to send notifications to the Android client. When a user receives a message, the server pushes the notification to the respective client device using Firebase's push notification service. This ensures that users are instantly notified of new messages, even if the application is not actively running.  
 
 ## Contributors
-Roy Amit  
-Alik Teplitsky  
-Roi Nir
+- [Roy Amit](https://github.com/royamit1)  
+- [Alik Teplitsky](https://github.com/aliktepl)
+- [Roi Nir](https://github.com/roini7)
 
