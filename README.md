@@ -2,9 +2,9 @@
 
 ## Table of Contents
 * [Project Description](#description)
-* [Getting Started](#Getting_Started)
-* [Application Overview](#application_overview)
-* [Server Implementation](#server_implementation)
+* [Getting Started](#Getting-Started)
+* [Application Overview](#application-overview)
+* [Server Implementation](#server-implementation)
 * [Contributors](#contributors)
   
 ## Description
