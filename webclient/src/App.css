@@ -1,0 +1,134 @@
+* {
+}
+
+body {
+    background: linear-gradient(45deg, rgba(76, 0, 255), transparent),
+    linear-gradient(45deg, rgb(183, 0, 255) 0%, rgb(183, 0, 255) 5%, transparent 5%, transparent 10%, rgb(183, 0, 255) 10%, rgb(183, 0, 255) 11%, transparent 11%, transparent 13%),
+    rgb(216, 118, 255) repeating-linear-gradient(-45deg, rgba(206, 80, 255, 0.5) 0%, rgba(183, 0, 255, 0.5) 5%, transparent 5%, transparent 10%);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.error-message {
+    color: red;
+    margin-left: 15px;
+}
+
+.screen-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 90vh;
+}
+
+.screen-box {
+    width: 405px;
+    display: flex;
+    flex-direction: column;
+    padding: 15px 15px 0 15px;
+    position: absolute;
+    box-shadow: 0 45px 150px rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+}
+
+.header {
+    color: #fff;
+    font-size: 65px;
+    display: flex;
+    justify-content: center;
+    padding: 0 0 20px 0;
+    border-bottom: 2px solid silver;
+}
+
+.submit {
+    width: 100%;
+    margin: 5px 0;
+    height: 50px;
+    border: none;
+    border-radius: 30px;
+    font-size: 20px;
+    background: rgba(255, 255, 255, 0.7);
+    outline: none;
+    transition: .3s;
+    cursor: pointer;
+}
+
+.submit:hover {
+    box-shadow: 3px 5px 8px 2px rgba(0, 0, 0, 0.3);
+}
+
+.sign-in {
+    font-size: 17px;
+    text-align: center;
+    margin: 15px 0;
+}
+
+.sign-in p a:hover {
+    text-decoration: underline;
+}
+
+.input-field {
+    display: flex;
+    justify-content: center;
+    color: black;
+}
+
+.input-field .icon {
+    position: absolute;
+    right: 20px;
+    margin: 21px;
+}
+
+.input-nochat {
+    width: 100%;
+    border: none;
+    border-radius: 30px;
+    color: #fff;
+    font-size: 17px;
+    padding: 15px 15px;
+    margin: 5px 0;
+    background: rgba(255, 255, 255, 0.1);
+    outline: none;
+}
+
+.input-nochat::-webkit-input-placeholder {
+    color: #fff;
+}
+
+.signup-toast {
+    display: inline-block;
+    width: auto;
+    max-width: 80%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    top: 20%;
+    z-index: 9999;
+    padding: 0.1rem 0.2rem;
+}
+
+.signup-toast .toast-body{
+    line-height: 1;
+}
+
+.chat-toast{
+    display: inline-block;
+    width: auto;
+    max-width: 80%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    z-index: 9999;
+
+}
+
+.login-toast{
+    display: inline-block;
+    width: auto;
+    max-width: 80%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    z-index: 9999;
+}

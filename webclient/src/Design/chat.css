@@ -1,0 +1,311 @@
+.chat-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    max-height: 100%;
+}
+
+.chat-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    position: absolute;
+    box-shadow: 0 45px 150px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    width: 1396px;
+    max-width: 100%;
+    min-height: 98vh;
+    max-height: 98vh;
+    background: rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+}
+
+.left {
+    display: flex;
+    justify-content: flex-start;
+    position: relative;
+    flex: 0 0 25%;
+    border-right: 1px solid rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 10px;
+    max-height: 98vh;
+    box-sizing: border-box;
+    overflow: auto;
+}
+
+.right {
+    position: relative;
+    flex: 0 0 75%;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.4);
+    max-height: 98vh;
+}
+
+.profile {
+    position: relative;
+    width: 100%;
+    max-height: 70px;
+    min-height: 70px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background: rgba(255, 255, 255, 0.7);
+    box-sizing: border-box;
+}
+
+.add-button {
+    position: absolute;
+    font-size: 19px;
+    right: 40px;
+    padding: 8px 20px;
+    margin: 10px 0 0 10px;
+    border: none;
+    outline: none;
+    transition: .2s;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0);
+}
+
+.logout-button {
+    position: absolute;
+    font-size: 19px;
+    right: 0;
+    padding: 8px 20px;
+    margin: 10px 0 0 10px;
+    border: none;
+    outline: none;
+    transition: .2s;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0);
+    color: black;
+}
+
+.user_name {
+    position: relative;
+    font-size: 1.2em;
+    color: #111;
+    margin-right: auto;
+    text-align: left;
+    margin-top: 4%;
+}
+
+.user_img {
+    position: relative;
+    width: 50px;
+    overflow: hidden;
+    height: 50px;
+    margin-right: 12px;
+    margin-left: 15px;
+    margin-top: 7px;
+}
+
+.preview_img {
+    position: relative;
+    justify-content: center;
+    width: 45px;
+    overflow: hidden;
+    height: 45px;
+    bottom: 12px;
+    right: 0;
+}
+
+.messages {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    position: absolute;
+    width: 100%;
+    height: calc(100% - 70px);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background: rgba(255, 255, 255, 0.7);
+}
+
+.texting {
+    position: relative;
+    flex-grow: 1;
+    padding: 30px 15px;
+    color: black;
+    clear: both;
+    overflow-y: auto;
+    width: 100%;
+}
+
+.send-message-block {
+    position: relative;
+    display: flex;
+    flex-grow: 1;
+    bottom:0;
+    max-height: 64px;
+    width: 100%;
+    align-items: flex-end;
+    background: rgba(255, 255, 255, 1);
+    padding: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    box-sizing: border-box;
+}
+
+.right-text {
+    word-wrap: break-word;
+    background-color: rgba(199, 182, 248, 0.9);
+    padding: 12px 15px;
+    margin: 10px 0 10px auto;
+    border-radius: 10px 0 10px 10px;
+    width: fit-content;
+    max-width: 75%;
+    box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.2);
+    font-size: 17px;
+}
+
+.left-text {
+    word-wrap: break-word;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 12px 15px;
+    margin: 10px auto 10px 0;
+    border-radius: 0 10px 10px 10px;
+    width: fit-content;
+    max-width: 75%;
+    box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.2);
+    font-size: 17px;
+}
+
+.timestamp {
+    font-size: 9px;
+    text-align: right;
+    padding: 6px 0 0 0;
+}
+
+.curr-chat {
+    position: relative;
+    width: 100%;
+    height: 70px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.curr-chat .prof_img {
+    position: relative;
+    overflow: hidden;
+    width: 50px;
+    height: 50px;
+    margin: 12px 0 0 20px;
+}
+
+.curr-chat .prof_name {
+    position: relative;
+    font-size: 1em;
+    color: #111;
+    text-align: center;
+    margin: 12px 0 0 20px;
+}
+
+
+.send-message-block input[type="text"] {
+    border: none;
+    outline: none;
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    align-self: flex-end;
+    margin-bottom: 0;
+    height: 100%;
+}
+
+.send-button {
+    background: linear-gradient(45deg, rgba(76, 0, 255), transparent),
+    linear-gradient(45deg, rgb(183, 0, 255) 0%, rgb(183, 0, 255) 5%, transparent 5%, transparent 10%, rgb(183, 0, 255) 10%, rgb(183, 0, 255) 11%, transparent 11%, transparent 13%),
+    rgb(216, 118, 255) repeating-linear-gradient(-45deg, rgba(206, 80, 255, 0.5) 0%, rgba(183, 0, 255, 0.5) 5%, transparent 5%, transparent 10%);
+    color: white;
+    border: none;
+    outline: none;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 20px;
+    width: 80px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.send-button:hover {
+    transform: scale(1.1);
+}
+
+.modal-body input {
+    padding: 10px;
+    font-size: 16px;
+    align-self: flex-end;
+    width: 100%;
+}
+
+.active-chats .contact {
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    display: flex;
+    padding: 15px;
+}
+
+.list-group {
+    overflow-y: auto;
+}
+
+.contact .list-group-item {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 60px;
+    margin-top: 1px;
+    align-items: center;
+}
+
+.contact .prof_img {
+    position: relative;
+    overflow: hidden;
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.contact .prof_name {
+    position: relative;
+    font-size: 1em;
+    color: #111;
+}
+
+.msg_time {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-size: 12px;
+    margin: 4px 7px;
+}
+
+.msg_time .date {
+    font-size: 0.7em;
+    position: relative;
+    bottom: 5px;
+    color: #111;
+    display: inline-block;
+    margin-top: 80%;
+}
+
+.last-msg {
+    font-size: 11px;
+    margin: 4px 7px;
+    position: relative;
+}
+
+.left {
+    flex-direction: column;
+}
+
+.curr_contact {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 60px;
+    align-items: center;
+}
