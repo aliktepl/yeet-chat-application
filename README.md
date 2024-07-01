@@ -8,9 +8,7 @@
 * [Contributors](#contributors)
   
 ## Description
-Welcome to the `Yeet!` project! This Git repository contains the source code for an Android application that enables users to access the Yeet! chat system. Built using Java and XML, this Android client provides a seamless and intuitive mobile experience for interacting with contacts, engaging in real-time conversations, and exchanging messages.   
-
-[![My Skills](https://skills.thijs.gg/icons?i=java,mongodb,firebase&theme=light)](https://skills.thijs.gg)
+Welcome to the `Yeet!` project! This Git repository contains the source code for an Android application that enables users to access the Yeet! chat system. Built using Java and XML, this Android client provides a seamless and intuitive mobile experience for interacting with contacts, engaging in real-time conversations, and exchanging messages.
 
 ## Getting Started
 To get started with the web chat application, follow these steps:  
