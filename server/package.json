@@ -11,14 +11,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.20.2",
+    "body-parser": "^1.20.3",
     "cors": "^2.8.5",
-    "custom-env": "^2.0.2",
-    "express": "^4.18.2",
-    "firebase-admin": "^11.9.0",
-    "jsonwebtoken": "^9.0.0",
-    "mongodb": "^5.6.0",
-    "mongoose": "^7.2.1",
-    "socket.io": "^4.7.0"
+    "custom-env": "^2.0.6",
+    "express": "^4.21.1",
+    "firebase-admin": "^13.0.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.11.0",
+    "mongoose": "^8.8.3",
+    "socket.io": "^4.8.1"
   }
 }

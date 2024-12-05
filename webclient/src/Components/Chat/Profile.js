@@ -1,6 +1,5 @@
 import {Link} from 'react-router-dom';
 import Modal from "./Modal";
-import img from "../../Resources/bowser.png"
 import {useState} from "react";
 import ChatToast from "./ChatToast";
 

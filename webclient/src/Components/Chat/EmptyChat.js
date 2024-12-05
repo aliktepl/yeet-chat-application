@@ -1,4 +1,3 @@
-
 function EmptyChat(){
     return (
         <>
